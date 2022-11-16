@@ -21,6 +21,7 @@
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.39.4",
     "react-icons": "^4.6.0",
     "react-redux": "^8.0.5",
     "react-toastify": "^9.1.1",
