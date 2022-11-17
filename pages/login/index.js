@@ -1,7 +1,7 @@
 import Navbar from '../../components/common/Navbar/Navbar';
-import Login from '../../components/page/member/Login';
+import LoginForm from '../../components/page/member/LoginForm';
 
-export default function Member() {
+export default function Login() {
   return (
     <div>
       <Navbar />
@@ -11,7 +11,7 @@ export default function Member() {
           src="https://memeprod.sgp1.digitaloceanspaces.com/user-wtf/1597328697599.jpg"
           alt="main_image"
         />
-        <Login />
+        <LoginForm />
       </div>
     </div>
   );

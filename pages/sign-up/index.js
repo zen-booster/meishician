@@ -1,7 +1,7 @@
-import Navbar from '../../../components/common/Navbar/Navbar';
-import SignUp from '../../../components/page/member/SignUp';
+import Navbar from '../../components/common/Navbar/Navbar';
+import SignUpForm from '../../components/page/member/SignUpForm';
 
-export default function Member() {
+export default function SignUp() {
   return (
     <div>
       <Navbar />
@@ -11,7 +11,7 @@ export default function Member() {
           src="https://memeprod.sgp1.digitaloceanspaces.com/user-wtf/1597328697599.jpg"
           alt="main_image"
         />
-        <SignUp />
+        <SignUpForm />
       </div>
     </div>
   );

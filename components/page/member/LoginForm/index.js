@@ -1,8 +1,9 @@
 import { useForm, Controller } from 'react-hook-form';
+import Link from 'next/link';
 import Button from '../../../common/Button/Button';
 import Input from '../../../common/Input/Input';
 
-function SignUp() {
+function SignUpForm() {
   const { control, handleSubmit } = useForm();
 
   const onSubmit = (data) => console.log(data);
@@ -42,11 +43,13 @@ function SignUp() {
             />
           )}
         />
-        <Button>重設密碼</Button>
+        <Link href="/login/reset">
+          <Button>重設密碼</Button>
+        </Link>
         <Button type="submit">登錄</Button>
       </form>
     </div>
   );
 }
 
-export default SignUp;
+export default SignUpForm;

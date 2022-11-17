@@ -2,7 +2,7 @@ import { useForm, Controller } from 'react-hook-form';
 import Input from '../../../common/Input/Input';
 import Button from '../../../common/Button/Button';
 
-function Login() {
+function LoginForm() {
   const { control, handleSubmit } = useForm();
 
   const onSubmit = (data) => console.log(data);
@@ -78,4 +78,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default LoginForm;

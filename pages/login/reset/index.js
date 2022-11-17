@@ -1,7 +1,7 @@
 import Navbar from '../../../components/common/Navbar/Navbar';
-import ForgetPassword from '../../../components/page/member/ForgetPassword';
+import ResetForm from '../../../components/page/member/ResetForm';
 
-export default function Member() {
+export default function Reset() {
   return (
     <div>
       <Navbar />
@@ -11,7 +11,7 @@ export default function Member() {
           src="https://memeprod.sgp1.digitaloceanspaces.com/user-wtf/1597328697599.jpg"
           alt="main_image"
         />
-        <ForgetPassword />
+        <ResetForm />
       </div>
     </div>
   );
