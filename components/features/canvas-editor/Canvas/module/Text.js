@@ -1,17 +1,21 @@
 import { useContext } from 'react';
 import { fabric } from 'fabric';
+import { useDispatch } from 'react-redux';
 import { fabricContext } from '../Canvas';
 import { TEXTBOX } from '../config/objectConfig';
+import { SET_ACTIVE } from '../../../../../constants/constants';
 
 function Text({ content, size }) {
-  const { canvasRef, setActiveObject } = useContext(fabricContext);
+  const { canvasRef } = useContext(fabricContext);
+  const dispatch = useDispatch();
+
   const text = new fabric.Textbox(content, { ...TEXTBOX, fontSize: size });
 
   function addText() {
     canvasRef.current.centerObject(text);
     canvasRef.current.add(text);
     canvasRef.current.setActiveObject(text);
-    setActiveObject(text);
+    dispatch({ type: SET_ACTIVE, payload: text });
   }
 
   return (

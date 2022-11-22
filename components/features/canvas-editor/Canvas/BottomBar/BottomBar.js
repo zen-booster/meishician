@@ -8,14 +8,14 @@ import Button from '../../../../common/Button/Button';
 import getBackground from '../service/getBackground';
 import saveCanvas from '../service/saveCanvas';
 import loadCanvas from '../service/loadCanvas';
-import { NO_UPDATE } from '../../../../../constants/constants';
+import { NO_UPDATE, SET_ACTIVE } from '../../../../../constants/constants';
 
 function BottomBar() {
-  const { canvasRef, activeObject, setActiveObject } =
-    useContext(fabricContext);
+  const { canvasRef } = useContext(fabricContext);
   const [zoom, setZoom] = useState(1);
-  const dispatch = useDispatch();
+  const { activeObject } = useSelector((state) => state.canvasObject);
   const { undoBox, redoBox } = useSelector((state) => state.history);
+  const dispatch = useDispatch();
 
   const flip = () => {
     console.log('flip the card');
@@ -43,7 +43,7 @@ function BottomBar() {
       background;
 
     canvasRef.current.centerObject(background);
-    setActiveObject(target);
+    dispatch({ type: SET_ACTIVE, payload: target });
   };
 
   const redo = () => {
@@ -56,7 +56,7 @@ function BottomBar() {
 
     const background = getBackground(canvasRef.current);
     canvasRef.current.centerObject(background);
-    setActiveObject(background);
+    dispatch({ type: SET_ACTIVE, payload: background });
   };
 
   const save = () => {

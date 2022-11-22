@@ -1,17 +1,20 @@
 import { useContext } from 'react';
 import { fabric } from 'fabric';
+import { useDispatch } from 'react-redux';
 import { fabricContext } from '../Canvas';
 import { LINE } from '../config/objectConfig';
+import { SET_ACTIVE } from '../../../../../constants/constants';
 
 function Line() {
-  const { canvasRef, setActiveObject } = useContext(fabricContext);
+  const { canvasRef } = useContext(fabricContext);
+  const dispatch = useDispatch();
 
   const line = new fabric.Line(LINE.coords, { ...LINE.options });
 
   const addLine = () => {
     canvasRef.current.centerObject(line);
     canvasRef.current.add(line);
-    setActiveObject(line);
+    dispatch({ type: SET_ACTIVE, payload: line });
   };
 
   return (

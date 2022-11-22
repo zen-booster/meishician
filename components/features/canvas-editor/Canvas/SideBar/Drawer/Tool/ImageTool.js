@@ -2,11 +2,14 @@ import { useState, useContext } from 'react';
 import { fabric } from 'fabric';
 import { GoCloudUpload } from 'react-icons/go';
 import { TiDelete } from 'react-icons/ti';
+import { useDispatch } from 'react-redux';
 import { fabricContext } from '../../../Canvas';
+import { SET_ACTIVE } from '../../../../../../../constants/constants';
 
 function ImageTool() {
-  const { canvasRef, setActiveObject } = useContext(fabricContext);
+  const { canvasRef } = useContext(fabricContext);
   const [imagesArray, setImagesArray] = useState(loadLocalImage());
+  const dispatch = useDispatch();
 
   function saveLocalImage(e) {
     if (e.target.files[0] === undefined) return;
@@ -45,7 +48,7 @@ function ImageTool() {
       canvasRef.current.setActiveObject(img);
       canvasRef.current.add(img);
       canvasRef.current.renderAll();
-      setActiveObject(img);
+      dispatch({ type: SET_ACTIVE, payload: img });
     });
   }
 

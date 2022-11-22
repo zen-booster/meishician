@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import initCanvas from './initCanvas';
 import TopBar from './TopBar';
@@ -13,15 +13,11 @@ export const fabricContext = React.createContext();
 function Canvas() {
   const canvasRef = useRef(null);
   const outerRef = useRef(null);
-  const [activeObject, setActiveObject] = useState(null);
-  const state = useSelector((state) => state.canvasObject);
+  const { activeObject } = useSelector((state) => state.canvasObject);
   const dispatch = useDispatch();
 
-  dispatch({ type: 'SET_ACTIVE', payload: 1 });
-  console.log(state);
-
   useEffect(() => {
-    const fabricCanvas = initCanvas(setActiveObject);
+    const fabricCanvas = initCanvas(dispatch);
     canvasRef.current = fabricCanvas;
 
     window.addEventListener('resize', () => {
@@ -60,13 +56,7 @@ function Canvas() {
   }, [dispatch]);
 
   return (
-    <fabricContext.Provider
-      value={{
-        canvasRef,
-        activeObject,
-        setActiveObject,
-      }}
-    >
+    <fabricContext.Provider value={{ canvasRef }}>
       <div className="-mt-16 flex h-screen flex-col">
         <div className="pt-16" />
         <div className="flex h-full w-full">

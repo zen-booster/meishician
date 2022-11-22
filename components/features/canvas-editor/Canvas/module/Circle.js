@@ -1,17 +1,20 @@
 import { useContext } from 'react';
 import { fabric } from 'fabric';
+import { useDispatch } from 'react-redux';
 import { fabricContext } from '../Canvas';
 import { CIRCLE } from '../config/objectConfig';
+import { SET_ACTIVE } from '../../../../../constants/constants';
 
 function Circle() {
-  const { canvasRef, setActiveObject } = useContext(fabricContext);
+  const { canvasRef } = useContext(fabricContext);
+  const dispatch = useDispatch();
 
   const circle = new fabric.Circle({ ...CIRCLE });
 
   const addCircle = () => {
     canvasRef.current.centerObject(circle);
     canvasRef.current.add(circle);
-    setActiveObject(circle);
+    dispatch({ type: SET_ACTIVE, payload: circle });
   };
 
   return (

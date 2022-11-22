@@ -5,8 +5,9 @@ import showCenterLine from './service/showCenterLine';
 import putToCenter from './service/putToCenter';
 import aligningGuidelines from './service/aligningGuideline';
 import getBackground from './service/getBackground';
+import { SET_ACTIVE } from '../../../../constants/constants';
 
-const initCanvas = (setActiveObject) => {
+const initCanvas = (dispatch) => {
   const fabricCanvas = new fabric.Canvas('canvas', { ...CANVAS });
   let inHorizonCenter = false;
   let inVerticalCenter = false;
@@ -96,7 +97,7 @@ const initCanvas = (setActiveObject) => {
 
   // 選取物件
   fabricCanvas.on('selection:cleared', () =>
-    setActiveObject(getBackground(fabricCanvas))
+    dispatch({ type: SET_ACTIVE, payload: getBackground(fabricCanvas) })
   );
 
   fabricCanvas.on('selection:updated', (e) => {
@@ -104,7 +105,7 @@ const initCanvas = (setActiveObject) => {
     if (object.get('type') === 'textbox') {
       removeResize(object);
     }
-    setActiveObject(object);
+    dispatch({ type: SET_ACTIVE, payload: object });
   });
 
   fabricCanvas.on('selection:created', (e) => {
@@ -112,7 +113,7 @@ const initCanvas = (setActiveObject) => {
     if (object.get('type') === 'textbox') {
       removeResize(object);
     }
-    setActiveObject(object);
+    dispatch({ type: SET_ACTIVE, payload: object });
   });
 
   aligningGuidelines(fabricCanvas);
@@ -120,7 +121,7 @@ const initCanvas = (setActiveObject) => {
   const background = new fabric.Rect(BACKGROUND);
   fabricCanvas.centerObject(background);
   fabricCanvas.add(background);
-  setActiveObject(background);
+  dispatch({ type: SET_ACTIVE, payload: background });
 
   return fabricCanvas;
 };

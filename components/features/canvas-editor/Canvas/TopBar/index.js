@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { IoMdColorFill } from 'react-icons/io';
 import {
   FaBold,
@@ -17,9 +17,10 @@ import Modal from './Modal/Modal';
 import { UPDATE } from '../../../../../constants/constants';
 
 function TopBar() {
-  const { canvasRef, activeObject } = useContext(fabricContext);
-  const forceUpdate = useForceUpdate();
+  const { canvasRef } = useContext(fabricContext);
+  const { activeObject } = useSelector((state) => state.canvasObject);
   const dispatch = useDispatch();
+  const forceUpdate = useForceUpdate();
 
   function updateHistory() {
     dispatch({
