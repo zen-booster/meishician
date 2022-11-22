@@ -6,7 +6,7 @@ import Avatar from '../Avatar/Avatar';
 import Button from '../Button/Button';
 
 function Navbar() {
-  const isLogin = false;
+  const isLogin = true;
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDrawer = () => {
@@ -15,7 +15,7 @@ function Navbar() {
 
   return (
     <>
-      <div className="fixed z-50 flex h-16 w-full items-center justify-between bg-red-300 py-4 px-4">
+      <div className="fixed z-30 flex h-16 w-full items-center justify-between bg-gray-400 py-4 px-4">
         <Link href="/">
           <div className="cursor-pointer text-2xl">MEISHIcian</div>
         </Link>

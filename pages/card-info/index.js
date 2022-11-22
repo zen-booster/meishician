@@ -1,6 +1,6 @@
 import Navbar from '../../components/common/Navbar/Navbar';
-import PersonInfo from '../../components/page/card-info/PersonInfo';
-import LinkEdit from '../../components/page/card-info/LinkEdit';
+import PersonInfo from '../../components/features/card-info/PersonInfo';
+import LinkEdit from '../../components/features/card-info/LinkEdit';
 
 function CardInfo() {
   return (

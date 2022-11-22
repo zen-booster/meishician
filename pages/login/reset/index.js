@@ -1,5 +1,5 @@
 import Navbar from '../../../components/common/Navbar/Navbar';
-import ResetForm from '../../../components/page/member/ResetForm';
+import ResetForm from '../../../components/features/member/ResetForm';
 
 export default function Reset() {
   return (

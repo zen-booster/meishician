@@ -1,6 +1,6 @@
 import { useForm, Controller } from 'react-hook-form';
 import Navbar from '../../components/common/Navbar/Navbar';
-import Card from '../../components/page/card-wall/Card/Card';
+import Card from '../../components/features/card-wall/Card/Card';
 import Button from '../../components/common/Button/Button';
 import SearchInput from '../../components/common/Input/SearchInput';
 import Select from '../../components/common/Select/Select';
