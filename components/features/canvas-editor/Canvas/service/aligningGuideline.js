@@ -13,7 +13,7 @@ function aligningGuidelines(canvas) {
   function drawLine(x1, y1, x2, y2) {
     ctx.save();
     ctx.lineWidth = 1;
-    ctx.strokeStyle = '#000000';
+    ctx.strokeStyle = '#ff0000';
     ctx.beginPath();
     ctx.moveTo(
       x1 * zoom + viewportTransform[4],

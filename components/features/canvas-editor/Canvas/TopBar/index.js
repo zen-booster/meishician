@@ -11,10 +11,10 @@ import {
 } from 'react-icons/fa';
 import { fabricContext } from '../Canvas';
 import useForceUpdate from '../../../../../hooks/useForceUpdate';
-import saveCanvas from '../service/saveCanvas';
 import rotateCard from '../service/rotateCard';
 import Modal from './Modal/Modal';
-import { UPDATE } from '../../../../../constants/constants';
+import serialize from '../service/serialize';
+import { UPDATE, ROTATE } from '../../../../../constants/constants';
 
 function TopBar() {
   const { canvasRef } = useContext(fabricContext);
@@ -23,9 +23,12 @@ function TopBar() {
   const forceUpdate = useForceUpdate();
 
   function updateHistory() {
+    const serializedData = serialize(canvasRef.current);
     dispatch({
       type: UPDATE,
-      payload: { newState: saveCanvas(canvasRef.current) },
+      payload: {
+        newState: serializedData,
+      },
     });
   }
 
@@ -101,9 +104,10 @@ function TopBar() {
     updateHistory();
   };
 
-  const changeCardSize = () => {
-    rotateCard(canvasRef.current);
+  const rotate = () => {
     updateHistory();
+    rotateCard(canvasRef.current);
+    dispatch({ type: ROTATE });
   };
 
   return (
@@ -123,7 +127,7 @@ function TopBar() {
         </label>
       )}
       {activeObject.id === 'background' ? (
-        <Modal action={changeCardSize} title="改變方向" />
+        <Modal action={rotate} title="改變方向" />
       ) : (
         <>
           <FaSortAmountDownAlt

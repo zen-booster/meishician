@@ -10,7 +10,7 @@ export const VERTICAL = {
 
 export const CANVAS = {
   backgroundColor: '#DDDDDD',
-  id: 'FRONT',
+  id: 'front',
 };
 
 export const BACKGROUND = {

@@ -1,6 +1,6 @@
 function showCenterLine(x1, y1, x2, y2, ctx, fabricCanvas) {
   ctx.save();
-  ctx.strokeStyle = '#0000ff';
+  ctx.strokeStyle = '#ff0000';
   ctx.lineWidth = 1;
   ctx.beginPath();
 

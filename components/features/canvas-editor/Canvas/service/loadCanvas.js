@@ -1,5 +1,11 @@
 import getCenterPosition from './getCenterPosition';
-import { UNDO, REDO, NEED_UPDATE } from '../../../../../constants/constants';
+import {
+  UNDO,
+  REDO,
+  NEED_UPDATE,
+  INITIALIZE,
+  FLIP,
+} from '../../../../../constants/constants';
 
 const loadCanvas = (canvas, canvasData, order) => {
   const { objects, ...data } = canvasData;
@@ -37,6 +43,18 @@ const loadCanvas = (canvas, canvasData, order) => {
         break;
       case 'load':
         dispatch({ type: NEED_UPDATE });
+        break;
+      case 'flip':
+        dispatch({ type: NEED_UPDATE });
+        dispatch({ type: FLIP });
+        break;
+      case 'init':
+        dispatch({
+          type: INITIALIZE,
+          payload: {
+            initState: order.data,
+          },
+        });
         break;
       default:
     }

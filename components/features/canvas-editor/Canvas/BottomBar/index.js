@@ -4,21 +4,42 @@ import { GrRedo, GrUndo } from 'react-icons/gr';
 import { MdDownload } from 'react-icons/md';
 import { FaRegSave } from 'react-icons/fa';
 import { fabricContext } from '../Canvas';
-import Button from '../../../../common/Button/Button';
 import getBackground from '../service/getBackground';
-import saveCanvas from '../service/saveCanvas';
+import serialize from '../service/serialize';
 import loadCanvas from '../service/loadCanvas';
-import { NO_UPDATE, SET_ACTIVE } from '../../../../../constants/constants';
+import {
+  UPDATE,
+  NO_UPDATE,
+  SET_ACTIVE,
+} from '../../../../../constants/constants';
 
 function BottomBar() {
   const { canvasRef } = useContext(fabricContext);
   const [zoom, setZoom] = useState(1);
-  const { activeObject } = useSelector((state) => state.canvasObject);
-  const { undoBox, redoBox } = useSelector((state) => state.history);
+  const { undoBox, redoBox, state } = useSelector((state) => state.history);
   const dispatch = useDispatch();
 
   const flip = () => {
-    console.log('flip the card');
+    const { front, back, position } = state;
+    const serializedData = serialize(canvasRef.current);
+    const order = { orderName: 'flip', dispatch };
+    dispatch({
+      type: UPDATE,
+      payload: {
+        newState: serializedData,
+      },
+    });
+
+    dispatch({ type: NO_UPDATE });
+    switch (position) {
+      case 'front':
+        loadCanvas(canvasRef.current, back, order);
+        break;
+      case 'back':
+        loadCanvas(canvasRef.current, front, order);
+        break;
+      default:
+    }
   };
 
   const changeZoom = (e) => {
@@ -29,30 +50,29 @@ function BottomBar() {
   };
 
   const undo = () => {
-    const itemId = activeObject.id;
     const { length } = undoBox;
     if (!length) return;
+
     dispatch({ type: NO_UPDATE });
-    const preData = undoBox[length - 1];
     const order = { orderName: 'undo', dispatch };
-    loadCanvas(canvasRef.current, preData, order);
+    const { front, back, position } = undoBox[length - 1];
+    if (position === 'front') loadCanvas(canvasRef.current, front, order);
+    if (position === 'back') loadCanvas(canvasRef.current, back, order);
 
     const background = getBackground(canvasRef.current);
-    const target =
-      canvasRef.current.getObjects().filter((obj) => obj.id === itemId)[0] ||
-      background;
-
     canvasRef.current.centerObject(background);
-    dispatch({ type: SET_ACTIVE, payload: target });
+    dispatch({ type: SET_ACTIVE, payload: background });
   };
 
   const redo = () => {
     const { length } = redoBox;
     if (!length) return;
+
     dispatch({ type: NO_UPDATE });
-    const nextData = redoBox[length - 1];
     const order = { orderName: 'redo', dispatch };
-    loadCanvas(canvasRef.current, nextData, order);
+    const { front, back, position } = redoBox[length - 1];
+    if (position === 'front') loadCanvas(canvasRef.current, front, order);
+    if (position === 'back') loadCanvas(canvasRef.current, back, order);
 
     const background = getBackground(canvasRef.current);
     canvasRef.current.centerObject(background);
@@ -60,10 +80,11 @@ function BottomBar() {
   };
 
   const save = () => {
-    const canvasData = saveCanvas(canvasRef.current);
+    const canvasData = serialize(canvasRef.current);
     localStorage.setItem('canvas', JSON.stringify(canvasData));
   };
 
+  // 基本沒有這功能
   const load = () => {
     dispatch({ type: NO_UPDATE });
     const canvasData = JSON.parse(localStorage.getItem('canvas'));
@@ -98,9 +119,13 @@ function BottomBar() {
   return (
     <div className="flex-1 bg-gray-400">
       <div className="flex items-center gap-3 p-5">
-        <Button className="cursor-pointer" onClick={flip}>
+        <button
+          className="cursor-pointer bg-green-300 py-1 px-2"
+          onClick={flip}
+          type="button"
+        >
           翻轉卡片
-        </Button>
+        </button>
         <input
           type="range"
           max={2}
@@ -130,6 +155,9 @@ function BottomBar() {
         >
           下載
         </button>
+        <span className="bg-green-300 px-2 py-1">
+          目前位置： {state.position}
+        </span>
       </div>
     </div>
   );

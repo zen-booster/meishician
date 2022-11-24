@@ -1,19 +1,10 @@
-function saveCanvas(canvas) {
-  const { objects, ...data } = canvas.toJSON(['id', 'selectable', 'evented']);
+import serialize from './serialize';
 
-  const background = objects.shift();
-
-  // save the position of obj in background, not in canvas
-  const newObjects = objects.map((obj) => ({
-    ...obj,
-    top: obj.top - background.top,
-    left: obj.left - background.left,
-  }));
-
-  newObjects.unshift(background);
-
-  const saveData = { ...data, objects: newObjects };
-  return saveData;
+function saveCanvas(history) {
+  const front = serialize(history[0]);
+  const back = serialize(history[1]);
+  const position = history[2];
+  return [front, back, position];
 }
 
 export default saveCanvas;

@@ -6,10 +6,16 @@ import {
   REDO,
   NO_UPDATE,
   NEED_UPDATE,
+  FLIP,
+  ROTATE,
 } from '../../constants/constants';
+import {
+  horizonCard,
+  verticalCard,
+} from '../../components/features/canvas-editor/Canvas/config/defaultCard';
 
 const historyState = {
-  state: '',
+  state: horizonCard,
   undoBox: [],
   redoBox: [],
   needUpdate: true,
@@ -24,16 +30,25 @@ export default function (state = historyState, action) {
       return newState;
     }
     case UPDATE: {
-      if (state.needUpdate === false) {
-        return state;
-      }
+      if (state.needUpdate === false) return state;
 
-      const newState = produce(state, (draftState) => {
-        draftState.undoBox.push(state.state);
-        draftState.state = action.payload.newState;
-        draftState.redoBox = [];
-      });
-      return newState;
+      switch (state.state.position) {
+        case 'front':
+          return produce(state, (draftState) => {
+            draftState.undoBox.push(state.state);
+            draftState.state.front = action.payload.newState;
+            draftState.redoBox = [];
+          });
+        case 'back':
+          return produce(state, (draftState) => {
+            draftState.undoBox.push(state.state);
+            draftState.state.back = action.payload.newState;
+            draftState.redoBox = [];
+          });
+        default: {
+          return state;
+        }
+      }
     }
     case UNDO: {
       const newState = produce(state, (draftState) => {
@@ -60,6 +75,39 @@ export default function (state = historyState, action) {
       return produce(state, (draftState) => {
         draftState.needUpdate = true;
       });
+    }
+    case FLIP: {
+      switch (state.state.position) {
+        case 'front':
+          return produce(state, (draftState) => {
+            draftState.state.position = 'back';
+          });
+        case 'back':
+          return produce(state, (draftState) => {
+            draftState.state.position = 'front';
+          });
+        default:
+          return state;
+      }
+    }
+    case ROTATE: {
+      const { width, height } = state.state.front.objects[0];
+      const size = width > height ? 'horizon' : 'vertical';
+
+      switch (size) {
+        case 'horizon':
+          return produce(state, (draftState) => {
+            draftState.state.front = verticalCard.front;
+            draftState.state.back = verticalCard.back;
+          });
+        case 'vertical':
+          return produce(state, (draftState) => {
+            draftState.state.front = horizonCard.front;
+            draftState.state.back = horizonCard.back;
+          });
+        default:
+          return state;
+      }
     }
     default: {
       return state;

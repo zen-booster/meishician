@@ -1,37 +1,53 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { FaShapes, FaImage } from 'react-icons/fa';
 import { GrTemplate } from 'react-icons/gr';
 import { TfiText } from 'react-icons/tfi';
 import Drawer from './Drawer/Drawer';
+import useClickOutside from '../../../../../hooks/useClickOutside';
 
 function SideBar() {
+  const clickRef = useRef();
   const [showDrawer, setShowDrawer] = useState(false);
   const [buttonName, setButtonName] = useState('');
+  useClickOutside(clickRef, toggleDrawer);
 
-  const toggleDrawer = (e) => {
+  function toggleDrawer(e) {
+    if (e === undefined) {
+      setShowDrawer(false);
+      setButtonName(null);
+      return;
+    }
+
     const targetName = e.target.getAttribute('name');
 
     switch (targetName) {
       case undefined:
         break;
       case buttonName:
+        if (showDrawer) setButtonName(null);
         setShowDrawer(!showDrawer);
         break;
       case 'close':
+        if (showDrawer) setButtonName(null);
         setShowDrawer(false);
         break;
       default:
         setShowDrawer(true);
         setButtonName(targetName);
     }
-  };
+  }
 
   return (
-    <ul className="h-scree relative z-20 flex flex-col items-center gap-5 px-3 py-5 text-sm">
+    <ul
+      className="h-scree relative z-20 flex flex-col items-center gap-5 px-3 py-5 text-sm"
+      ref={clickRef}
+    >
       <li>
         <button
           type="button"
-          className="flex h-20 w-20 cursor-pointer flex-col items-center justify-center gap-1"
+          className={`flex h-20 w-20 cursor-pointer flex-col items-center justify-center gap-1  ${
+            buttonName === 'Template' && 'rounded-md bg-gray-200'
+          }`}
           name="Template"
           onClick={toggleDrawer}
         >
@@ -42,7 +58,9 @@ function SideBar() {
       <li>
         <button
           type="button"
-          className="flex h-20 w-20 cursor-pointer flex-col items-center justify-center gap-1"
+          className={`flex h-20 w-20 cursor-pointer flex-col items-center justify-center gap-1  ${
+            buttonName === 'Text' && 'rounded-md bg-gray-200'
+          }`}
           name="Text"
           onClick={toggleDrawer}
         >
@@ -53,7 +71,9 @@ function SideBar() {
       <li>
         <button
           type="button"
-          className="flex h-20 w-20 cursor-pointer flex-col items-center justify-center gap-1"
+          className={`flex h-20 w-20 cursor-pointer flex-col items-center justify-center gap-1  ${
+            buttonName === 'Material' && 'rounded-md bg-gray-200'
+          }`}
           name="Material"
           onClick={toggleDrawer}
         >
@@ -64,7 +84,9 @@ function SideBar() {
       <li>
         <button
           type="button"
-          className="flex h-20 w-20 cursor-pointer flex-col items-center justify-center gap-1"
+          className={`flex h-20 w-20 cursor-pointer flex-col items-center justify-center gap-1  ${
+            buttonName === 'Image' && 'rounded-md bg-gray-200'
+          }`}
           name="Image"
           onClick={toggleDrawer}
         >
@@ -72,7 +94,6 @@ function SideBar() {
           <span className="pointer-events-none">圖片</span>
         </button>
       </li>
-
       {showDrawer && (
         <Drawer closeDrawer={toggleDrawer} buttonName={buttonName} />
       )}
