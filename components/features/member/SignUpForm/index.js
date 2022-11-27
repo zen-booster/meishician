@@ -129,56 +129,6 @@ function SignUpForm() {
             </p>
           </div>
 
-          {/* <div>
-            <Controller
-              control={control}
-              name="safetyQuestion"
-              rules={{
-                required: '請輸入密碼',
-                validate: (value) => value === watch('password') || '密碼錯誤',
-              }}
-              defaultValue=""
-              render={({ field: { onChange, value, name } }) => (
-                <Input
-                  onChange={onChange}
-                  value={value}
-                  name={name}
-                  type="password"
-                  title="再次輸入密碼"
-                  placeholder="請再次輸入密碼"
-                />
-              )}
-            />
-            <p className="text-label text-danger">
-              {errors.checkPassword?.message}
-            </p>
-          </div> */}
-
-          {/* <div>
-            <Controller
-              control={control}
-              name="safetyAnswer"
-              rules={{
-                required: '請輸入密碼',
-                validate: (value) => value === watch('password') || '密碼錯誤',
-              }}
-              defaultValue=""
-              render={({ field: { onChange, value, name } }) => (
-                <Input
-                  onChange={onChange}
-                  value={value}
-                  name={name}
-                  type="password"
-                  title="再次輸入密碼"
-                  placeholder="請再次輸入密碼"
-                />
-              )}
-            />
-            <p className="text-label text-danger">
-              {errors.checkPassword?.message}
-            </p>
-          </div> */}
-
           <div className="mb-8 flex gap-8 self-center">
             <Link href="/login">
               <Button type="button" variant="outlined">

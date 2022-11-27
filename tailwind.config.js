@@ -8,6 +8,9 @@ module.exports = {
     screens: {
       laptop: '996px',
     },
+    maxWidth: {
+      204: '51rem', // container
+    },
     extend: {
       colors: {
         'main-01': '#2B5F75',

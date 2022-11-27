@@ -1,11 +1,11 @@
 import Image from 'next/image';
 
-function Avatar() {
+function Avatar({ src }) {
   return (
     <Image
-      src="https://cdn-icons-png.flaticon.com/512/147/147144.png"
-      width={36}
-      height={36}
+      src={src || '/avatar.svg'}
+      width={32}
+      height={32}
       alt="avatar"
       className="h-9 w-9 cursor-pointer"
     />

@@ -96,9 +96,9 @@ function LoginForm() {
             <p className="text-label text-danger">{errors.password?.message}</p>
           </div>
 
-          <span className="mb-5 cursor-pointer self-end text-body">
+          {/* <span className="mb-5 cursor-pointer self-end text-body">
             <Link href="/reset">忘記密碼？</Link>
-          </span>
+          </span> */}
 
           <div className="mb-8 flex gap-8 self-center">
             <Link href="/sign-up">

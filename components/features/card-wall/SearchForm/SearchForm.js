@@ -21,7 +21,7 @@ function SearchForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="mx-auto mb-8 w-204 rounded-xl bg-white px-16 pb-16 pt-6 shadow-frame"
+      className="mx-auto w-204 rounded-xl bg-white px-16 pb-16 pt-6 shadow-frame"
     >
       <h3 className="mb-8 text-h5 text-main-01">搜尋名片</h3>
 

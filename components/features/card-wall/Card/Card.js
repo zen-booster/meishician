@@ -1,44 +1,43 @@
+import Image from 'next/image';
 import Avatar from '../../../common/Avatar/Avatar';
-
-function Top({ domain, src }) {
-  return (
-    <div className="relative flex h-64 w-80 items-center justify-center bg-gray-400">
-      <span className="absolute top-0 left-0 bg-blue-300 px-2 py-1">
-        {domain}
-      </span>
-      <img src={src} alt="" />
-    </div>
-  );
-}
-
-function Bottom({ name, company, title, city }) {
-  console.log();
-  return (
-    <div className="flex w-80 flex-col bg-gray-300 p-3">
-      <div className="mb-3 flex items-center gap-2">
-        <Avatar />
-        <div>
-          <p className="font-bold">{name}</p>
-          <p>
-            {company} <span>{title}</span>
-          </p>
-        </div>
-      </div>
-      {city === '海外' ? (
-        <p className="ml-11 text-sm text-slate-600">{city}</p>
-      ) : (
-        <p className="ml-11 text-sm text-slate-600">台灣，{city}</p>
-      )}
-    </div>
-  );
-}
 
 function Card({ data }) {
   const { name, company, title, city, domain, src } = data;
   return (
-    <div>
-      <Top domain={domain} src={src} />
-      <Bottom name={name} company={company} title={title} city={city} />
+    <div className="w-64 overflow-hidden rounded-xl">
+      <div className="relative flex h-64 items-center justify-center bg-main-02">
+        <span className="absolute top-4 left-0 bg-blue-300 px-2 py-1">
+          {domain}
+        </span>
+        <img src={src} alt="business-card" />
+      </div>
+
+      <div className="flex flex-col bg-main-01 px-4 pt-5 pb-4 text-white">
+        <div className="mb-3 flex items-center">
+          <Avatar />
+          <div className="ml-4 w-full">
+            <div className="flex items-center">
+              <p className="text-fs-6">{name}</p>
+              <p className="mx-auto text-center text-label">{title}</p>
+            </div>
+            <p className="mb-1 text-rwd-body">{company}</p>
+            <div className="flex text-main-02">
+              <Image
+                src="/pin-map.svg"
+                width={16}
+                height={16}
+                alt="pin-map"
+                className="mr-2"
+              />
+              {city === '海外' ? (
+                <p className="text-label ">{city}</p>
+              ) : (
+                <p className="text-label">台灣，{city}</p>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
