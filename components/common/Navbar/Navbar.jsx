@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { MdNotifications, MdMenu } from 'react-icons/md';
+import { MdMenu } from 'react-icons/md';
 import Drawer from './Drawer/Drawer';
 import Avatar from '../Avatar/Avatar';
 import Button from '../Button/Button';
 
 function Navbar() {
-  const isLogin = false;
+  const isLogin = true;
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDrawer = () => {
@@ -58,14 +58,7 @@ function Navbar() {
                 <MdMenu className="text-sm" onClick={toggleDrawer} />
               </li>
               <li className="hidden laptop:block laptop:px-6">
-                <Image
-                  className="cursor-pointer"
-                  src="/avatar.svg"
-                  alt="avatar"
-                  width={32}
-                  height={32}
-                  onClick={toggleDrawer}
-                />
+                <Avatar />
               </li>
             </>
           ) : (

@@ -4,7 +4,6 @@ function Management() {
   return (
     <div>
       <Navbar />
-      management
     </div>
   );
 }

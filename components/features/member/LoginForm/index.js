@@ -105,8 +105,8 @@ function LoginForm() {
             忘記密碼？
           </span>
 
-          <div className="mb-8 flex gap-8 self-center">
-            <Link href="/sign-up">
+          <div className="mb-8 flex w-full gap-8 self-center">
+            <Link href="/sign-up" className="w-full">
               <Button type="button" variant="outlined">
                 註冊帳號
               </Button>

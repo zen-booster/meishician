@@ -150,8 +150,8 @@ function SignUpForm() {
             </p>
           </div>
 
-          <div className="mb-8 flex gap-8 self-center">
-            <Link href="/login">
+          <div className="mb-8 flex w-full gap-8 self-center">
+            <Link href="/login" className="w-full">
               <Button type="button" variant="outlined">
                 返回
               </Button>

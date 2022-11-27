@@ -1,15 +1,13 @@
 import Navbar from '../../components/common/Navbar/Navbar';
-import PersonInfo from '../../components/features/card-info/PersonInfo';
-import LinkEdit from '../../components/features/card-info/LinkEdit';
+import CardInfo from '../../components/features/card-info';
 
-function CardInfo() {
+function CardInfoPage() {
   return (
     <div>
       <Navbar />
-      <PersonInfo />
-      <LinkEdit />
+      <CardInfo />
     </div>
   );
 }
 
-export default CardInfo;
+export default CardInfoPage;
