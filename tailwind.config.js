@@ -5,6 +5,9 @@ module.exports = {
     './components/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
+    screens: {
+      laptop: '996px',
+    },
     extend: {
       colors: {
         'main-01': '#2B5F75',
@@ -13,6 +16,17 @@ module.exports = {
         danger: '#E3265F',
         success: '#26E39F',
         highlight: '#F4A7B9',
+        'dark-light': '#9D9D9D',
+      },
+      spacing: {
+        204: '51rem',
+        150: '37.5rem',
+      },
+      minWidth: {
+        99: '24.75rem',
+      },
+      boxShadow: {
+        frame: '4px 4px 6px 0px rgba(0, 0, 0, 0.25)',
       },
     },
     fontSize: {
@@ -28,7 +42,7 @@ module.exports = {
       'rwd-h2': ['28px', '125%'],
       'rwd-h3': ['24px', '140%'],
       'rwd-h4': ['20px', '140%'],
-      'rwd-h5': ['18px', '140$'],
+      'rwd-h5': ['18px', '140%'],
       'rwd-body': ['16px', '160%'],
       'rwd-highlight': ['18px', '140%'],
       label: ['12px', '160%'],

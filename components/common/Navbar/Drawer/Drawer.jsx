@@ -3,7 +3,7 @@ import Avatar from '../../Avatar/Avatar';
 
 function Drawer({ isLogin }) {
   return (
-    <div className="absolute left-0 right-0 top-full bg-gray-300 sm:hidden">
+    <div className="absolute left-0 right-0 top-full bg-gray-300 laptop:hidden">
       <ul className="flex flex-col items-center">
         {isLogin && (
           <li className="flex flex-col items-center py-3">

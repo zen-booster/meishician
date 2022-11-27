@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { MdNotifications, MdMenu } from 'react-icons/md';
 import Drawer from './Drawer/Drawer';
 import Avatar from '../Avatar/Avatar';
 import Button from '../Button/Button';
 
 function Navbar() {
-  const isLogin = true;
+  const isLogin = false;
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDrawer = () => {
@@ -15,66 +16,71 @@ function Navbar() {
 
   return (
     <>
-      <div className="fixed z-30 flex h-16 w-full items-center justify-between bg-gray-400 py-4 px-4">
-        <Link href="/">
-          <div className="cursor-pointer text-2xl">MEISHIcian</div>
-        </Link>
-        <ul className="flex items-center gap-3 text-lg">
-          <li className="hidden sm:block">
-            <Link href="/card-wall">
-              <Button>名片牆</Button>
-            </Link>
+      <div className="fixed z-30 flex h-16 w-full items-center justify-between  bg-main-01 px-5 py-2 text-white">
+        <div className="flex items-center gap-14 ">
+          <Link href="/">
+            <Image
+              src="/logo-dark.png"
+              alt="hamburger bar"
+              width={161}
+              height={64}
+              onClick={toggleDrawer}
+            />
+          </Link>
+          <span className="hidden laptop:block">電子名片商務方案</span>
+        </div>
+        <ul className="flex items-center">
+          <li className="hidden laptop:block laptop:h-full laptop:px-6">
+            <Link href="/card-wall">名片牆</Link>
           </li>
+
           {isLogin ? (
             <>
-              <li className="hidden sm:block">
-                <Link href="/canvas-editor">
-                  <Button>打造名片</Button>
-                </Link>
+              <li className="hidden laptop:block laptop:px-6">
+                <Link href="/canvas-editor">打造名片</Link>
               </li>
-              <li className="hidden sm:block">
-                <Link href="management">
-                  <Button>管理名片</Button>
-                </Link>
+              <li className="hidden laptop:block laptop:px-6">
+                <Link href="management">管理名片</Link>
               </li>
-              <li className="cursor-pointer px-4 py-1">
+              <li className="cursor-pointer px-4 py-1 laptop:px-6">
                 <Link href="/notification">
                   <Image
-                    src="https://cdn-icons-png.flaticon.com/512/565/565422.png"
-                    alt="notification"
-                    width={24}
-                    height={24}
-                    className="h-6 w-6"
+                    className="cursor-pointer"
+                    src="/business-card.svg"
+                    alt="hamburger bar"
+                    width={31}
+                    height={28}
+                    onClick={toggleDrawer}
                   />
                 </Link>
               </li>
-              <li className="hidden sm:block">
-                <Avatar />
+              <li className="cursor-pointer px-4 py-1 laptop:hidden laptop:px-6">
+                <MdMenu className="text-sm" onClick={toggleDrawer} />
               </li>
-              <li className="cursor-pointer px-4 py-1 sm:hidden">
+              <li className="hidden laptop:block laptop:px-6">
                 <Image
-                  src="https://cdn-icons-png.flaticon.com/512/5358/5358649.png"
-                  alt="hamburger bar"
+                  className="cursor-pointer"
+                  src="/avatar.svg"
+                  alt="avatar"
                   width={32}
-                  height={28}
-                  className="h-7 w-8"
+                  height={32}
                   onClick={toggleDrawer}
                 />
               </li>
             </>
           ) : (
             <>
-              <li className="hidden sm:block">
+              <li className="hidden laptop:block">
                 <Link href="/login">
                   <Button>Login</Button>
                 </Link>
               </li>
-              <li className="hidden sm:block">
+              <li className="hidden laptop:block">
                 <Link href="sign-up">
                   <Button>Sign Up</Button>
                 </Link>
               </li>
-              <li className="cursor-pointer px-8 py-1 sm:hidden">
+              <li className="cursor-pointer px-8 py-1 laptop:hidden">
                 <Image
                   src="https://cdn-icons-png.flaticon.com/512/5358/5358649.png"
                   alt="hamburger bar"
@@ -87,6 +93,7 @@ function Navbar() {
             </>
           )}
         </ul>
+
         {isOpen && <Drawer isLogin={isLogin} />}
       </div>
       <div className="pt-16" />

@@ -1,7 +1,7 @@
 function Options({ data }) {
   const { value, hidden, content } = data;
   return (
-    <option value={value} hidden={hidden}>
+    <option value={value} hidden={hidden} className="text-black">
       {content}
     </option>
   );
@@ -10,7 +10,7 @@ function Options({ data }) {
 function Select({ onChange, value, children }) {
   return (
     <select
-      className="w-full border border-black bg-transparent py-2 text-center"
+      className="basis-28 rounded-lg border border-dark-light  bg-transparent py-3 px-2 text-dark-light"
       onChange={onChange}
       value={value}
     >
