@@ -41,10 +41,10 @@ function LoginForm() {
         </h2>
 
         <form
-          className="flex w-full flex-col gap-4"
+          className="flex w-full flex-col"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <div>
+          <div className="mb-9">
             <Controller
               control={control}
               name="email"
@@ -68,9 +68,12 @@ function LoginForm() {
                 />
               )}
             />
-            <p className="text-label text-danger">{errors.email?.message}</p>
+            <p className="absolute text-label text-danger">
+              {errors.email?.message}
+            </p>
           </div>
-          <div>
+
+          <div className="mb-4">
             <Controller
               control={control}
               name="password"
@@ -93,12 +96,14 @@ function LoginForm() {
                 />
               )}
             />
-            <p className="text-label text-danger">{errors.password?.message}</p>
+            <p className="absolute text-label text-danger">
+              {errors.password?.message}
+            </p>
           </div>
 
-          {/* <span className="mb-5 cursor-pointer self-end text-body">
-            <Link href="/reset">忘記密碼？</Link>
-          </span> */}
+          <span className="mb-5 cursor-pointer self-end text-body">
+            忘記密碼？
+          </span>
 
           <div className="mb-8 flex gap-8 self-center">
             <Link href="/sign-up">
