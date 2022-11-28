@@ -6,7 +6,7 @@ import Drawer from './Drawer/Drawer';
 import Avatar from '../Avatar/Avatar';
 import Button from '../Button/Button';
 
-function Navbar() {
+function Navbar({ children }) {
   const isLogin = true;
   const [isOpen, setIsOpen] = useState(false);
 
@@ -90,6 +90,7 @@ function Navbar() {
         {isOpen && <Drawer isLogin={isLogin} />}
       </div>
       <div className="pt-16" />
+      {children}
     </>
   );
 }
