@@ -15,6 +15,7 @@
     "axios": "^1.2.0",
     "eslint-config-next": "13.0.3",
     "fabric": "^5.2.4",
+    "framer-motion": "^7.6.12",
     "immer": "^9.0.16",
     "next": "13.0.3",
     "next-redux-wrapper": "^8.0.0",

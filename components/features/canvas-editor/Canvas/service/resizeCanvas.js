@@ -4,13 +4,15 @@ const resizeCanvas = (outer, canvas) => {
   const background = getBackground(canvas);
   const objects = canvas.getObjects().filter((obj) => obj.id !== 'background');
 
-  const oldCenter = background.getPointByOrigin('center');
+  const oldCenter = background?.getPointByOrigin('center');
 
   canvas.setWidth(outer.offsetWidth);
   canvas.setHeight(outer.offsetHeight);
   canvas.centerObject(background);
 
-  const newCenter = background.getPointByOrigin('center');
+  // cause error outside of Canvas without "?" mark, reason not found yet
+  // warn when closing dev
+  const newCenter = background?.getPointByOrigin('center');
 
   const displacement = {
     x: newCenter.x - oldCenter.x,

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { MdMenu } from 'react-icons/md';
@@ -7,16 +7,31 @@ import { useSelector, useDispatch } from 'react-redux';
 import Drawer from './Drawer/Drawer';
 import Avatar from '../Avatar/Avatar';
 import Button from '../Button/Button';
-import { LOGIN } from '../../../constants/constants';
+import { LOGIN, LOGOUT } from '../../../constants/constants';
+import useClickOutside from '../../../hooks/useClickOutside';
 
 function Navbar({ children }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [showExtra, setShowExtra] = useState(false);
   const { isLogin } = useSelector((state) => state.loginStatus);
   const dispatch = useDispatch();
+  const clickRef = useRef();
+  useClickOutside(clickRef, toggleExtra);
 
-  const toggleDrawer = () => {
+  function toggleDrawer() {
     setIsOpen(!isOpen);
-  };
+  }
+
+  function toggleExtra(e) {
+    if (!e) return setShowExtra(false);
+    return setShowExtra(!showExtra);
+  }
+
+  function logout() {
+    localStorage.removeItem('auth');
+    dispatch({ type: LOGOUT });
+    setShowExtra(false);
+  }
 
   useEffect(() => {
     const auth = localStorage.getItem('auth');
@@ -27,7 +42,7 @@ function Navbar({ children }) {
         dispatch({ type: LOGIN });
       })
       .catch((err) => {
-        console.log(`fail ${err}`);
+        alert(`fail ${err}`);
         localStorage.removeItem('auth');
       });
   }, [isLogin]);
@@ -54,13 +69,13 @@ function Navbar({ children }) {
 
           {isLogin ? (
             <>
-              <li className="hidden laptop:block laptop:px-6">
+              <li className="hidden laptop:block laptop:cursor-pointer laptop:px-6">
                 <Link href="/canvas-editor">打造名片</Link>
               </li>
-              <li className="hidden laptop:block laptop:px-6">
+              <li className="hidden laptop:block laptop:cursor-pointer laptop:px-6">
                 <Link href="management">管理名片</Link>
               </li>
-              <li className="cursor-pointer px-4 py-1 laptop:px-6">
+              <li className="cursor-pointer px-4 py-1 laptop:cursor-pointer laptop:px-6">
                 <Link href="/notification">
                   <Image
                     className="cursor-pointer"
@@ -72,12 +87,27 @@ function Navbar({ children }) {
                   />
                 </Link>
               </li>
-              <li className="cursor-pointer px-4 py-1 laptop:hidden laptop:px-6">
+              <li className="cursor-pointer px-4 py-1 laptop:hidden laptop:cursor-pointer laptop:px-6">
                 <MdMenu className="text-sm" onClick={toggleDrawer} />
               </li>
-              <li className="hidden laptop:block laptop:px-6">
+              <li
+                className="hidden laptop:relative laptop:block laptop:cursor-pointer laptop:px-6"
+                onClick={toggleExtra}
+                ref={clickRef}
+              >
                 <Avatar />
               </li>
+              {showExtra && (
+                <ul className="absolute top-full right-0 hidden w-24 bg-white text-center laptop:block">
+                  <li className="cursor-pointer py-2 text-main-01">上傳頭貼</li>
+                  <li
+                    className="cursor-pointer py-2 text-danger"
+                    onClick={logout}
+                  >
+                    登出
+                  </li>
+                </ul>
+              )}
             </>
           ) : (
             <>
