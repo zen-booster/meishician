@@ -2,10 +2,13 @@ import { useForm, Controller } from 'react-hook-form';
 import { useState } from 'react';
 import Link from 'next/link';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
 import Button from '../../../common/Button/Button';
 import MemberInput from '../../../common/Input/MemberInput';
 import Frame from '../Frame';
 import Loader from '../../../common/Loader/Loader';
+import { LOGIN } from '../../../../constants/constants';
 
 function LoginForm() {
   const {
@@ -13,6 +16,8 @@ function LoginForm() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const dispatch = useDispatch();
+  const router = useRouter();
 
   const [loading, setLoading] = useState(false);
 
@@ -21,10 +26,12 @@ function LoginForm() {
     axios
       .post('http://localhost:3001/api/users/login', data)
       .then((res) => {
-        localStorage.setItem('user', `Bearer ${res.data.token}`);
+        localStorage.setItem('auth', `Bearer ${res.data.token}`);
+        dispatch({ type: LOGIN });
+        router.push('/');
       })
       .catch((err) => {
-        alert('帳號密碼錯誤');
+        alert(`帳號密碼錯誤 ${err}`);
       })
       .finally(() => {
         setLoading(false);

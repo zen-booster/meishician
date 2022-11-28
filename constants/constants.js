@@ -7,3 +7,5 @@ export const NEED_UPDATE = 'NEED_UPDATE';
 export const FLIP = 'FLIP';
 export const ROTATE = 'ROTATE';
 export const SET_ACTIVE = 'SET_ACTIVE';
+export const LOGIN = 'LOGIN';
+export const LOGOUT = 'LOGOUT';

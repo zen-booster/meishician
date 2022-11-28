@@ -1,18 +1,36 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { MdMenu } from 'react-icons/md';
+import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
 import Drawer from './Drawer/Drawer';
 import Avatar from '../Avatar/Avatar';
 import Button from '../Button/Button';
+import { LOGIN } from '../../../constants/constants';
 
 function Navbar({ children }) {
-  const isLogin = true;
   const [isOpen, setIsOpen] = useState(false);
+  const { isLogin } = useSelector((state) => state.loginStatus);
+  const dispatch = useDispatch();
 
   const toggleDrawer = () => {
     setIsOpen(!isOpen);
   };
+
+  useEffect(() => {
+    const auth = localStorage.getItem('auth');
+    axios.defaults.headers.common.Authorization = auth;
+    axios
+      .get('http://localhost:3001/api/users/check')
+      .then(() => {
+        dispatch({ type: LOGIN });
+      })
+      .catch((err) => {
+        console.log(`fail ${err}`);
+        localStorage.removeItem('auth');
+      });
+  }, [isLogin]);
 
   return (
     <>
