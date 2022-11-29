@@ -24,6 +24,7 @@ module.exports = {
       spacing: {
         204: '51rem',
         150: '37.5rem',
+        'modal-width': '31.25rem',
       },
       minWidth: {
         99: '24.75rem',

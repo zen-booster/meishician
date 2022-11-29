@@ -1,17 +1,9 @@
-import Banner from '../components/features/landing-page/Banner';
-import Solution from '../components/features/landing-page/Solution';
-import Demo from '../components/features/landing-page/Demo';
-import Introduction from '../components/features/landing-page/Introduction';
-import Guide from '../components/features/landing-page/Guide';
+import LandingPage from '../components/features/landing-page';
 
 export default function Home() {
   return (
     <div>
-      <Banner />
-      <Solution />
-      <Demo />
-      <Introduction />
-      <Guide />
+      <LandingPage />
     </div>
   );
 }
