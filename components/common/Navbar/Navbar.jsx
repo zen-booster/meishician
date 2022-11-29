@@ -5,7 +5,6 @@ import { MdMenu } from 'react-icons/md';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import Drawer from './Drawer/Drawer';
-import Avatar from '../Avatar/Avatar';
 import Button from '../Button/Button';
 import { LOGIN, LOGOUT } from '../../../constants/constants';
 import useClickOutside from '../../../hooks/useClickOutside';
@@ -17,6 +16,7 @@ function Navbar({ children }) {
   const [isOpen, setIsOpen] = useState(false);
   const [showExtra, setShowExtra] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
+  const [avatar, setAvatar] = useState(null);
   const avatarRef = useRef();
   const drawerRef = useRef();
 
@@ -39,15 +39,22 @@ function Navbar({ children }) {
   useEffect(() => {
     const auth = localStorage.getItem('auth');
     axios.defaults.headers.common.Authorization = auth;
+
+    if (!auth) return;
+
+    const checkStatus = axios.get('http://localhost:3001/api/users/check');
+    const getAvatar = axios.get('http://localhost:3001/api/users');
     axios
-      .get('http://localhost:3001/api/users/check')
-      .then(() => {
-        dispatch({ type: LOGIN });
-      })
-      .catch(() => {
-        localStorage.removeItem('auth');
-      });
-  }, [isLogin]);
+      .all([checkStatus, getAvatar])
+      .then(
+        axios.spread((...responses) => {
+          dispatch({ type: LOGIN });
+          const { avatar } = responses[1].data.data.user;
+          setAvatar(avatar);
+        })
+      )
+      .catch((err) => console.log(err));
+  }, [isLogin, avatar]);
 
   useClickOutside(drawerRef, toggleDrawer);
   useClickOutside(avatarRef, toggleExtra);
@@ -97,7 +104,13 @@ function Navbar({ children }) {
                 onClick={toggleExtra}
                 ref={avatarRef}
               >
-                <Avatar />
+                <Image
+                  src={avatar || '/avatar.svg'}
+                  className={`${avatar && 'rounded-full'} h-8 w-8`}
+                  width={32}
+                  height={32}
+                  alt="avatar"
+                />
               </li>
 
               {showExtra && (
@@ -145,9 +158,9 @@ function Navbar({ children }) {
         )}
       </div>
       <div className="pt-16" />
-      {children}
 
-      {showEdit && <Modal setShowEdit={setShowEdit} />}
+      {showEdit && <Modal setShowEdit={setShowEdit} setAvatar={setAvatar} />}
+      {children}
     </>
   );
 }

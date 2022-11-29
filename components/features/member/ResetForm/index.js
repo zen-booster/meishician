@@ -4,7 +4,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import Input from '../../../common/Input/Input';
 import Button from '../../../common/Button/Button';
-import Frame from '../Frame';
+import Info from '../Info';
 import Loader from '../../../common/Loader/Loader';
 
 function ResetForm() {
@@ -34,7 +34,7 @@ function ResetForm() {
 
   return (
     <div className="flex flex-col items-center justify-center laptop:mx-auto laptop:mt-20 laptop:h-150 laptop:w-204 laptop:flex-row laptop:overflow-hidden laptop:rounded-xl laptop:shadow-frame">
-      <Frame />
+      <Info />
 
       <div className="flex w-full flex-col px-7 laptop:items-center laptop:pl-16 laptop:pr-9">
         <h2 className="mt-7 mb-6 text-h4 font-bold laptop:self-start">

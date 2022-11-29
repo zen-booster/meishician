@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-function Frame() {
+function Info() {
   return (
     <div className="flex h-full w-full flex-col items-center bg-main-02 laptop:min-w-99">
       <h2 className="mt-2.5 mb-4 text-rwd-h2 text-main-01 laptop:mt-10 laptop:mb-7 laptop:text-h2">
@@ -29,4 +29,4 @@ function Frame() {
   );
 }
 
-export default Frame;
+export default Info;

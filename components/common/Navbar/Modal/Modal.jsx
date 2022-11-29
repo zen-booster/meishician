@@ -1,9 +1,12 @@
 import axios from 'axios';
 import Image from 'next/image';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import Overlay from '../../Overlay/Overlay';
+import { TOGGLE_LOADER } from '../../../../constants/constants';
 
-export default function Modal({ setShowEdit }) {
+export default function Modal({ setShowEdit, setAvatar }) {
+  const dispatch = useDispatch();
   const [file, setFile] = useState(null);
 
   const selectImage = (e) => {
@@ -18,19 +21,24 @@ export default function Modal({ setShowEdit }) {
     reader.readAsDataURL(file);
   };
 
-  const uploadImage = async () => {
-    try {
-      const result = await axios.post(
-        'http://localhost:3001/api/upload/image',
-        file.data
-      );
-      axios.patch('http://localhost:3001/api/users/profile', {
-        avatar: result.data.imgUrl,
+  const uploadImage = () => {
+    dispatch({ type: TOGGLE_LOADER });
+    axios
+      .post('http://localhost:3001/api/upload/image', file.data)
+      .then((res) => {
+        setAvatar(res.data.imgUrl);
+        axios.patch('http://localhost:3001/api/users/profile', {
+          avatar: res.data.imgUrl,
+        });
+      })
+      .catch((err) => {
+        alert('error');
+        console.log(err);
+      })
+      .finally(() => {
+        dispatch({ type: TOGGLE_LOADER });
+        setShowEdit(false);
       });
-    } catch (err) {
-      alert('wrong');
-      console.log(err);
-    }
   };
 
   return (

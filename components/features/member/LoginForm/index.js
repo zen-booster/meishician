@@ -1,14 +1,12 @@
 import { useForm, Controller } from 'react-hook-form';
-import { useState } from 'react';
 import Link from 'next/link';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import Button from '../../../common/Button/Button';
 import MemberInput from '../../../common/Input/MemberInput';
-import Frame from '../Frame';
-import Loader from '../../../common/Loader/Loader';
-import { LOGIN } from '../../../../constants/constants';
+import Info from '../Info';
+import { LOGIN, TOGGLE_LOADER } from '../../../../constants/constants';
 
 function LoginForm() {
   const {
@@ -19,10 +17,8 @@ function LoginForm() {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const [loading, setLoading] = useState(false);
-
   const onSubmit = (data) => {
-    setLoading(true);
+    dispatch({ type: TOGGLE_LOADER });
     axios
       .post('http://localhost:3001/api/users/login', data)
       .then((res) => {
@@ -34,13 +30,13 @@ function LoginForm() {
         alert(`帳號密碼錯誤 ${err}`);
       })
       .finally(() => {
-        setLoading(false);
+        dispatch({ type: TOGGLE_LOADER });
       });
   };
 
   return (
     <div className="flex flex-col items-center justify-center laptop:mx-auto laptop:mt-20 laptop:h-150 laptop:w-204 laptop:flex-row laptop:overflow-hidden laptop:rounded-xl laptop:shadow-frame">
-      <Frame />
+      <Info />
 
       <div className="flex w-full flex-col px-7 laptop:items-center laptop:pl-16 laptop:pr-9">
         <h2 className="mt-7 mb-6 text-h4 font-bold laptop:self-start">
@@ -125,7 +121,6 @@ function LoginForm() {
           </div>
         </form>
       </div>
-      {loading && <Loader />}
     </div>
   );
 }
