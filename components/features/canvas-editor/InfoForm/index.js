@@ -2,14 +2,17 @@ import { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import { useDispatch } from 'react-redux';
 import Input from '../../../common/Input/Input';
 import Select from '../../../common/Select/Select';
 import TextArea from '../../../common/TextArea/TextArea';
 import domainData from '../../../../data/domainData';
 import areaData from '../../../../data/areaData';
 import initJobInfo from '../../../../utils/initJobInfo';
+import { TOGGLE_LOADER } from '../../../../constants/constants';
 
 function InfoForm() {
+  const dispatch = useDispatch();
   const router = useRouter();
   const isUpdate = false;
   const [isCustomize, setIsCustomize] = useState(false);
@@ -43,6 +46,7 @@ function InfoForm() {
   } = useForm();
 
   const onSubmit = (data) => {
+    dispatch({ type: TOGGLE_LOADER });
     const jobInfo = initJobInfo(data);
     if (data.phoneNumber) {
       const phoneNumber = {
@@ -59,6 +63,9 @@ function InfoForm() {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        dispatch({ type: TOGGLE_LOADER });
       });
   };
 

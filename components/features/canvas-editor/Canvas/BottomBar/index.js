@@ -1,12 +1,13 @@
 import { useContext, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { GrRedo, GrUndo } from 'react-icons/gr';
-import { MdDownload } from 'react-icons/md';
 import { FaRegSave } from 'react-icons/fa';
+import axios from 'axios';
 import { fabricContext } from '../Canvas';
 import getBackground from '../service/getBackground';
 import serialize from '../service/serialize';
 import loadCanvas from '../service/loadCanvas';
+import toImage from '../service/toImage';
 import {
   UPDATE,
   NO_UPDATE,
@@ -80,31 +81,47 @@ function BottomBar() {
   };
 
   const save = () => {
-    const canvasData = serialize(canvasRef.current);
-    localStorage.setItem('canvas', JSON.stringify(canvasData));
-  };
+    const { front, back, position } = state;
+    const background = getBackground(canvasRef.current);
 
-  // 基本沒有這功能
-  const load = () => {
+    const canvasData = {
+      front: JSON.stringify(state.front),
+      back: JSON.stringify(state.back),
+    };
+
+    // get image of two side
     dispatch({ type: NO_UPDATE });
-    const canvasData = JSON.parse(localStorage.getItem('canvas'));
-    const order = { orderName: 'load', dispatch };
-    loadCanvas(canvasRef.current, canvasData, order);
+    const order = { orderName: null, dispatch };
+    loadCanvas(canvasRef.current, front, order);
+    const frontImage = toImage(canvasRef.current, background);
+    loadCanvas(canvasRef.current, back, order);
+    const backImage = toImage(canvasRef.current, background);
+
+    // get back where you are
+    order.orderName = 'load';
+    if (position === 'front') loadCanvas(canvasRef.current, front, order);
+    if (position === 'back') loadCanvas(canvasRef.current, back, order);
+
+    const layoutDirection =
+      background.width > background.height ? 'horizontal' : 'vertical';
+
+    axios
+      .patch(
+        'http://localhost:3001/api/portfolio/6385f4e6f109114af6dcb0fd/canvas',
+        {
+          canvasData,
+          layoutDirection,
+          cardImageData: {
+            front: frontImage,
+            back: backImage,
+          },
+        }
+      )
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
   };
 
   const checkResult = () => {
-    const background = getBackground(canvasRef.current);
-    const dataURL = canvasRef.current.toDataURL({
-      width: background.width,
-      height: background.height,
-      left: background.left,
-      top: background.top,
-      format: 'png',
-    });
-    console.log(dataURL);
-  };
-
-  const download = () => {
     const background = getBackground(canvasRef.current);
     const dataURL = canvasRef.current.toDataURL({
       width: background.width,
@@ -138,7 +155,6 @@ function BottomBar() {
           比例：{Math.round(zoom * 100)} %
         </span>
         <FaRegSave className="h-6 w-6 cursor-pointer" onClick={save} />
-        <MdDownload className="h-6 w-6 cursor-pointer" onClick={load} />
         <GrUndo onClick={undo} className="h-6 w-6 cursor-pointer" />
         <GrRedo onClick={redo} className="h-6 w-6 cursor-pointer" />
         <button
@@ -147,13 +163,6 @@ function BottomBar() {
           type="button"
         >
           確認效果
-        </button>
-        <button
-          className="bg-green-300 py-1 px-2"
-          onClick={download}
-          type="button"
-        >
-          下載
         </button>
         <span className="bg-green-300 px-2 py-1">
           目前位置： {state.position}

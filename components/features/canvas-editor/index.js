@@ -1,10 +1,10 @@
 import Canvas from './Canvas/Canvas';
-import InfoForm from './InfoForm';
+// import InfoForm from './InfoForm';
 
 function CanvasEditor() {
   return (
     <>
-      <InfoForm />
+      {/* <InfoForm /> */}
       <Canvas />
     </>
   );
