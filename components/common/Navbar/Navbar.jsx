@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { MdMenu } from 'react-icons/md';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
 import Drawer from './Drawer/Drawer';
 import Button from '../Button/Button';
 import { LOGIN, LOGOUT } from '../../../constants/constants';
@@ -19,6 +20,7 @@ function Navbar({ children }) {
   const [avatar, setAvatar] = useState(null);
   const avatarRef = useRef();
   const drawerRef = useRef();
+  const router = useRouter();
 
   const toggleDrawer = (e) => {
     if (!e) return setIsOpen(false);
@@ -34,6 +36,7 @@ function Navbar({ children }) {
     localStorage.removeItem('auth');
     dispatch({ type: LOGOUT });
     setShowExtra(false);
+    router.push('/');
   };
 
   useEffect(() => {
@@ -154,7 +157,12 @@ function Navbar({ children }) {
         </ul>
 
         {isOpen && (
-          <Drawer isLogin={isLogin} logout={logout} setShowEdit={setShowEdit} />
+          <Drawer
+            isLogin={isLogin}
+            logout={logout}
+            setShowEdit={setShowEdit}
+            avatar={avatar}
+          />
         )}
       </div>
       <div className="pt-16" />

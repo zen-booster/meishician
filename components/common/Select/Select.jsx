@@ -10,7 +10,7 @@ function Options({ data }) {
 function Select({ onChange, value, children }) {
   return (
     <select
-      className="basis-28 rounded-lg border border-dark-light  bg-transparent py-3 px-2 text-dark-light"
+      className="w-full basis-28 rounded-xl border border-dark-light  bg-transparent py-3 px-2 text-dark-light"
       onChange={onChange}
       value={value}
     >
