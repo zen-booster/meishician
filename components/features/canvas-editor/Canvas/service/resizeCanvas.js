@@ -2,17 +2,19 @@ import getBackground from './getBackground';
 
 const resizeCanvas = (outer, canvas) => {
   const background = getBackground(canvas);
+
+  // avoid error caused by pre-render
+  if (!background) return;
+
   const objects = canvas.getObjects().filter((obj) => obj.id !== 'background');
 
-  const oldCenter = background?.getPointByOrigin('center');
+  const oldCenter = background.getPointByOrigin('center');
 
   canvas.setWidth(outer.offsetWidth);
   canvas.setHeight(outer.offsetHeight);
   canvas.centerObject(background);
 
-  // cause error outside of Canvas without "?" mark, reason not found yet
-  // warn when closing dev
-  const newCenter = background?.getPointByOrigin('center');
+  const newCenter = background.getPointByOrigin('center');
 
   const displacement = {
     x: newCenter.x - oldCenter.x,

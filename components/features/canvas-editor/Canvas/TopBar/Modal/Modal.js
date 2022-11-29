@@ -18,7 +18,7 @@ export default function Modal({ action, title }) {
         <div className="fixed inset-0 z-10 overflow-y-auto">
           <Overlay show={setShowModal} />
           <div className="flex min-h-screen items-center px-4 py-8">
-            <div className="relative mx-auto w-full max-w-lg rounded-md bg-white p-4 shadow-lg">
+            <div className="relative mx-auto w-full max-w-md rounded-md bg-white p-4 shadow-lg">
               <div className="mt-2 text-center sm:ml-4 sm:text-left">
                 <h4 className="mb-8 text-center text-2xl font-medium text-gray-800">
                   要更改名片方向嗎？
