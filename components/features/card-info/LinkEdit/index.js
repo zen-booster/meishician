@@ -20,7 +20,7 @@ function ShowSetting({ title, content }) {
 
 function LinkEdit() {
   return (
-    <div>
+    <>
       <Section>
         <h2 className="mb-5 text-center text-3xl font-bold">頁面資訊設定</h2>
         <div className="flex justify-between bg-white p-2">
@@ -48,7 +48,7 @@ function LinkEdit() {
         <h2 className="text-center text-3xl font-bold">連結設定</h2>
         <Button>新增連結</Button>
       </Section>
-    </div>
+    </>
   );
 }
 

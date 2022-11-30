@@ -6,7 +6,7 @@ import personData from '../../../../data/personData';
 
 function PersonInfo() {
   return (
-    <div>
+    <>
       <div className="bg-main-02">
         <div className="mx-auto flex flex-col items-center gap-6 py-12 laptop:max-w-204 laptop:flex-row laptop:py-8">
           <Image
@@ -112,7 +112,7 @@ function PersonInfo() {
           <Button>修改資訊頁面</Button>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

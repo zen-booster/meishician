@@ -5,7 +5,7 @@ import Pagination from '../../common/Pagination/Pagination';
 
 function CardWall() {
   return (
-    <div>
+    <>
       <div className="mb-20 w-full bg-main-02 pb-8 pt-12">
         <h2 className="mb-10 text-center text-h2 font-bold text-main-01">
           名片牆
@@ -26,7 +26,7 @@ function CardWall() {
       <div className="mx-auto mb-10 max-w-204">
         <Pagination />
       </div>
-    </div>
+    </>
   );
 }
 

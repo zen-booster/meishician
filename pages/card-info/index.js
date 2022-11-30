@@ -1,11 +1,7 @@
 import CardInfo from '../../components/features/card-info';
 
 function CardInfoPage() {
-  return (
-    <div>
-      <CardInfo />
-    </div>
-  );
+  return <CardInfo />;
 }
 
 export default CardInfoPage;
