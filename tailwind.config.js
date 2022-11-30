@@ -8,12 +8,14 @@ module.exports = {
     extend: {
       backgroundImage: {
         banner: "url('/banner-background.svg')",
+        paper: "url('/paper-texture.svg')",
       },
       screens: {
         laptop: '996px',
       },
       maxWidth: {
-        204: '51rem', // container
+        204: '51rem', // old container
+        container: '76rem', // new container
       },
       colors: {
         'main-01': '#2B5F75',
@@ -28,6 +30,8 @@ module.exports = {
         204: '51rem',
         150: '37.5rem',
         'modal-width': '31.25rem',
+        'rwd-card-height': '28.75rem',
+        'card-height': '30rem',
       },
       minWidth: {
         99: '24.75rem',
