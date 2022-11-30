@@ -8,7 +8,7 @@ import { SET_ACTIVE } from '../../../../../../../constants/constants';
 
 function ImageTool() {
   const { canvasRef } = useContext(fabricContext);
-  const [imagesArray, setImagesArray] = useState(loadLocalImage());
+  const [imagesArray, setImagesArray] = useState(null);
   const dispatch = useDispatch();
 
   function saveLocalImage(e) {
@@ -53,13 +53,15 @@ function ImageTool() {
   }
 
   function deleteLocalImage(e) {
-    const targetIndex = e.target.getAttribute('index');
+    const targetIndex = e.target.getAttribute('data-index');
     const images = JSON.parse(localStorage.getItem('images'));
     images.splice(targetIndex, 1);
     setImagesArray(images);
     const imagesJson = JSON.stringify(images);
     localStorage.setItem('images', imagesJson);
   }
+
+  setImagesArray(loadLocalImage());
 
   return (
     <>
@@ -85,7 +87,7 @@ function ImageTool() {
               <span
                 className="absolute top-2 right-2 z-10 hidden cursor-pointer text-2xl text-red-600 group-hover:block"
                 onClick={deleteLocalImage}
-                index={index}
+                data-index={index}
               >
                 <TiDelete className="pointer-events-none" />
               </span>

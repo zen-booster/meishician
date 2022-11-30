@@ -9,9 +9,8 @@ function SideBar() {
   const clickRef = useRef();
   const [showDrawer, setShowDrawer] = useState(false);
   const [buttonName, setButtonName] = useState('');
-  useClickOutside(clickRef, toggleDrawer);
 
-  function toggleDrawer(e) {
+  const toggleDrawer = (e) => {
     if (e === undefined) {
       setShowDrawer(false);
       setButtonName(null);
@@ -35,12 +34,13 @@ function SideBar() {
         setShowDrawer(true);
         setButtonName(targetName);
     }
-  }
+  };
+  useClickOutside(clickRef, toggleDrawer);
 
   return (
     <>
       <ul
-        className="h-scree text-sm relative flex shrink-0 basis-28 flex-col items-center gap-5 px-3 py-5"
+        className="h-scree relative flex shrink-0 basis-28 flex-col items-center gap-5 px-3 py-5 text-sm"
         ref={clickRef}
       >
         <li>
