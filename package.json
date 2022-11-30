@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "vercel-build": "yum install libuuid-devel libmount-devel && cp /lib64/{libuuid,libmount,libblkid}.so.1 node_modules/canvas/build/Release/"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.0",
@@ -15,6 +16,7 @@
     "axios": "^1.2.0",
     "eslint-config-next": "13.0.3",
     "fabric": "^5.2.4",
+    "canvas": "2.6.1",
     "framer-motion": "^7.6.12",
     "immer": "^9.0.16",
     "next": "13.0.3",
