@@ -25,7 +25,7 @@ function Card({ data }) {
               <Image
                 src="/pin-map.svg"
                 width={16}
-                height={16}
+                height={19}
                 alt="pin-map"
                 className="mr-2"
               />

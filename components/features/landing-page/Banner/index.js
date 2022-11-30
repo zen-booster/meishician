@@ -8,9 +8,10 @@ function Banner() {
         <Image
           src="/logo-dark.png"
           width={280}
-          height={111}
+          height={112}
           alt="logo"
-          className="mt-9 mb-4 laptop:mt-32 laptop:mb-6"
+          priority
+          className="mt-9 mb-4 h-auto laptop:mt-32 laptop:mb-6"
         />
         <h2 className="mb-6 text-5xl laptop:hidden">
           <p className="mb-6">電子名片</p>
@@ -28,6 +29,7 @@ function Banner() {
         <Image
           src="/banner-image.png"
           alt="meishician-image"
+          priority
           width={375}
           height={358}
           className="mt-auto laptop:absolute laptop:bottom-0 laptop:left-1/2 laptop:-translate-x-1/2"

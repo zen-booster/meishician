@@ -67,7 +67,7 @@ function Navbar({ children }) {
       <div className="fixed z-30 flex h-16 w-full items-center justify-between  bg-main-01 px-5 py-2 text-white">
         <div className="flex items-center gap-14 ">
           <Link href="/">
-            <Image src="/logo-dark.png" alt="logo" width={161} height={64} />
+            <Image src="/logo-dark.png" alt="logo" width={161} height={65} />
           </Link>
           <span className="hidden laptop:block">電子名片商務方案</span>
         </div>
@@ -91,7 +91,7 @@ function Navbar({ children }) {
                     src="/business-card.svg"
                     alt="notification"
                     width={31}
-                    height={28}
+                    height={31}
                   />
                 </Link>
               </li>

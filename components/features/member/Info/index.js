@@ -15,6 +15,7 @@ function Info() {
         className="laptop:hidden"
         src="/meishician-image.png"
         alt="meishician-image"
+        priority
         width={184}
         height={157}
       />
@@ -22,6 +23,7 @@ function Info() {
         className="hidden laptop:mt-auto laptop:block"
         src="/meishician-image-laptop.png"
         alt="meishician-image"
+        priority
         width={384}
         height={327}
       />
