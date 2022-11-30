@@ -2,8 +2,8 @@ import Image from 'next/image';
 
 function Banner() {
   return (
-    <div className="relative -mt-16 flex h-screen flex-col items-center bg-main-02 text-main-01">
-      <div className="mx-auto flex w-full max-w-204 flex-col items-center laptop:items-start">
+    <div className="relative -mt-16 flex h-screen flex-col items-center bg-main-02 bg-cover text-main-01 laptop:bg-banner">
+      <div className="mx-auto flex h-full w-full max-w-204 flex-col items-center laptop:items-start">
         <div className="pt-16" />
         <Image
           src="/logo-dark.png"
@@ -21,7 +21,7 @@ function Banner() {
         </p>
         <button
           type="button"
-          className="mb-1 w-52  rounded-xl bg-main-01 py-5 text-center text-white"
+          className="mb-1 w-52 rounded-xl bg-main-01 py-5 text-center text-white"
         >
           立即試試
         </button>
@@ -30,7 +30,7 @@ function Banner() {
           alt="meishician-image"
           width={375}
           height={358}
-          className="absolute bottom-0 left-1/2 -translate-x-1/2"
+          className="mt-auto laptop:absolute laptop:bottom-0 laptop:left-1/2 laptop:-translate-x-1/2"
         />
       </div>
     </div>

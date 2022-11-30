@@ -6,6 +6,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      backgroundImage: {
+        banner: "url('/banner-background.svg')",
+      },
       screens: {
         laptop: '996px',
       },
