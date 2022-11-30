@@ -26,6 +26,7 @@ function ResetForm() {
       })
       .catch((err) => {
         alert('帳號密碼錯誤');
+        console.log(err);
       })
       .finally(() => {
         setLoading(false);

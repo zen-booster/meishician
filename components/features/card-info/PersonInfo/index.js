@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import Button from '../../../common/Button/Button';
-import Avatar from '../../../common/Avatar/Avatar';
 import LinkCard from '../LinkCard';
 import linkData from '../../../../data/linkData';
 import personData from '../../../../data/personData';
