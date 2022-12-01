@@ -13,7 +13,7 @@ function Info() {
       </p>
       <Image
         className="laptop:hidden"
-        src="/meishician-image.png"
+        src="/meishician-image.svg"
         alt="meishician-image"
         priority
         width={184}
@@ -21,7 +21,7 @@ function Info() {
       />
       <Image
         className="hidden laptop:mt-auto laptop:block"
-        src="/meishician-image-laptop.png"
+        src="/meishician-image-laptop.svg"
         alt="meishician-image"
         priority
         width={384}

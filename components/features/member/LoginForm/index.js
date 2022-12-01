@@ -113,15 +113,20 @@ function LoginForm() {
             </Link>
           </button>
 
-          <div className="mb-8 flex w-full gap-8 self-center">
-            <Link href="/sign-up" className="w-full">
-              <Button type="button" variant="outlined">
+          <div className="mb-8 flex w-full  justify-center gap-8 laptop:justify-between">
+            <Link href="/sign-up">
+              <Button type="button" variant="outlined" className="w-[144px]">
                 註冊帳號
               </Button>
             </Link>
 
-            <Button type="submit" variant="contained">
-              登錄
+            <Button
+              type="submit"
+              variant="contained"
+              className="w-[144px]"
+              submit
+            >
+              登入
             </Button>
           </div>
         </form>
