@@ -1,12 +1,11 @@
 import { useForm, Controller } from 'react-hook-form';
 import Link from 'next/link';
-import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
+import { login } from '../../../../store/actions';
 import Button from '../../../common/Button/Button';
 import MemberInput from '../../../common/Input/MemberInput';
 import Info from '../Info';
-import { LOGIN, TOGGLE_LOADER } from '../../../../constants/constants';
 
 function LoginForm() {
   const {
@@ -18,20 +17,9 @@ function LoginForm() {
   const router = useRouter();
 
   const onSubmit = (data) => {
-    dispatch({ type: TOGGLE_LOADER });
-    axios
-      .post('http://localhost:3001/api/users/login', data)
-      .then((res) => {
-        localStorage.setItem('auth', `Bearer ${res.data.token}`);
-        dispatch({ type: LOGIN });
-        router.push('/');
-      })
-      .catch((err) => {
-        alert(`帳號密碼錯誤 ${err}`);
-      })
-      .finally(() => {
-        dispatch({ type: TOGGLE_LOADER });
-      });
+    const { email, password } = data;
+    dispatch(login(email, password));
+    router.push('/');
   };
 
   return (
