@@ -20,6 +20,9 @@
   "emmet.includeLanguages": {
     "javascript": "javascriptreact"
   },
+  "emmet.syntaxProfiles": {
+    "javascript": "jsx"
+  },
 
   "eslint.options": {
     "overrideConfigFile": ".eslintrc.json"
