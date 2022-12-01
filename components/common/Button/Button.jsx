@@ -4,7 +4,7 @@ color: 'main-01', 'danger'
 submit: boolean
 */
 
-function Button({ children, variant, color, className, submit }) {
+function Button({ children, variant, color, className, submit, onClick }) {
   variant = variant ?? 'contained';
   color = color ?? 'main-01';
   className = className ?? '';
@@ -39,7 +39,11 @@ function Button({ children, variant, color, className, submit }) {
   const totalStyles = generateStyle();
 
   return (
-    <button className={totalStyles} type={submit ? 'submit' : 'button'}>
+    <button
+      className={totalStyles}
+      type={submit ? 'submit' : 'button'}
+      onClick={onClick}
+    >
       {children}
     </button>
   );
