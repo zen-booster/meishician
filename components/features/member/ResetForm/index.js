@@ -2,6 +2,7 @@ import { useForm, Controller } from 'react-hook-form';
 import Link from 'next/link';
 import { useState } from 'react';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 import Input from '../../../common/Input/Input';
 import Button from '../../../common/Button/Button';
 import Info from '../Info';
@@ -14,18 +15,22 @@ function ResetForm() {
     formState: { errors },
     watch,
   } = useForm();
-
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const { token } = router.query;
 
   const onSubmit = (data) => {
+    const auth = localStorage.getItem('auth') || `Bearer ${token}`;
+    axios.defaults.headers.common.Authorization = auth;
     setLoading(true);
     axios
-      .post('http://localhost:3001/api/users/login', data)
+      .put('http://localhost:3001/api/users/reset-password', data)
       .then((res) => {
-        localStorage.setItem('user', `Bearer ${res.data.token}`);
+        localStorage.setItem('auth', `Bearer ${res.data.token}`);
+        router.push('/');
       })
       .catch((err) => {
-        alert('帳號密碼錯誤');
+        alert('Token 無效啦');
         console.log(err);
       })
       .finally(() => {
@@ -77,7 +82,7 @@ function ResetForm() {
           <div className="mb-9">
             <Controller
               control={control}
-              name="checkPassword"
+              name="confirmPassword"
               rules={{
                 required: '*請輸入密碼',
                 validate: (value) => value === watch('password') || '密碼錯誤',
@@ -95,7 +100,7 @@ function ResetForm() {
               )}
             />
             <p className="absolute text-label text-danger">
-              {errors.checkPassword?.message}
+              {errors.confirmPassword?.message}
             </p>
           </div>
           <div className="mb-8 flex w-full gap-8 self-center">
