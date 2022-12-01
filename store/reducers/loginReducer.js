@@ -1,11 +1,11 @@
 import produce from 'immer';
 import { LOGIN, LOGOUT } from '../../constants/constants';
 
-const loginState = {
+const initLoginState = {
   isLogin: false,
 };
 
-export default function (state = loginState, action) {
+export default function (state = initLoginState, action) {
   switch (action.type) {
     case LOGIN: {
       return produce(state, (draftState) => {
