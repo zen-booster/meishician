@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 function Banner() {
   return (
-    <div className="relative -mt-16 flex h-screen flex-col items-center bg-main-02 bg-cover text-main-01 laptop:bg-banner">
+    <div className="relative -mt-16 flex h-screen flex-col items-center bg-main-02 bg-cover text-main-01 laptop:bg-[url(/banner-background2.svg),_url(/banner-background.svg)]">
       <div className="mx-auto flex h-full w-full max-w-204 flex-col items-center laptop:items-start">
         <div className="pt-16" />
         <Image

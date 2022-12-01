@@ -29,6 +29,7 @@ module.exports = {
       spacing: {
         204: '51rem',
         150: '37.5rem',
+        89: '22.25rem',
         'modal-width': '31.25rem',
         'rwd-card-height': '28.75rem',
         'card-height': '30rem',
