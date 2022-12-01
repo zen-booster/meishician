@@ -59,7 +59,9 @@ function InfoForm() {
     axios
       .post('http://localhost:3001/api/portfolio', { jobInfo })
       .then((res) => {
-        console.log(res);
+        const { front, back } = res.data.data.canvasData.canvasData;
+        console.log(JSON.parse(front));
+        console.log(JSON.parse(back));
       })
       .catch((err) => {
         console.log(err);
