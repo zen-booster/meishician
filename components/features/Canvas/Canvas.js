@@ -27,6 +27,13 @@ function Canvas({ cardId }) {
     });
   }
 
+  // key press event
+  if (typeof window !== 'undefined') {
+    window.onkeydown = (e) => {
+      keyPress(e, cardId, canvasRef, activeObject, history, dispatch);
+    };
+  }
+
   useEffect(() => {
     const fabricCanvas = initCanvas(dispatch);
     canvasRef.current = fabricCanvas;
@@ -44,15 +51,9 @@ function Canvas({ cardId }) {
 
     return () => {
       canvasRef.current.dispose();
+      window.onkeydown = null;
     };
   }, []);
-
-  // key press event
-  // if (typeof window !== 'undefined') {
-  //   window.onkeydown = (e) => {
-  //     keyPress(e, cardId, canvasRef, activeObject, history, dispatch);
-  //   };
-  // }
 
   return (
     <fabricContext.Provider value={canvasRef}>
