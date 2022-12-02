@@ -3,7 +3,7 @@ import { FaShapes, FaImage } from 'react-icons/fa';
 import { GrTemplate } from 'react-icons/gr';
 import { TfiText } from 'react-icons/tfi';
 import Drawer from './Drawer/Drawer';
-import useClickOutside from '../../../../../hooks/useClickOutside';
+import useClickOutside from '../../../../hooks/useClickOutside';
 
 function SideBar() {
   const clickRef = useRef();

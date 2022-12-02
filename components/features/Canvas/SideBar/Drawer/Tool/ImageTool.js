@@ -4,7 +4,7 @@ import { GoCloudUpload } from 'react-icons/go';
 import { TiDelete } from 'react-icons/ti';
 import { useDispatch } from 'react-redux';
 import { fabricContext } from '../../../Canvas';
-import { SET_ACTIVE } from '../../../../../../../constants/constants';
+import { SET_ACTIVE } from '../../../../../../constants/constants';
 
 function ImageTool() {
   const { canvasRef } = useContext(fabricContext);

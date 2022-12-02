@@ -3,7 +3,7 @@ import { fabric } from 'fabric';
 import { useDispatch } from 'react-redux';
 import { fabricContext } from '../Canvas';
 import { LINE } from '../config/objectConfig';
-import { SET_ACTIVE } from '../../../../../constants/constants';
+import { SET_ACTIVE } from '../../../../constants/constants';
 
 function Line() {
   const { canvasRef } = useContext(fabricContext);

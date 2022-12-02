@@ -3,7 +3,7 @@ import { fabric } from 'fabric';
 import { useDispatch } from 'react-redux';
 import { fabricContext } from '../Canvas';
 import { TEXTBOX } from '../config/objectConfig';
-import { SET_ACTIVE } from '../../../../../constants/constants';
+import { SET_ACTIVE } from '../../../../constants/constants';
 
 function Text({ content, size }) {
   const { canvasRef } = useContext(fabricContext);

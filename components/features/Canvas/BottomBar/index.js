@@ -3,18 +3,17 @@ import { useSelector, useDispatch } from 'react-redux';
 import { GrRedo, GrUndo } from 'react-icons/gr';
 import { FaRegSave } from 'react-icons/fa';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 import { fabricContext } from '../Canvas';
 import getBackground from '../service/getBackground';
 import serialize from '../service/serialize';
 import loadCanvas from '../service/loadCanvas';
 import toImage from '../service/toImage';
-import {
-  UPDATE,
-  NO_UPDATE,
-  SET_ACTIVE,
-} from '../../../../../constants/constants';
+import { UPDATE, NO_UPDATE, SET_ACTIVE } from '../../../../constants/constants';
 
 function BottomBar() {
+  const router = useRouter();
+  const { cardId } = router.query;
   const { canvasRef } = useContext(fabricContext);
   const [zoom, setZoom] = useState(1);
   const { undoBox, redoBox, state } = useSelector((state) => state.history);
@@ -106,17 +105,11 @@ function BottomBar() {
       background.width > background.height ? 'horizontal' : 'vertical';
 
     axios
-      .patch(
-        'http://localhost:3001/api/portfolio/6385f4e6f109114af6dcb0fd/canvas',
-        {
-          canvasData,
-          layoutDirection,
-          cardImageData: {
-            front: frontImage,
-            back: backImage,
-          },
-        }
-      )
+      .patch(`http://localhost:3001/api/portfolio/${cardId}/canvas`, {
+        canvasData,
+        layoutDirection,
+        cardImageData: { front: frontImage, back: backImage },
+      })
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
   };

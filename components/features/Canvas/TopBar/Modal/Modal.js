@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Overlay from '../../../../../common/Overlay/Overlay';
+import Overlay from '../../../../common/Overlay/Overlay';
 
 export default function Modal({ action, title }) {
   const [showModal, setShowModal] = useState(false);

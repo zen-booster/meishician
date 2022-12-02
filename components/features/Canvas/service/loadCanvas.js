@@ -5,7 +5,7 @@ import {
   NEED_UPDATE,
   INITIALIZE,
   FLIP,
-} from '../../../../../constants/constants';
+} from '../../../../constants/constants';
 
 const loadCanvas = (canvas, canvasData, order) => {
   const { objects, ...data } = canvasData;
@@ -49,10 +49,12 @@ const loadCanvas = (canvas, canvasData, order) => {
         dispatch({ type: FLIP });
         break;
       case 'init':
+        dispatch({ type: NEED_UPDATE });
         dispatch({
           type: INITIALIZE,
           payload: {
-            initState: order.data,
+            front: order.payload.front,
+            back: order.payload.back,
           },
         });
         break;

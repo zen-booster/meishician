@@ -5,7 +5,7 @@ import showCenterLine from './service/showCenterLine';
 import putToCenter from './service/putToCenter';
 import aligningGuidelines from './service/aligningGuideline';
 import getBackground from './service/getBackground';
-import { SET_ACTIVE } from '../../../../constants/constants';
+import { SET_ACTIVE } from '../../../constants/constants';
 
 const initCanvas = (dispatch) => {
   const fabricCanvas = new fabric.Canvas('canvas', { ...CANVAS });

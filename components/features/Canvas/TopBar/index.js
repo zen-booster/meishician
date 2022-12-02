@@ -10,11 +10,11 @@ import {
   FaTrashAlt,
 } from 'react-icons/fa';
 import { fabricContext } from '../Canvas';
-import useForceUpdate from '../../../../../hooks/useForceUpdate';
+import useForceUpdate from '../../../../hooks/useForceUpdate';
 import rotateCard from '../service/rotateCard';
 import Modal from './Modal/Modal';
 import serialize from '../service/serialize';
-import { UPDATE, ROTATE } from '../../../../../constants/constants';
+import { UPDATE, ROTATE } from '../../../../constants/constants';
 
 function TopBar() {
   const { canvasRef } = useContext(fabricContext);

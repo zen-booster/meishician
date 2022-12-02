@@ -3,15 +3,15 @@ import { useForm, Controller } from 'react-hook-form';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
-import Input from '../../../common/Input/Input';
-import Select from '../../../common/Select/Select';
-import TextArea from '../../../common/TextArea/TextArea';
-import domainData from '../../../../data/domainData';
-import areaData from '../../../../data/areaData';
-import initJobInfo from '../../../../utils/initJobInfo';
-import { TOGGLE_LOADER } from '../../../../constants/constants';
+import Input from '../../common/Input/Input';
+import Select from '../../common/Select/Select';
+import TextArea from '../../common/TextArea/TextArea';
+import domainData from '../../../data/domainData';
+import areaData from '../../../data/areaData';
+import initJobInfo from '../../../utils/initJobInfo';
+import { TOGGLE_LOADER } from '../../../constants/constants';
 
-function InfoForm() {
+function AddCardForm() {
   const dispatch = useDispatch();
   const router = useRouter();
   const isUpdate = false;
@@ -59,11 +59,12 @@ function InfoForm() {
     axios
       .post('http://localhost:3001/api/portfolio', { jobInfo })
       .then((res) => {
-        const { front, back } = res.data.data.canvasData.canvasData;
-        console.log(JSON.parse(front));
-        console.log(JSON.parse(back));
+        console.log(res);
+        const { cardId } = res.data.data;
+        router.push(`/canvas-editor/${cardId}`);
       })
       .catch((err) => {
+        alert('錯了啦！');
         console.log(err);
       })
       .finally(() => {
@@ -247,4 +248,4 @@ function InfoForm() {
   );
 }
 
-export default InfoForm;
+export default AddCardForm;

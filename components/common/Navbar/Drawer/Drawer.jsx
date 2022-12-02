@@ -30,7 +30,7 @@ function Drawer({ isLogin, logout, setShowEdit, avatar }) {
         {isLogin ? (
           <>
             <li className="py-3">
-              <Link href="/canvas-editor">打造名片</Link>
+              <Link href="/add-card">打造名片</Link>
             </li>
             <li className="py-3">
               <Link href="/management">管理名片</Link>
