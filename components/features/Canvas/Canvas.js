@@ -8,6 +8,7 @@ import resizeCanvas from './service/resizeCanvas';
 import serialize from './service/serialize';
 import { UPDATE } from '../../../constants/constants';
 import { fetchCanvas } from '../../../store/actions';
+import keyPress from './service/keyPress';
 
 export const fabricContext = createContext();
 
@@ -15,15 +16,14 @@ function Canvas({ cardId }) {
   const canvasRef = useRef(null);
   const outerRef = useRef(null);
   const { activeObject } = useSelector((state) => state.canvasObject);
+  const { history } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   function updateHistory() {
     const serializedData = serialize(canvasRef.current);
     dispatch({
       type: UPDATE,
-      payload: {
-        newState: serializedData,
-      },
+      payload: { newState: serializedData },
     });
   }
 
@@ -31,6 +31,7 @@ function Canvas({ cardId }) {
     const fabricCanvas = initCanvas(dispatch);
     canvasRef.current = fabricCanvas;
 
+    // canvas size setting
     window.addEventListener('resize', () => {
       resizeCanvas(outerRef.current, canvasRef.current);
     });
@@ -44,7 +45,14 @@ function Canvas({ cardId }) {
     return () => {
       canvasRef.current.dispose();
     };
-  }, [dispatch]);
+  }, []);
+
+  // key press event
+  if (typeof window !== 'undefined') {
+    window.onkeydown = (e) => {
+      keyPress(e, cardId, canvasRef, activeObject, history, dispatch);
+    };
+  }
 
   return (
     <fabricContext.Provider value={{ canvasRef }}>

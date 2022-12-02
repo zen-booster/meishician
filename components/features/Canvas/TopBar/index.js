@@ -13,9 +13,9 @@ import { fabricContext } from '../Canvas';
 import useForceUpdate from '../../../../hooks/useForceUpdate';
 import rotateCard from '../service/rotateCard';
 import Modal from './Modal/Modal';
-import serialize from '../service/serialize';
-import { UPDATE, ROTATE } from '../../../../constants/constants';
-import getBackground from '../service/getBackground';
+import { ROTATE } from '../../../../constants/constants';
+import updateHistory from '../service/updateHistory';
+import removeObject from '../service/removeObject';
 
 function TopBar() {
   const { canvasRef } = useContext(fabricContext);
@@ -23,39 +23,24 @@ function TopBar() {
   const dispatch = useDispatch();
   const forceUpdate = useForceUpdate();
 
-  function updateHistory() {
-    const serializedData = serialize(canvasRef.current);
-    dispatch({
-      type: UPDATE,
-      payload: {
-        newState: serializedData,
-      },
-    });
-  }
-
   const changeColor = (e) => {
     activeObject.set('fill', e.target.value);
     canvasRef.current.renderAll();
-    updateHistory();
+    updateHistory(canvasRef.current, dispatch);
     forceUpdate();
   };
 
   const changeSize = (e) => {
     activeObject.set('fontSize', e.target.value);
     canvasRef.current.renderAll();
-    updateHistory();
+    updateHistory(canvasRef.current, dispatch);
     forceUpdate();
-  };
-
-  const removeObject = () => {
-    canvasRef.current.remove(canvasRef.current.getActiveObject());
-    updateHistory();
   };
 
   const textAlign = (e) => {
     activeObject.set('textAlign', e.target.value);
     canvasRef.current.renderAll();
-    updateHistory();
+    updateHistory(canvasRef.current, dispatch);
     forceUpdate();
 
     // both needed
@@ -68,7 +53,7 @@ function TopBar() {
     const weight = activeObject.fontWeight === 'normal' ? 'bold' : 'normal';
     activeObject.set('fontWeight', weight);
     canvasRef.current.renderAll();
-    updateHistory();
+    updateHistory(canvasRef.current, dispatch);
     forceUpdate();
   };
 
@@ -76,14 +61,14 @@ function TopBar() {
     const style = activeObject.fontStyle === 'normal' ? 'italic' : 'normal';
     activeObject.set('fontStyle', style);
     canvasRef.current.renderAll();
-    updateHistory();
+    updateHistory(canvasRef.current, dispatch);
     forceUpdate();
   };
 
   const selectFont = (e) => {
     activeObject.set('fontFamily', e.target.value);
     canvasRef.current.renderAll();
-    updateHistory();
+    updateHistory(canvasRef.current, dispatch);
     forceUpdate();
   };
 
@@ -91,7 +76,7 @@ function TopBar() {
     const toggle = activeObject.underline !== true;
     activeObject.set('underline', toggle);
     canvasRef.current.renderAll();
-    updateHistory();
+    updateHistory(canvasRef.current, dispatch);
     forceUpdate();
   };
 
@@ -99,16 +84,16 @@ function TopBar() {
     const position = canvasRef.current.getObjects().indexOf(activeObject);
     if (position === 1) return;
     canvasRef.current.sendBackwards(activeObject);
-    updateHistory();
+    updateHistory(canvasRef.current, dispatch);
   };
 
   const setForward = () => {
     canvasRef.current.bringForward(activeObject);
-    updateHistory();
+    updateHistory(canvasRef.current, dispatch);
   };
 
   const rotate = () => {
-    updateHistory();
+    updateHistory(canvasRef.current, dispatch);
     rotateCard(canvasRef.current);
     dispatch({ type: ROTATE });
   };
@@ -142,7 +127,9 @@ function TopBar() {
             className="h-6 w-6 cursor-pointer"
           />
           <FaTrashAlt
-            onClick={removeObject}
+            onClick={() => {
+              removeObject(canvasRef.current, dispatch);
+            }}
             className="h-6 w-6 cursor-pointer"
           />
         </>

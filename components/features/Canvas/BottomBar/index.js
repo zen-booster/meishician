@@ -2,113 +2,27 @@ import { useContext, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { GrRedo, GrUndo } from 'react-icons/gr';
 import { FaRegSave } from 'react-icons/fa';
-import axios from 'axios';
 import { useRouter } from 'next/router';
 import { fabricContext } from '../Canvas';
 import getBackground from '../service/getBackground';
-import serialize from '../service/serialize';
-import loadCanvas from '../service/loadCanvas';
-import toImage from '../service/toImage';
-import { UPDATE, NO_UPDATE, SET_ACTIVE } from '../../../../constants/constants';
+import { saveCanvas } from '../../../../store/actions';
+import undo from '../service/undo';
+import redo from '../service/redo';
+import flip from '../service/flip';
 
 function BottomBar() {
   const router = useRouter();
   const { cardId } = router.query;
   const { canvasRef } = useContext(fabricContext);
   const [zoom, setZoom] = useState(1);
-  const { undoBox, redoBox, state } = useSelector((state) => state.history);
+  const { history } = useSelector((state) => state);
   const dispatch = useDispatch();
-
-  const flip = () => {
-    const { front, back, position } = state;
-    const serializedData = serialize(canvasRef.current);
-    const order = { orderName: 'flip', dispatch };
-    dispatch({
-      type: UPDATE,
-      payload: {
-        newState: serializedData,
-      },
-    });
-
-    dispatch({ type: NO_UPDATE });
-    switch (position) {
-      case 'front':
-        loadCanvas(canvasRef.current, back, order);
-        break;
-      case 'back':
-        loadCanvas(canvasRef.current, front, order);
-        break;
-      default:
-    }
-  };
 
   const changeZoom = (e) => {
     const newZoom = e.target.value;
     const center = canvasRef.current.getCenter();
     canvasRef.current.zoomToPoint({ x: center.left, y: center.top }, newZoom);
     setZoom(newZoom);
-  };
-
-  const undo = () => {
-    const { length } = undoBox;
-    if (!length) return;
-
-    dispatch({ type: NO_UPDATE });
-    const order = { orderName: 'undo', dispatch };
-    const { front, back, position } = undoBox[length - 1];
-    if (position === 'front') loadCanvas(canvasRef.current, front, order);
-    if (position === 'back') loadCanvas(canvasRef.current, back, order);
-
-    const background = getBackground(canvasRef.current);
-    canvasRef.current.centerObject(background);
-    dispatch({ type: SET_ACTIVE, payload: background });
-  };
-
-  const redo = () => {
-    const { length } = redoBox;
-    if (!length) return;
-
-    dispatch({ type: NO_UPDATE });
-    const order = { orderName: 'redo', dispatch };
-    const { front, back, position } = redoBox[length - 1];
-    if (position === 'front') loadCanvas(canvasRef.current, front, order);
-    if (position === 'back') loadCanvas(canvasRef.current, back, order);
-
-    const background = getBackground(canvasRef.current);
-    canvasRef.current.centerObject(background);
-    dispatch({ type: SET_ACTIVE, payload: background });
-  };
-
-  const save = () => {
-    const { front, back, position } = state;
-    const background = getBackground(canvasRef.current);
-
-    const canvasData = {
-      front: JSON.stringify(state.front),
-      back: JSON.stringify(state.back),
-    };
-
-    // get image of two side and get back where you were
-    dispatch({ type: NO_UPDATE });
-    const order = { orderName: null, dispatch };
-    loadCanvas(canvasRef.current, front, order);
-    const frontImage = toImage(canvasRef.current, background);
-    loadCanvas(canvasRef.current, back, order);
-    const backImage = toImage(canvasRef.current, background);
-    order.orderName = 'load';
-    if (position === 'front') loadCanvas(canvasRef.current, front, order);
-    if (position === 'back') loadCanvas(canvasRef.current, back, order);
-
-    const layoutDirection =
-      background.width > background.height ? 'horizontal' : 'vertical';
-
-    axios
-      .patch(`http://localhost:3001/api/portfolio/${cardId}/canvas`, {
-        canvasData,
-        layoutDirection,
-        cardImageData: { front: frontImage, back: backImage },
-      })
-      .catch(() => alert('存檔出錯'));
   };
 
   const checkResult = () => {
@@ -128,7 +42,9 @@ function BottomBar() {
       <div className="flex items-center gap-3 p-5">
         <button
           className="cursor-pointer bg-green-300 py-1 px-2"
-          onClick={flip}
+          onClick={() => {
+            flip(canvasRef.current, history, dispatch);
+          }}
           type="button"
         >
           翻轉卡片
@@ -144,9 +60,24 @@ function BottomBar() {
         <span className="bg-white py-1 px-2">
           比例：{Math.round(zoom * 100)} %
         </span>
-        <FaRegSave className="h-6 w-6 cursor-pointer" onClick={save} />
-        <GrUndo onClick={undo} className="h-6 w-6 cursor-pointer" />
-        <GrRedo onClick={redo} className="h-6 w-6 cursor-pointer" />
+        <FaRegSave
+          className="h-6 w-6 cursor-pointer"
+          onClick={() => {
+            dispatch(saveCanvas(cardId, canvasRef, history));
+          }}
+        />
+        <GrUndo
+          onClick={() => {
+            undo(canvasRef.current, history, dispatch);
+          }}
+          className="h-6 w-6 cursor-pointer"
+        />
+        <GrRedo
+          onClick={() => {
+            redo(canvasRef.current, history, dispatch);
+          }}
+          className="h-6 w-6 cursor-pointer"
+        />
         <button
           className="bg-green-300 py-1 px-2"
           onClick={checkResult}
@@ -155,7 +86,7 @@ function BottomBar() {
           確認效果
         </button>
         <span className="bg-green-300 px-2 py-1">
-          目前位置： {state.position}
+          目前位置： {history.state.position}
         </span>
       </div>
     </div>
