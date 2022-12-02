@@ -5,10 +5,11 @@ import { TiDelete } from 'react-icons/ti';
 import { useDispatch } from 'react-redux';
 import { fabricContext } from '../../../Canvas';
 import { SET_ACTIVE } from '../../../../../../constants/constants';
+import loadLocalImage from '../../../service/loadLocalImage';
 
 function ImageTool() {
   const { canvasRef } = useContext(fabricContext);
-  const [imagesArray, setImagesArray] = useState(null);
+  const [imagesArray, setImagesArray] = useState(loadLocalImage());
   const dispatch = useDispatch();
 
   function saveLocalImage(e) {
@@ -35,12 +36,6 @@ function ImageTool() {
     e.target.value = null;
   }
 
-  function loadLocalImage() {
-    const imagesJSON = localStorage.getItem('images');
-    if (!imagesJSON) return null;
-    return JSON.parse(imagesJSON);
-  }
-
   function renderImage(e) {
     const src = e.target.getAttribute('src');
     fabric.Image.fromURL(src, (img) => {
@@ -60,8 +55,6 @@ function ImageTool() {
     const imagesJson = JSON.stringify(images);
     localStorage.setItem('images', imagesJson);
   }
-
-  setImagesArray(loadLocalImage());
 
   return (
     <>

@@ -88,15 +88,13 @@ function BottomBar() {
       back: JSON.stringify(state.back),
     };
 
-    // get image of two side
+    // get image of two side and get back where you were
     dispatch({ type: NO_UPDATE });
     const order = { orderName: null, dispatch };
     loadCanvas(canvasRef.current, front, order);
     const frontImage = toImage(canvasRef.current, background);
     loadCanvas(canvasRef.current, back, order);
     const backImage = toImage(canvasRef.current, background);
-
-    // get back where you are
     order.orderName = 'load';
     if (position === 'front') loadCanvas(canvasRef.current, front, order);
     if (position === 'back') loadCanvas(canvasRef.current, back, order);
@@ -110,8 +108,7 @@ function BottomBar() {
         layoutDirection,
         cardImageData: { front: frontImage, back: backImage },
       })
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+      .catch(() => alert('存檔出錯'));
   };
 
   const checkResult = () => {

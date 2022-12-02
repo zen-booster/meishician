@@ -16,7 +16,7 @@ export const login = (email, password) => (dispatch) => {
     .finally(() => dispatch({ type: TOGGLE_LOADER }));
 };
 
-export const fetchCanvas = (cardId, canvas) => (dispatch) => {
+export const fetchCanvas = (cardId, canvasRef) => (dispatch) => {
   dispatch({ type: TOGGLE_LOADER });
   dispatch({ type: NO_UPDATE });
   CanvasService.getCanvas(cardId)
@@ -27,8 +27,7 @@ export const fetchCanvas = (cardId, canvas) => (dispatch) => {
         payload: { front, back },
       };
       dispatch({ type: NO_UPDATE });
-      console.log(front);
-      loadCanvas(canvas, front, order);
+      loadCanvas(canvasRef.current, front, order);
     })
     .catch((err) => {
       console.log(err);
