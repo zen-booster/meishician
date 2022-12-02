@@ -18,7 +18,7 @@ import updateHistory from '../service/updateHistory';
 import removeObject from '../service/removeObject';
 
 function TopBar() {
-  const { canvasRef } = useContext(fabricContext);
+  const canvasRef = useContext(fabricContext);
   const { activeObject } = useSelector((state) => state.canvasObject);
   const dispatch = useDispatch();
   const forceUpdate = useForceUpdate();

@@ -6,7 +6,7 @@ import { LINE } from '../config/objectConfig';
 import { SET_ACTIVE } from '../../../../constants/constants';
 
 function Line() {
-  const { canvasRef } = useContext(fabricContext);
+  const canvasRef = useContext(fabricContext);
   const dispatch = useDispatch();
 
   const line = new fabric.Line(LINE.coords, { ...LINE.options });

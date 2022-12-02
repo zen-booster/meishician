@@ -48,14 +48,14 @@ function Canvas({ cardId }) {
   }, []);
 
   // key press event
-  if (typeof window !== 'undefined') {
-    window.onkeydown = (e) => {
-      keyPress(e, cardId, canvasRef, activeObject, history, dispatch);
-    };
-  }
+  // if (typeof window !== 'undefined') {
+  //   window.onkeydown = (e) => {
+  //     keyPress(e, cardId, canvasRef, activeObject, history, dispatch);
+  //   };
+  // }
 
   return (
-    <fabricContext.Provider value={{ canvasRef }}>
+    <fabricContext.Provider value={canvasRef}>
       <div className="-mt-16 flex h-screen flex-col">
         <div className="pt-16" />
         <div className="relative flex h-full w-full">

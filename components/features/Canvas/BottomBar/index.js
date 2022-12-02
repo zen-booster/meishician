@@ -13,7 +13,7 @@ import flip from '../service/flip';
 function BottomBar() {
   const router = useRouter();
   const { cardId } = router.query;
-  const { canvasRef } = useContext(fabricContext);
+  const canvasRef = useContext(fabricContext);
   const [zoom, setZoom] = useState(1);
   const { history } = useSelector((state) => state);
   const dispatch = useDispatch();

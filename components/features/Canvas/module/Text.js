@@ -6,7 +6,7 @@ import { TEXTBOX } from '../config/objectConfig';
 import { SET_ACTIVE } from '../../../../constants/constants';
 
 function Text({ content, size }) {
-  const { canvasRef } = useContext(fabricContext);
+  const canvasRef = useContext(fabricContext);
   const dispatch = useDispatch();
 
   const text = new fabric.Textbox(content, { ...TEXTBOX, fontSize: size });

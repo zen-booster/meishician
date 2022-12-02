@@ -6,7 +6,7 @@ import { TRIANGLE } from '../config/objectConfig';
 import { SET_ACTIVE } from '../../../../constants/constants';
 
 function Triangle() {
-  const { canvasRef } = useContext(fabricContext);
+  const canvasRef = useContext(fabricContext);
   const dispatch = useDispatch();
 
   const triangle = new fabric.Triangle({ ...TRIANGLE });

@@ -6,7 +6,7 @@ import { CIRCLE } from '../config/objectConfig';
 import { SET_ACTIVE } from '../../../../constants/constants';
 
 function Circle() {
-  const { canvasRef } = useContext(fabricContext);
+  const canvasRef = useContext(fabricContext);
   const dispatch = useDispatch();
 
   const circle = new fabric.Circle({ ...CIRCLE });

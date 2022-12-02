@@ -6,7 +6,7 @@ import { RECTANGLE } from '../config/objectConfig';
 import { SET_ACTIVE } from '../../../../constants/constants';
 
 function Rectangle() {
-  const { canvasRef } = useContext(fabricContext);
+  const canvasRef = useContext(fabricContext);
   const dispatch = useDispatch();
 
   const rectangle = new fabric.Rect({ ...RECTANGLE });

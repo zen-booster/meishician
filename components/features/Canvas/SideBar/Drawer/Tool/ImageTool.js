@@ -8,7 +8,7 @@ import { SET_ACTIVE } from '../../../../../../constants/constants';
 import loadLocalImage from '../../../service/loadLocalImage';
 
 function ImageTool() {
-  const { canvasRef } = useContext(fabricContext);
+  const canvasRef = useContext(fabricContext);
   const [imagesArray, setImagesArray] = useState(loadLocalImage());
   const dispatch = useDispatch();
 
