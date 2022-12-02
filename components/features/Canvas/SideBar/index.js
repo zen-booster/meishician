@@ -11,7 +11,6 @@ function SideBar() {
   const [buttonName, setButtonName] = useState('');
 
   const toggleDrawer = (e) => {
-    console.log(e);
     if (e === undefined) {
       setShowDrawer(false);
       setButtonName(null);

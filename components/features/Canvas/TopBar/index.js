@@ -15,6 +15,7 @@ import rotateCard from '../service/rotateCard';
 import Modal from './Modal/Modal';
 import serialize from '../service/serialize';
 import { UPDATE, ROTATE } from '../../../../constants/constants';
+import getBackground from '../service/getBackground';
 
 function TopBar() {
   const { canvasRef } = useContext(fabricContext);
@@ -95,6 +96,8 @@ function TopBar() {
   };
 
   const setBackward = () => {
+    const position = canvasRef.current.getObjects().indexOf(activeObject);
+    if (position === 1) return;
     canvasRef.current.sendBackwards(activeObject);
     updateHistory();
   };
