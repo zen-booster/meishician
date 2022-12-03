@@ -9,4 +9,5 @@ export const ROTATE = 'ROTATE';
 export const SET_ACTIVE = 'SET_ACTIVE';
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
+export const SET_AVATAR = 'SET_AVATAR';
 export const TOGGLE_LOADER = 'TOGGLE_LOADER';

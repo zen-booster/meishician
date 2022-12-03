@@ -1,9 +1,23 @@
-import { LOGIN, NO_UPDATE, TOGGLE_LOADER } from '../../constants/constants';
+import {
+  LOGIN,
+  SET_AVATAR,
+  NO_UPDATE,
+  TOGGLE_LOADER,
+} from '../../constants/constants';
 import AuthService from '../../services/auth.services';
 import CanvasService from '../../services/canvas.service';
 import getBackground from '../../components/features/Canvas/service/getBackground';
 import loadCanvas from '../../components/features/Canvas/service/loadCanvas';
 import toImage from '../../components/features/Canvas/service/toImage';
+
+export const verify = () => (dispatch) => {
+  AuthService.verify()
+    .then(() => dispatch({ type: LOGIN }))
+    .catch((err) => {
+      alert(`身份驗證失敗`);
+      console.log(err);
+    });
+};
 
 export const login = (email, password) => (dispatch) => {
   dispatch({ type: TOGGLE_LOADER });
@@ -12,10 +26,20 @@ export const login = (email, password) => (dispatch) => {
       dispatch({ type: LOGIN });
       console.log(data);
     })
-    .catch((error) => {
-      alert(`帳號密碼錯誤 ${error}`);
+    .catch((err) => {
+      alert(`帳號密碼錯誤`);
+      console.log(err);
     })
     .finally(() => dispatch({ type: TOGGLE_LOADER }));
+};
+
+export const getAvatar = () => (dispatch) => {
+  AuthService.getAvatar()
+    .then((avatar) => dispatch({ type: SET_AVATAR, payload: avatar }))
+    .catch((err) => {
+      alert(`拿取 Avatar失敗`);
+      console.log(err);
+    });
 };
 
 export const fetchCanvas = (cardId, canvasRef) => (dispatch) => {

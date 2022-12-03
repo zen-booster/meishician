@@ -2,22 +2,21 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { MdMenu } from 'react-icons/md';
-import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import Drawer from './Drawer/Drawer';
 import Button from '../Button/Button';
-import { LOGIN, LOGOUT } from '../../../constants/constants';
+import { LOGOUT } from '../../../constants/constants';
 import useClickOutside from '../../../hooks/useClickOutside';
+import { getAvatar } from '../../../store/actions';
 import Modal from './Modal/Modal';
 
 function Navbar({ children }) {
-  const { isLogin } = useSelector((state) => state.loginStatus);
+  const { isLogin, avatar } = useSelector((state) => state.loginStatus);
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [showExtra, setShowExtra] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
-  const [avatar, setAvatar] = useState(null);
   const avatarRef = useRef();
   const drawerRef = useRef();
   const router = useRouter();
@@ -32,6 +31,9 @@ function Navbar({ children }) {
     return setShowExtra(!showExtra);
   };
 
+  useClickOutside(drawerRef, toggleDrawer);
+  useClickOutside(avatarRef, toggleExtra);
+
   const logout = () => {
     localStorage.removeItem('auth');
     dispatch({ type: LOGOUT });
@@ -41,26 +43,9 @@ function Navbar({ children }) {
 
   useEffect(() => {
     const auth = localStorage.getItem('auth');
-    axios.defaults.headers.common.Authorization = auth;
-
     if (!auth) return;
-
-    const checkStatus = axios.get('http://localhost:3001/api/users/check');
-    const getAvatar = axios.get('http://localhost:3001/api/users');
-    axios
-      .all([checkStatus, getAvatar])
-      .then(
-        axios.spread((...responses) => {
-          dispatch({ type: LOGIN });
-          const { avatar } = responses[1].data.data.user;
-          setAvatar(avatar);
-        })
-      )
-      .catch((err) => console.log(err));
-  }, [isLogin, avatar]);
-
-  useClickOutside(drawerRef, toggleDrawer);
-  useClickOutside(avatarRef, toggleExtra);
+    dispatch(getAvatar());
+  }, [isLogin]);
 
   return (
     <>
@@ -76,7 +61,7 @@ function Navbar({ children }) {
             <Link href="/card-wall">名片牆</Link>
           </li>
 
-          {isLogin ? (
+          {isLogin && (
             <>
               <li className="hidden laptop:block laptop:cursor-pointer laptop:px-6">
                 <Link href="/add-card">打造名片</Link>
@@ -133,7 +118,9 @@ function Navbar({ children }) {
                 </ul>
               )}
             </>
-          ) : (
+          )}
+
+          {!isLogin && (
             <>
               <li className="hidden laptop:block">
                 <Link href="/login">
@@ -167,7 +154,7 @@ function Navbar({ children }) {
       </div>
       <div className="pt-16" />
 
-      {showEdit && <Modal setShowEdit={setShowEdit} setAvatar={setAvatar} />}
+      {showEdit && <Modal setShowEdit={setShowEdit} />}
       {children}
     </>
   );

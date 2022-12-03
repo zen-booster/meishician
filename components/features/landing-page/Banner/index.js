@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 function Banner() {
   return (
@@ -20,12 +21,15 @@ function Banner() {
         <p className="mb-12 laptop:mb-5 laptop:text-h5">
           電子名片製作、交換、管理一手搞定
         </p>
-        <button
-          type="button"
-          className="mb-1 w-52 rounded-xl bg-main-01 py-5 text-center text-white"
-        >
-          立即試試
-        </button>
+
+        <Link href="/add-card">
+          <button
+            type="button"
+            className="mb-1 w-52 rounded-xl bg-main-01 py-5 text-center text-white"
+          >
+            立即試試
+          </button>
+        </Link>
         <Image
           src="/banner-image.png"
           alt="meishician-image"

@@ -1,8 +1,9 @@
 import produce from 'immer';
-import { LOGIN, LOGOUT } from '../../constants/constants';
+import { LOGIN, LOGOUT, SET_AVATAR } from '../../constants/constants';
 
 const initLoginState = {
   isLogin: false,
+  avatar: null,
 };
 
 export default function (state = initLoginState, action) {
@@ -15,6 +16,12 @@ export default function (state = initLoginState, action) {
     case LOGOUT: {
       return produce(state, (draftState) => {
         draftState.isLogin = false;
+        draftState.avatar = null;
+      });
+    }
+    case SET_AVATAR: {
+      return produce(state, (draftState) => {
+        draftState.avatar = action.payload;
       });
     }
     default: {
