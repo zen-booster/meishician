@@ -4,27 +4,25 @@ import undo from './undo';
 import redo from './redo';
 import flip from './flip';
 
-function keyPress(e, cardId, canvasRef, activeObject, history, dispatch) {
-  if (!activeObject) return;
+function keyPress(e, cardId, canvasRef, history, dispatch, pressKey) {
   const canvas = canvasRef.current;
-  console.log(e.key);
 
   switch (e.key) {
     case 'Backspace':
       removeObject(canvas, dispatch);
       break;
-    case 'Control' && 's':
+    case 's':
       e.preventDefault();
-      dispatch(saveCanvas(cardId, canvasRef, history));
+      if (pressKey.Control) dispatch(saveCanvas(cardId, canvasRef, history));
       break;
-    case 'Control' && 'z':
-      undo(canvas, history, dispatch);
+    case 'z':
+      if (pressKey.Control) undo(canvas, history, dispatch);
       break;
-    case 'Control' && 'y':
-      redo(canvas, history, dispatch);
+    case 'y':
+      if (pressKey.Control) redo(canvas, history, dispatch);
       break;
-    case 'Control' && 'f':
-      flip(canvas, history, dispatch);
+    case ' ':
+      if (pressKey.Control) flip(canvas, history, dispatch);
       break;
     default:
   }

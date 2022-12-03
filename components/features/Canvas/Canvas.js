@@ -1,4 +1,4 @@
-import { createContext, useEffect, useRef } from 'react';
+import { createContext, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import initCanvas from './initCanvas';
 import TopBar from './TopBar';
@@ -15,6 +15,7 @@ export const fabricContext = createContext();
 function Canvas({ cardId }) {
   const canvasRef = useRef(null);
   const outerRef = useRef(null);
+  const [pressKey, setPressKey] = useState({});
   const { activeObject } = useSelector((state) => state.canvasObject);
   const { history } = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -27,11 +28,18 @@ function Canvas({ cardId }) {
     });
   }
 
-  // key press event
+  // need history to update each time, so put the function outside the useEffect
   if (typeof window !== 'undefined') {
     window.onkeydown = (e) => {
-      keyPress(e, cardId, canvasRef, activeObject, history, dispatch);
+      keyPress(e, cardId, canvasRef, history, dispatch, pressKey);
+      setPressKey((prev) => ({ ...prev, [e.key]: true }));
     };
+    window.onkeyup = (e) =>
+      setPressKey((prev) => {
+        const copy = { ...prev };
+        delete copy[e.key];
+        return copy;
+      });
   }
 
   useEffect(() => {
