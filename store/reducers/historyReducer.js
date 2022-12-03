@@ -12,10 +12,10 @@ import {
 import {
   horizonCard,
   verticalCard,
-} from '../../components/features/canvas-editor/Canvas/config/defaultCard';
+} from '../../components/features/Canvas/config/defaultCard';
 
 const historyState = {
-  state: horizonCard,
+  state: { front: null, back: null, position: 'front' },
   undoBox: [],
   redoBox: [],
   needUpdate: true,
@@ -25,7 +25,8 @@ export default function (state = historyState, action) {
   switch (action.type) {
     case INITIALIZE: {
       const newState = produce(state, (draftState) => {
-        draftState.state = action.payload.initState;
+        draftState.state.front = action.payload.front;
+        draftState.state.back = action.payload.back;
       });
       return newState;
     }
