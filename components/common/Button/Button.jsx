@@ -25,7 +25,7 @@ function Button({ children, variant, color, className, submit, onClick }) {
   };
 
   const generateStyle = () => {
-    const baseStyles = `py-3 px-5 rounded-xl text-center`;
+    const baseStyles = `py-3 px-5 rounded-xl text-center font-bold text-xl`;
 
     const specificStyles = {
       outlined: `border ${colorMap.border[color]} ${colorMap.text[color]}`,

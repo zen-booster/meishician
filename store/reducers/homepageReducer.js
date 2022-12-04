@@ -1,22 +1,33 @@
 import produce from 'immer';
 import {
-  LOAD_HOMEPAGE,
+  SET_HOMEPAGE_INFO,
   TOGGLE_HOMEPAGE_EDITOR,
   SET_AUTHOR,
+  SET_LINK_EDITOR_DATA,
+  SET_LINK_ORDER,
 } from '../../constants/constants';
 
 const initState = {
   homepageData: null,
   isEditorOpen: false,
-  isLoading: false,
   isAuthor: false,
+  linkEditor: {
+    isLinkEditorActive: false,
+    isNewLink: false,
+    activeLinkId: null,
+    activeType: null,
+    uploadImgUrl: null,
+  },
 };
 
 export default function (state = initState, action) {
   switch (action.type) {
-    case LOAD_HOMEPAGE:
+    case SET_HOMEPAGE_INFO:
       return produce(state, (draftState) => {
-        draftState.homepageData = action.payload;
+        draftState.homepageData = {
+          ...draftState.homepageData,
+          ...action.payload,
+        };
       });
     case SET_AUTHOR:
       return produce(state, (draftState) => {
@@ -25,6 +36,25 @@ export default function (state = initState, action) {
     case TOGGLE_HOMEPAGE_EDITOR:
       return produce(state, (draftState) => {
         draftState.isEditorOpen = !draftState.isEditorOpen;
+      });
+
+    case SET_LINK_EDITOR_DATA:
+      return produce(state, (draftState) => {
+        draftState.linkEditor = { ...draftState.linkEditor, ...action.payload };
+      });
+    case SET_LINK_ORDER:
+      // eslint-disable-next-line consistent-return
+      return produce(state, (draftState) => {
+        if (!draftState.homepageData.homepageLink) return state;
+        const { dragIndex, hoverIndex } = action.payload;
+        const dragListItem = draftState.homepageData.homepageLink[dragIndex];
+        draftState.homepageData.homepageLink.splice(dragIndex, 1);
+
+        draftState.homepageData.homepageLink.splice(
+          hoverIndex,
+          0,
+          dragListItem
+        );
       });
     default:
       return state;
