@@ -25,6 +25,9 @@ module.exports = {
         success: '#26E39F',
         highlight: '#F4A7B9',
         'dark-light': '#9D9D9D',
+        'gray-01': '#CCCCCC',
+        'gray-02': '#BBBBBB',
+        'gray-03': '#727272',
       },
       spacing: {
         204: '51rem',
@@ -36,9 +39,6 @@ module.exports = {
       },
       minWidth: {
         99: '24.75rem',
-      },
-      boxShadow: {
-        frame: '4px 4px 6px 0px rgba(0, 0, 0, 0.25)',
       },
       fontSize: {
         h1: ['32px', '56px'],

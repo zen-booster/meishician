@@ -121,6 +121,9 @@ const initCanvas = (dispatch) => {
   const background = new fabric.Rect(BACKGROUND);
   fabricCanvas.centerObject(background);
   fabricCanvas.add(background);
+
+  fabricCanvas.clipPath = background;
+  fabricCanvas.controlsAboveOverlay = true;
   dispatch({ type: SET_ACTIVE, payload: background });
 
   return fabricCanvas;

@@ -14,6 +14,7 @@ function Circle() {
   const addCircle = () => {
     canvasRef.current.centerObject(circle);
     canvasRef.current.add(circle);
+    canvasRef.current.renderAll();
     dispatch({ type: SET_ACTIVE, payload: circle });
   };
 

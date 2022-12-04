@@ -1,18 +1,11 @@
 import { useContext, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { GrRedo, GrUndo } from 'react-icons/gr';
-import { FaRegSave } from 'react-icons/fa';
-import { useRouter } from 'next/router';
+import Image from 'next/image';
 import { fabricContext } from '../Canvas';
 import getBackground from '../service/getBackground';
-import { saveCanvas } from '../../../../store/actions';
-import undo from '../service/undo';
-import redo from '../service/redo';
 import flip from '../service/flip';
 
 function BottomBar() {
-  const router = useRouter();
-  const { cardId } = router.query;
   const canvasRef = useContext(fabricContext);
   const [zoom, setZoom] = useState(1);
   const { history } = useSelector((state) => state);
@@ -38,8 +31,42 @@ function BottomBar() {
   };
 
   return (
-    <div className="flex-1 bg-gray-400">
-      <div className="flex items-center gap-3 p-5">
+    <div className=" flex h-16 items-center justify-between bg-gray-02 px-6 text-rwd-body text-main-01">
+      <div className="flex  items-center gap-5">
+        <button
+          type="button"
+          className="flex flex-col items-center justify-center"
+        >
+          <Image src="/rotate.svg" width={32} height={33} alt="rotate" />
+          <p>旋轉名片</p>
+        </button>
+        <button
+          type="button"
+          className="flex flex-col items-center justify-center"
+          onClick={() => {
+            flip(canvasRef.current, history, dispatch);
+          }}
+        >
+          <Image src="/flip.svg" width={32} height={32} alt="rotate" />
+          <p>名片翻面</p>
+        </button>
+        <span className="bg-green-300 px-2 py-1">
+          目前位置： {history.state.position}
+        </span>
+      </div>
+
+      <div className="flex flex-col items-center">
+        <input
+          type="range"
+          max={2}
+          min={0.01}
+          step={0.01}
+          value={zoom}
+          onChange={changeZoom}
+        />
+        <p className="text-label text-black">{Math.round(zoom * 100)} %</p>
+      </div>
+      {/* <div className="flex items-center gap-3">
         <button
           className="cursor-pointer bg-green-300 py-1 px-2"
           onClick={() => {
@@ -60,24 +87,6 @@ function BottomBar() {
         <span className="bg-white py-1 px-2">
           比例：{Math.round(zoom * 100)} %
         </span>
-        <FaRegSave
-          className="h-6 w-6 cursor-pointer"
-          onClick={() => {
-            dispatch(saveCanvas(cardId, canvasRef, history));
-          }}
-        />
-        <GrUndo
-          onClick={() => {
-            undo(canvasRef.current, history, dispatch);
-          }}
-          className="h-6 w-6 cursor-pointer"
-        />
-        <GrRedo
-          onClick={() => {
-            redo(canvasRef.current, history, dispatch);
-          }}
-          className="h-6 w-6 cursor-pointer"
-        />
         <button
           className="bg-green-300 py-1 px-2"
           onClick={checkResult}
@@ -88,7 +97,7 @@ function BottomBar() {
         <span className="bg-green-300 px-2 py-1">
           目前位置： {history.state.position}
         </span>
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -9,6 +9,7 @@ import CanvasService from '../../services/canvas.service';
 import getBackground from '../../components/features/Canvas/service/getBackground';
 import loadCanvas from '../../components/features/Canvas/service/loadCanvas';
 import toImage from '../../components/features/Canvas/service/toImage';
+import resizeCanvas from '../../components/features/Canvas/service/resizeCanvas';
 
 export const verify = () => (dispatch) => {
   AuthService.verify()
@@ -42,7 +43,7 @@ export const getAvatar = () => (dispatch) => {
     });
 };
 
-export const fetchCanvas = (cardId, canvasRef) => (dispatch) => {
+export const fetchCanvas = (cardId, canvasRef, outerRef) => (dispatch) => {
   dispatch({ type: TOGGLE_LOADER });
   dispatch({ type: NO_UPDATE });
   CanvasService.getCanvasData(cardId)
@@ -54,6 +55,7 @@ export const fetchCanvas = (cardId, canvasRef) => (dispatch) => {
       };
       dispatch({ type: NO_UPDATE });
       loadCanvas(canvasRef.current, front, order);
+      resizeCanvas(outerRef.current, canvasRef.current);
     })
     .catch((err) => {
       console.log(err);

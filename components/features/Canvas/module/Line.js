@@ -14,6 +14,7 @@ function Line() {
   const addLine = () => {
     canvasRef.current.centerObject(line);
     canvasRef.current.add(line);
+    canvasRef.current.renderAll();
     dispatch({ type: SET_ACTIVE, payload: line });
   };
 

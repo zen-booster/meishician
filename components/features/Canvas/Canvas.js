@@ -50,9 +50,8 @@ function Canvas({ cardId }) {
     window.addEventListener('resize', () => {
       resizeCanvas(outerRef.current, canvasRef.current);
     });
-    resizeCanvas(outerRef.current, canvasRef.current);
 
-    dispatch(fetchCanvas(cardId, canvasRef));
+    dispatch(fetchCanvas(cardId, canvasRef, outerRef));
 
     canvasRef.current.on('object:modified', updateHistory);
     canvasRef.current.on('object:added', updateHistory);
@@ -60,6 +59,7 @@ function Canvas({ cardId }) {
     return () => {
       canvasRef.current.dispose();
       window.onkeydown = null;
+      window.onkeyup = null;
     };
   }, []);
 
@@ -73,7 +73,7 @@ function Canvas({ cardId }) {
             {activeObject && <TopBar />}
 
             <div
-              className="flex h-5/6 items-center justify-center bg-gray-400"
+              className="flex flex-grow items-center justify-center bg-gray-01"
               ref={outerRef}
             >
               <canvas id="canvas" />

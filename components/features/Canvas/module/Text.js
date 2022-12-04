@@ -15,6 +15,7 @@ function Text({ content, size }) {
     canvasRef.current.centerObject(text);
     canvasRef.current.add(text);
     canvasRef.current.setActiveObject(text);
+    canvasRef.current.renderAll();
     dispatch({ type: SET_ACTIVE, payload: text });
   }
 

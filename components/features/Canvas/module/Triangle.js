@@ -14,6 +14,7 @@ function Triangle() {
   const addTriangle = () => {
     canvasRef.current.centerObject(triangle);
     canvasRef.current.add(triangle);
+    canvasRef.current.renderAll();
     dispatch({ type: SET_ACTIVE, payload: triangle });
   };
 
