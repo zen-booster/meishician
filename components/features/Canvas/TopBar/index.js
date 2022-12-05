@@ -7,7 +7,7 @@ import { fabricContext } from '../Canvas';
 import useForceUpdate from '../../../../hooks/useForceUpdate';
 import updateHistory from '../service/updateHistory';
 import removeObject from '../service/removeObject';
-import { saveCanvas } from '../../../../store/actions';
+import { saveCanvas, publishCanvas } from '../../../../store/actions';
 import undo from '../service/undo';
 import redo from '../service/redo';
 
@@ -89,6 +89,14 @@ function TopBar() {
     canvasRef.current.bringForward(activeObject);
     canvasRef.current.renderAll();
     updateHistory(canvasRef.current, dispatch);
+  };
+
+  const save = () => {
+    dispatch(saveCanvas(cardId, canvasRef, history));
+  };
+
+  const publish = () => {
+    dispatch(publishCanvas(cardId, canvasRef, history));
   };
 
   return (
@@ -215,17 +223,13 @@ function TopBar() {
       )}
       <div className="flex gap-7">
         <button type="button">預覽</button>
-        <button
-          type="button"
-          onClick={() => {
-            dispatch(saveCanvas(cardId, canvasRef, history));
-          }}
-        >
+        <button type="button" onClick={save}>
           儲存
         </button>
         <button
           type="button"
           className="w-[7.5rem] rounded-xl bg-main-02 px-5 py-2 text-rwd-h5 font-bold"
+          onClick={publish}
         >
           發布名片
         </button>

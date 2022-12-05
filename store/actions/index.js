@@ -100,3 +100,41 @@ export const saveCanvas = (cardId, canvasRef, history) => (dispatch) => {
     .catch((err) => console.log(err))
     .finally(() => dispatch({ type: TOGGLE_LOADER }));
 };
+
+export const publishCanvas = (cardId, canvasRef, history) => (dispatch) => {
+  dispatch({ type: TOGGLE_LOADER });
+  const { front, back, position } = history.state;
+  const background = getBackground(canvasRef.current);
+
+  const canvasData = {
+    front: JSON.stringify(front),
+    back: JSON.stringify(back),
+  };
+
+  // get image of two side and get back where you were
+  dispatch({ type: NO_UPDATE });
+  const order = { orderName: null, dispatch };
+  loadCanvas(canvasRef.current, front, order);
+  const frontImage = toImage(canvasRef.current, background);
+  loadCanvas(canvasRef.current, back, order);
+  const backImage = toImage(canvasRef.current, background);
+  order.orderName = 'load';
+  if (position === 'front') loadCanvas(canvasRef.current, front, order);
+  if (position === 'back') loadCanvas(canvasRef.current, back, order);
+
+  const layoutDirection =
+    background.width > background.height ? 'horizontal' : 'vertical';
+
+  const saveData = {
+    canvasData,
+    layoutDirection,
+    cardImageData: { front: frontImage, back: backImage },
+  };
+
+  CanvasService.saveCanvasData(cardId, saveData)
+    .then(() => {
+      CanvasService.publishCanvas(cardId);
+    })
+    .catch((err) => console.log(err))
+    .finally(() => dispatch({ type: TOGGLE_LOADER }));
+};
