@@ -1,7 +1,5 @@
 import { useState, useRef } from 'react';
-import { FaShapes, FaImage } from 'react-icons/fa';
 import Image from 'next/image';
-import { TfiText } from 'react-icons/tfi';
 import Drawer from './Drawer/Drawer';
 import useClickOutside from '../../../../hooks/useClickOutside';
 

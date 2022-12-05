@@ -2,7 +2,6 @@ import { useContext, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Image from 'next/image';
 import { fabricContext } from '../Canvas';
-import getBackground from '../service/getBackground';
 import flip from '../service/flip';
 import Modal from '../../../common/Modal/Modal';
 import Button from '../../../common/Button/Button';
@@ -29,18 +28,6 @@ function BottomBar() {
     const center = canvasRef.current.getCenter();
     canvasRef.current.zoomToPoint({ x: center.left, y: center.top }, newZoom);
     setZoom(newZoom);
-  };
-
-  const checkResult = () => {
-    const background = getBackground(canvasRef.current);
-    const dataURL = canvasRef.current.toDataURL({
-      width: background.width,
-      height: background.height,
-      left: background.left,
-      top: background.top,
-      format: 'png',
-    });
-    console.log(dataURL);
   };
 
   return (
