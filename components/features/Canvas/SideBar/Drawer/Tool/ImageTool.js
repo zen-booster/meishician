@@ -1,6 +1,5 @@
 import { useState, useContext } from 'react';
 import { fabric } from 'fabric';
-import { GoCloudUpload } from 'react-icons/go';
 import { TiDelete } from 'react-icons/ti';
 import { useDispatch } from 'react-redux';
 import { fabricContext } from '../../../Canvas';
@@ -57,38 +56,33 @@ function ImageTool() {
   }
 
   return (
-    <>
-      <div className="w-full px-3">
-        <div className="mb-6 h-12 rounded-md bg-black text-xl text-white">
-          <label className="flex h-full w-full cursor-pointer items-center justify-center gap-3">
-            <GoCloudUpload />
-            上傳圖片
-            <input type="file" onChange={saveLocalImage} className="hidden" />
-          </label>
-        </div>
+    <div className="w-full px-3 py-7">
+      <label className="mb-7 flex w-full cursor-pointer items-center justify-center rounded-xl border border-black bg-gray-02 py-1 text-body text-black">
+        上傳圖片＋
+        <input type="file" onChange={saveLocalImage} className="hidden" />
+      </label>
+      <p className="mb-4 text-label text-black">已上傳的圖片</p>
+      <div className="mb-6 h-0.5 w-full bg-gray-01" />
+      <div className="scrollbar-hide max-h-[70vh] overflow-auto">
+        {imagesArray.map((image, index) => (
+          <div key={Math.random()} className="group relative">
+            <img
+              src={image}
+              alt="local-data"
+              className="my-6 cursor-pointer"
+              onClick={renderImage}
+            />
+            <span
+              className="absolute top-2 right-2 z-10 hidden cursor-pointer text-2xl text-red-600 group-hover:block"
+              onClick={deleteLocalImage}
+              data-index={index}
+            >
+              <TiDelete className="pointer-events-none" />
+            </span>
+          </div>
+        ))}
       </div>
-      {imagesArray && (
-        <div className="h-full w-full overflow-y-auto px-6">
-          {imagesArray.map((image, index) => (
-            <div key={Math.random()} className="group relative">
-              <img
-                src={image}
-                alt="local-data"
-                className="my-6 cursor-pointer"
-                onClick={renderImage}
-              />
-              <span
-                className="absolute top-2 right-2 z-10 hidden cursor-pointer text-2xl text-red-600 group-hover:block"
-                onClick={deleteLocalImage}
-                data-index={index}
-              >
-                <TiDelete className="pointer-events-none" />
-              </span>
-            </div>
-          ))}
-        </div>
-      )}
-    </>
+    </div>
   );
 }
 

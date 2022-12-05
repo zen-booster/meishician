@@ -40,6 +40,8 @@ export const TRIANGLE = {
   width: 100,
   height: 100,
   angle: 0,
+  originX: 'center',
+  originY: 'center',
 };
 
 export const LINE = {
@@ -48,6 +50,8 @@ export const LINE = {
     stroke: '#000000',
     fill: '#000000',
     strokeWidth: 3,
+    originX: 'center',
+    originY: 'center',
   },
 };
 
@@ -56,4 +60,6 @@ export const TEXTBOX = {
   editable: true,
   fill: '#000000',
   textAlign: 'left',
+  originX: 'center',
+  originY: 'center',
 };

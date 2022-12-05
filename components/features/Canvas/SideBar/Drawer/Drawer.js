@@ -6,8 +6,8 @@ function Drawer({ buttonName }) {
   return (
     <div className="z-20 flex h-full w-52 flex-col items-center bg-gray-03">
       {buttonName === 'Text' && <TextTool />}
-      {buttonName === 'Image' && <ImageTool />}
       {buttonName === 'Material' && <ShapeTool />}
+      {buttonName === 'Image' && <ImageTool />}
     </div>
   );
 }

@@ -12,6 +12,8 @@ import removeObject from '../service/removeObject';
 import { saveCanvas, publishCanvas } from '../../../../store/actions';
 import undo from '../service/undo';
 import redo from '../service/redo';
+import toImage from '../service/toImage';
+import getBackground from '../service/getBackground';
 
 function TopBar() {
   const router = useRouter();
@@ -28,6 +30,21 @@ function TopBar() {
     canvasRef.current.renderAll();
     updateHistory(canvasRef.current, dispatch);
     forceUpdate();
+  };
+
+  const lock = () => {
+    const { lockMovementX, lockMovementY, evented } = activeObject;
+    activeObject.set('lockMovementX', !lockMovementX);
+    activeObject.set('lockMovementY', !lockMovementY);
+    activeObject.set('evented', !evented);
+    canvasRef.current.renderAll();
+  };
+
+  const rotateObj = () => {
+    const { angle } = activeObject;
+    activeObject.set('angle', angle + 90);
+    canvasRef.current.renderAll();
+    updateHistory(canvasRef.current, dispatch);
   };
 
   const changeSize = (e) => {
@@ -92,6 +109,12 @@ function TopBar() {
     canvasRef.current.bringForward(activeObject);
     canvasRef.current.renderAll();
     updateHistory(canvasRef.current, dispatch);
+  };
+
+  const preview = () => {
+    const background = getBackground(canvasRef.current);
+    const previewImage = toImage(canvasRef.current, background);
+    console.log(previewImage);
   };
 
   const save = () => {
@@ -195,6 +218,24 @@ function TopBar() {
           className="h-6 w-6 cursor-pointer"
         />
 
+        <Image
+          src="/lock.svg"
+          width={24}
+          height={32}
+          alt="lock"
+          className="cursor-pointer"
+          onClick={lock}
+        />
+
+        <Image
+          src="/rotate-object.svg"
+          width={24}
+          height={30}
+          alt="lock"
+          className="cursor-pointer"
+          onClick={rotateObj}
+        />
+
         {activeObject.get('type') === 'textbox' && (
           <>
             <input
@@ -228,7 +269,9 @@ function TopBar() {
           </>
         )}
         <div className="flex gap-7">
-          <button type="button">預覽</button>
+          <button type="button" onClick={preview}>
+            預覽
+          </button>
           <button type="button" onClick={save}>
             儲存
           </button>
