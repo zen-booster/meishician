@@ -49,7 +49,7 @@ function Navbar({ children }) {
 
   return (
     <>
-      <div className="fixed z-30 flex h-16 w-full items-center justify-between  bg-main-01 px-5 py-2 text-white">
+      <div className="fixed z-30 flex h-16 w-full items-center justify-between bg-main-01 px-5 py-2 text-white shadow-01">
         <div className="flex items-center gap-14 ">
           <Link href="/">
             <Image src="/logo-dark.png" alt="logo" width={161} height={65} />

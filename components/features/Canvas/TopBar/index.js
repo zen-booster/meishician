@@ -5,9 +5,6 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { fabricContext } from '../Canvas';
 import useForceUpdate from '../../../../hooks/useForceUpdate';
-import rotateCard from '../service/rotateCard';
-import Modal from './Modal/Modal';
-import { ROTATE } from '../../../../constants/constants';
 import updateHistory from '../service/updateHistory';
 import removeObject from '../service/removeObject';
 import { saveCanvas } from '../../../../store/actions';
@@ -94,14 +91,8 @@ function TopBar() {
     updateHistory(canvasRef.current, dispatch);
   };
 
-  const rotate = () => {
-    updateHistory(canvasRef.current, dispatch);
-    rotateCard(canvasRef.current);
-    dispatch({ type: ROTATE });
-  };
-
   return (
-    <div className="flex w-full items-center justify-between gap-4 bg-gray-02 py-1.5 pl-7 pr-10 text-rwd-body text-main-01">
+    <div className="z-10 flex w-full items-center justify-between gap-4 bg-gray-02 py-1.5 pl-7 pr-10 text-rwd-body text-main-01 shadow-01">
       <div className="flex h-full gap-6">
         <label className="relative flex h-full cursor-pointer flex-col items-center">
           <Image
@@ -113,7 +104,7 @@ function TopBar() {
           />
           <span>顏色</span>
           <input
-            className="absolute -z-10"
+            className="invisible absolute bottom-0"
             type="color"
             value={activeObject.fill}
             onChange={changeColor}
@@ -184,9 +175,7 @@ function TopBar() {
         <div className="my-auto h-12 w-0.5 bg-gray-01" />
       </div>
 
-      {activeObject.id === 'background' ? (
-        <Modal action={rotate} title="旋轉" />
-      ) : (
+      {activeObject.id !== 'background' && (
         <FaTrashAlt
           onClick={() => {
             removeObject(canvasRef.current, dispatch);
@@ -194,6 +183,7 @@ function TopBar() {
           className="h-6 w-6 cursor-pointer"
         />
       )}
+
       {activeObject.get('type') === 'textbox' && (
         <>
           <input

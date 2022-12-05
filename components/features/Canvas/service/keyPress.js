@@ -6,9 +6,11 @@ import flip from './flip';
 
 function keyPress(e, cardId, canvasRef, history, dispatch, pressKey) {
   const canvas = canvasRef.current;
+  const key = e.key.toLowerCase();
 
-  switch (e.key) {
-    case 'Backspace':
+  // 大小寫問題待解決
+  switch (key) {
+    case 'backspace':
       removeObject(canvas, dispatch);
       break;
     case 's':
