@@ -28,6 +28,7 @@ module.exports = {
         'gray-01': '#CCCCCC',
         'gray-02': '#BBBBBB',
         'gray-03': '#727272',
+        'gray-04': '#F3F3F3',
         'hover-01': '#8DB79C',
       },
       boxShadow: {
