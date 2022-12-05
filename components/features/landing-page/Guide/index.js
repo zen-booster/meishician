@@ -9,7 +9,7 @@ function Guide() {
         <br />
         幫你的名片施加魔法
       </h3>
-      <Link href="/canvas-editor">
+      <Link href="/add-card">
         <Button>立即使用</Button>
       </Link>
     </div>

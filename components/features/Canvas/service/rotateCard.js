@@ -17,6 +17,7 @@ const rotateCard = (canvas) => {
   }
 
   background.set('fill', '#ffffff');
+  canvas.clipPath = background;
   canvas.remove(...objects);
   canvas.centerObject(background);
   canvas.renderAll();

@@ -13,6 +13,7 @@ const resizeCanvas = (outer, canvas) => {
   canvas.setWidth(outer.offsetWidth);
   canvas.setHeight(outer.offsetHeight);
   canvas.centerObject(background);
+  canvas.clipPath = background;
 
   const newCenter = background.getPointByOrigin('center');
 

@@ -1,7 +1,5 @@
 import { useState, useRef } from 'react';
-import { FaShapes, FaImage } from 'react-icons/fa';
-import { GrTemplate } from 'react-icons/gr';
-import { TfiText } from 'react-icons/tfi';
+import Image from 'next/image';
 import Drawer from './Drawer/Drawer';
 import useClickOutside from '../../../../hooks/useClickOutside';
 
@@ -38,66 +36,125 @@ function SideBar() {
   useClickOutside(clickRef, toggleDrawer);
 
   return (
-    <ul
-      className="h-scree relative flex shrink-0 basis-28 flex-col items-center gap-5 px-3 py-5 text-sm"
-      ref={clickRef}
-    >
-      <li>
-        <button
-          type="button"
-          className={`flex h-20 w-20 cursor-pointer flex-col items-center justify-center gap-1  ${
-            buttonName === 'Template' && 'rounded-md bg-gray-200'
+    <div className="flex" ref={clickRef}>
+      <ul className="h-scree relative flex w-28 flex-col items-center bg-main-02 text-rwd-body">
+        <li
+          className={`relative h-20 w-full ${
+            buttonName === 'Template' && 'shadow-01'
           }`}
-          name="Template"
-          onClick={toggleDrawer}
         >
-          <GrTemplate className="pointer-events-none h-10 w-10" />
-          <span className="pointer-events-none">名片模板</span>
-        </button>
-      </li>
-      <li>
-        <button
-          type="button"
-          className={`flex h-20 w-20 cursor-pointer flex-col items-center justify-center gap-1  ${
-            buttonName === 'Text' && 'rounded-md bg-gray-200'
+          <button
+            type="button"
+            className={`flex h-full w-full cursor-pointer flex-col items-center justify-center ${
+              buttonName === 'Template' && 'bg-hover-01'
+            }`}
+            name="Template"
+            onClick={toggleDrawer}
+          >
+            <Image
+              src="/template.svg"
+              width={40}
+              height={30}
+              alt="template"
+              className="pointer-events-none"
+            />
+            <span className="pointer-events-none">名片模板</span>
+          </button>
+          <div
+            className={`absolute top-1/2 left-full h-4 w-4 -translate-y-1/2 -translate-x-1/2 rotate-45 bg-gray-03 ${
+              buttonName === 'Template' ? 'block' : 'hidden'
+            }`}
+          />
+        </li>
+        <li
+          className={`relative h-20 w-full ${
+            buttonName === 'Text' && 'shadow-01'
           }`}
-          name="Text"
-          onClick={toggleDrawer}
         >
-          <TfiText className="pointer-events-none h-10 w-10" />
-          <span className="pointer-events-none">新增文字</span>
-        </button>
-      </li>
-      <li>
-        <button
-          type="button"
-          className={`flex h-20 w-20 cursor-pointer flex-col items-center justify-center gap-1  ${
-            buttonName === 'Material' && 'rounded-md bg-gray-200'
+          <button
+            type="button"
+            className={`flex h-full w-full cursor-pointer flex-col items-center justify-center ${
+              buttonName === 'Text' && 'bg-hover-01'
+            }`}
+            name="Text"
+            onClick={toggleDrawer}
+          >
+            <Image
+              src="/text.svg"
+              width={40}
+              height={30}
+              alt="text"
+              className="pointer-events-none"
+            />
+            <span className="pointer-events-none">新增文字</span>
+          </button>
+          <div
+            className={`absolute top-1/2 left-full h-4 w-4 -translate-y-1/2 -translate-x-1/2 rotate-45 bg-gray-03 ${
+              buttonName === 'Text' ? 'block' : 'hidden'
+            }`}
+          />{' '}
+        </li>
+        <li
+          className={`relative h-20 w-full ${
+            buttonName === 'Material' && 'shadow-01'
           }`}
-          name="Material"
-          onClick={toggleDrawer}
         >
-          <FaShapes className="pointer-events-none h-10 w-10" />
-          <span className="pointer-events-none">素材庫</span>
-        </button>
-      </li>
-      <li>
-        <button
-          type="button"
-          className={`flex h-20 w-20 cursor-pointer flex-col items-center justify-center gap-1  ${
-            buttonName === 'Image' && 'rounded-md bg-gray-200'
+          <button
+            type="button"
+            className={`flex h-full w-full cursor-pointer flex-col items-center justify-center ${
+              buttonName === 'Material' && 'bg-hover-01'
+            }`}
+            name="Material"
+            onClick={toggleDrawer}
+          >
+            <Image
+              src="/shape.svg"
+              width={40}
+              height={30}
+              alt="shape"
+              className="pointer-events-none"
+            />
+            <span className="pointer-events-none">素材庫</span>
+          </button>
+          <div
+            className={`absolute top-1/2 left-full h-4 w-4 -translate-y-1/2 -translate-x-1/2 rotate-45 bg-gray-03 ${
+              buttonName === 'Material' ? 'block' : 'hidden'
+            }`}
+          />{' '}
+        </li>
+        <li
+          className={`relative h-20 w-full ${
+            buttonName === 'Image' && 'shadow-01'
           }`}
-          name="Image"
-          onClick={toggleDrawer}
         >
-          <FaImage className="pointer-events-none h-10 w-10" />
-          <span className="pointer-events-none">圖片</span>
-        </button>
-      </li>
+          <button
+            type="button"
+            className={`flex h-full w-full cursor-pointer flex-col items-center justify-center ${
+              buttonName === 'Image' && 'bg-hover-01'
+            }`}
+            name="Image"
+            onClick={toggleDrawer}
+          >
+            <Image
+              src="/image.svg"
+              width={40}
+              height={30}
+              alt="image"
+              className="pointer-events-none"
+            />
+            <span className="pointer-events-none">圖片</span>
+          </button>
+          <div
+            className={`absolute top-1/2 left-full h-4 w-4 -translate-y-1/2 -translate-x-1/2 rotate-45 bg-gray-03 ${
+              buttonName === 'Image' ? 'block' : 'hidden'
+            }`}
+          />{' '}
+        </li>
+      </ul>
       {showDrawer && (
         <Drawer closeDrawer={toggleDrawer} buttonName={buttonName} />
       )}
-    </ul>
+    </div>
   );
 }
 

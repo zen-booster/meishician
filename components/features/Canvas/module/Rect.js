@@ -13,7 +13,9 @@ function Rectangle() {
 
   const addRectangle = () => {
     canvasRef.current.centerObject(rectangle);
+    canvasRef.current.setActiveObject(rectangle);
     canvasRef.current.add(rectangle);
+    canvasRef.current.renderAll();
     dispatch({ type: SET_ACTIVE, payload: rectangle });
   };
 

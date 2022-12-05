@@ -21,6 +21,16 @@ const CanvasService = {
       .patch(`http://localhost:3001/api/portfolio/${cardId}/canvas`, saveData)
       .catch(() => alert('存檔出錯'));
   },
+  publishCanvas(cardId) {
+    const auth = localStorage.getItem('auth');
+    axios.defaults.headers.common.Authorization = auth;
+    return axios
+      .post(`${DOMAIN_URL}/api/portfolio/${cardId}/publish`)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch(() => alert('發布出錯'));
+  },
 };
 
 export default CanvasService;

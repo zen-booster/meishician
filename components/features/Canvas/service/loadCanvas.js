@@ -5,7 +5,9 @@ import {
   NEED_UPDATE,
   INITIALIZE,
   FLIP,
+  SET_ACTIVE,
 } from '../../../../constants/constants';
+import getBackground from './getBackground';
 
 const loadCanvas = (canvas, canvasData, order) => {
   const { objects, ...data } = canvasData;
@@ -60,6 +62,10 @@ const loadCanvas = (canvas, canvasData, order) => {
         break;
       default:
     }
+    const background = getBackground(canvas);
+    canvas.clipPath = background;
+    canvas.renderAll();
+    dispatch({ type: SET_ACTIVE, payload: background });
   });
 };
 

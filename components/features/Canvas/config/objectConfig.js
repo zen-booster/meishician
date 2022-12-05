@@ -9,7 +9,7 @@ export const VERTICAL = {
 };
 
 export const CANVAS = {
-  backgroundColor: '#DDDDDD',
+  backgroundColor: '#CCCCCC',
   preserveObjectStacking: true,
   id: 'front',
 };

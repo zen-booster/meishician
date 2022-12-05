@@ -3,9 +3,9 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Overlay from '../../Overlay/Overlay';
-import { TOGGLE_LOADER } from '../../../../constants/constants';
+import { TOGGLE_LOADER, SET_AVATAR } from '../../../../constants/constants';
 
-export default function Modal({ setShowEdit, setAvatar }) {
+export default function Modal({ setShowEdit }) {
   const dispatch = useDispatch();
   const [file, setFile] = useState(null);
 
@@ -26,7 +26,7 @@ export default function Modal({ setShowEdit, setAvatar }) {
     axios
       .post('http://localhost:3001/api/upload/image', file.data)
       .then((res) => {
-        setAvatar(res.data.imgUrl);
+        dispatch({ type: SET_AVATAR, payload: res.data.imgUrl });
         axios.patch('http://localhost:3001/api/users/profile', {
           avatar: res.data.imgUrl,
         });
