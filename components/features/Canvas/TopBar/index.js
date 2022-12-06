@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { FaBold, FaItalic, FaUnderline, FaTrashAlt } from 'react-icons/fa';
+import { FaBold, FaItalic, FaUnderline } from 'react-icons/fa';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import Modal from '../../../common/Modal/Modal';
@@ -33,6 +33,7 @@ function TopBar() {
   };
 
   const lock = () => {
+    if (activeObject.id === 'background') return;
     const { lockMovementX, lockMovementY, evented } = activeObject;
     activeObject.set('lockMovementX', !lockMovementX);
     activeObject.set('lockMovementY', !lockMovementY);
@@ -42,8 +43,8 @@ function TopBar() {
 
   const rotateObj = () => {
     if (activeObject.id === 'background') return;
-    const { angle } = activeObject;
-    activeObject.set('angle', angle + 90);
+    const angle = activeObject.angle === -360 ? 0 : activeObject.angle;
+    activeObject.set('angle', angle - 90);
     canvasRef.current.renderAll();
     updateHistory(canvasRef.current, dispatch);
   };
@@ -99,6 +100,7 @@ function TopBar() {
   };
 
   const setBackward = () => {
+    if (activeObject.id === 'background') return;
     const position = canvasRef.current.getObjects().indexOf(activeObject);
     if (position === 1) return;
     canvasRef.current.sendBackwards(activeObject);
@@ -107,6 +109,7 @@ function TopBar() {
   };
 
   const setForward = () => {
+    if (activeObject.id === 'background') return;
     canvasRef.current.bringForward(activeObject);
     canvasRef.current.renderAll();
     updateHistory(canvasRef.current, dispatch);
@@ -212,6 +215,34 @@ function TopBar() {
           <button
             type="button"
             className="flex h-full flex-col items-center"
+            onClick={rotateObj}
+          >
+            <Image
+              src="/rotate-object.svg"
+              width={24}
+              height={30}
+              alt="rotate-object"
+              className="my-auto"
+            />
+            旋轉
+          </button>
+          <button
+            type="button"
+            className="flex h-full flex-col items-center"
+            onClick={lock}
+          >
+            <Image
+              src="/lock.svg"
+              width={24}
+              height={32}
+              alt="lock"
+              className="my-auto"
+            />
+            固定
+          </button>
+          <button
+            type="button"
+            className="flex h-full flex-col items-center"
             onClick={() => {
               removeObject(canvasRef.current, dispatch);
             }}
@@ -228,26 +259,8 @@ function TopBar() {
           <div className="my-auto h-12 w-0.5 bg-gray-01" />
         </div>
 
-        <Image
-          src="/lock.svg"
-          width={24}
-          height={32}
-          alt="lock"
-          className="cursor-pointer"
-          onClick={lock}
-        />
-
-        <Image
-          src="/rotate-object.svg"
-          width={24}
-          height={30}
-          alt="lock"
-          className="cursor-pointer"
-          onClick={rotateObj}
-        />
-
         {activeObject.get('type') === 'textbox' && (
-          <>
+          <div className="flex">
             <input
               type="number"
               className="w-16 text-center"
@@ -271,12 +284,18 @@ function TopBar() {
             />
             <select onChange={selectFont} value={activeObject.fontFamily}>
               <option value="Times New Roman">Times New Roman</option>
-              <option value="Poppins">Poppins</option>
+              <option value="Zen Dots">Zen Dots</option>
               <option value="Noto Sans TC">Noto Sans TC</option>
               <option value="Noto Serif TC">Noto Serif TC</option>
-              <option value="Xanh Mono">Xanh Mono</option>
+              <option value="Alexandria">Alexandria</option>
+              <option value="Lato">Lato</option>
+              <option value="Poppins">Poppins</option>
+              <option value="Roboto Condensed">Roboto Condensed</option>
+              <option value="Nerko One">Nerko One</option>
+              <option value="Anton">Anton</option>
+              <option value="Dancing Script">Dancing Script</option>
             </select>
-          </>
+          </div>
         )}
         <div className="flex gap-7">
           <button type="button" onClick={preview}>
