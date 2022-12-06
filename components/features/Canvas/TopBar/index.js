@@ -1,19 +1,20 @@
 import { useContext, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { FaBold, FaItalic, FaUnderline } from 'react-icons/fa';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import Modal from '../../../common/Modal/Modal';
-import Button from '../../../common/Button/Button';
 import { fabricContext } from '../Canvas';
-import useForceUpdate from '../../../../hooks/useForceUpdate';
-import updateHistory from '../service/updateHistory';
 import removeObject from '../service/removeObject';
-import { saveCanvas, publishCanvas } from '../../../../store/actions';
+import { saveCanvas } from '../../../../store/actions';
+import changeColor from '../service/changeColor';
+import rotateObject from '../service/rotateObject';
+import setBackward from '../service/setBackward';
+import setForward from '../service/setForward';
+import lockObject from '../service/lockObject';
 import undo from '../service/undo';
 import redo from '../service/redo';
-import toImage from '../service/toImage';
-import getBackground from '../service/getBackground';
+import preview from '../service/preview';
+import WarnModal from './Modal/WarnModal';
+import TextSetting from './TextSetting/TextSetting';
 
 function TopBar() {
   const router = useRouter();
@@ -22,117 +23,15 @@ function TopBar() {
   const { history } = useSelector((state) => state);
   const [showWarn, setShowWarn] = useState(false);
   const dispatch = useDispatch();
-  const forceUpdate = useForceUpdate();
   const { cardId } = router.query;
-
-  const changeColor = (e) => {
-    activeObject.set('fill', e.target.value);
-    canvasRef.current.renderAll();
-    updateHistory(canvasRef.current, dispatch);
-    forceUpdate();
-  };
-
-  const lock = () => {
-    if (activeObject.id === 'background') return;
-    const { lockMovementX, lockMovementY, evented } = activeObject;
-    activeObject.set('lockMovementX', !lockMovementX);
-    activeObject.set('lockMovementY', !lockMovementY);
-    activeObject.set('evented', !evented);
-    canvasRef.current.renderAll();
-  };
-
-  const rotateObj = () => {
-    if (activeObject.id === 'background') return;
-    const angle = activeObject.angle === -360 ? 0 : activeObject.angle;
-    activeObject.set('angle', angle - 90);
-    canvasRef.current.renderAll();
-    updateHistory(canvasRef.current, dispatch);
-  };
-
-  const changeSize = (e) => {
-    activeObject.set('fontSize', e.target.value);
-    canvasRef.current.renderAll();
-    updateHistory(canvasRef.current, dispatch);
-    forceUpdate();
-  };
-
-  const textAlign = (e) => {
-    activeObject.set('textAlign', e.target.value);
-    canvasRef.current.renderAll();
-    updateHistory(canvasRef.current, dispatch);
-    forceUpdate();
-
-    // both needed
-    // when not select, change it will cause the bug to cancel
-    // activeObject.enterEditing();
-    // activeObject.hiddenTextarea.focus();
-  };
-
-  const toggleBold = () => {
-    const weight = activeObject.fontWeight === 'normal' ? 'bold' : 'normal';
-    activeObject.set('fontWeight', weight);
-    canvasRef.current.renderAll();
-    updateHistory(canvasRef.current, dispatch);
-    forceUpdate();
-  };
-
-  const toggleItalic = () => {
-    const style = activeObject.fontStyle === 'normal' ? 'italic' : 'normal';
-    activeObject.set('fontStyle', style);
-    canvasRef.current.renderAll();
-    updateHistory(canvasRef.current, dispatch);
-    forceUpdate();
-  };
-
-  const selectFont = (e) => {
-    activeObject.set('fontFamily', e.target.value);
-    canvasRef.current.renderAll();
-    updateHistory(canvasRef.current, dispatch);
-    forceUpdate();
-  };
-
-  const toggleUnderline = () => {
-    const toggle = activeObject.underline !== true;
-    activeObject.set('underline', toggle);
-    canvasRef.current.renderAll();
-    updateHistory(canvasRef.current, dispatch);
-    forceUpdate();
-  };
-
-  const setBackward = () => {
-    if (activeObject.id === 'background') return;
-    const position = canvasRef.current.getObjects().indexOf(activeObject);
-    if (position === 1) return;
-    canvasRef.current.sendBackwards(activeObject);
-    canvasRef.current.renderAll();
-    updateHistory(canvasRef.current, dispatch);
-  };
-
-  const setForward = () => {
-    if (activeObject.id === 'background') return;
-    canvasRef.current.bringForward(activeObject);
-    canvasRef.current.renderAll();
-    updateHistory(canvasRef.current, dispatch);
-  };
-
-  const preview = () => {
-    const background = getBackground(canvasRef.current);
-    const previewImage = toImage(canvasRef.current, background);
-    console.log(previewImage);
-  };
 
   const save = () => {
     dispatch(saveCanvas(cardId, canvasRef, history));
   };
 
-  const publish = () => {
-    dispatch(publishCanvas(cardId, canvasRef, history));
-    setShowWarn(false);
-  };
-
   return (
     <>
-      <div className="z-10 flex w-full items-center justify-between gap-4 bg-gray-02 py-1.5 pl-7 pr-10 text-rwd-body text-main-01 shadow-01">
+      <div className="z-10 flex w-full items-center gap-4 bg-gray-02 py-1.5 pl-7 pr-10 text-rwd-body text-main-01 shadow-01">
         <div className="flex h-full gap-6">
           <label className="relative flex h-full cursor-pointer flex-col items-center">
             <Image
@@ -147,7 +46,9 @@ function TopBar() {
               className="invisible absolute bottom-0"
               type="color"
               value={activeObject.fill}
-              onChange={changeColor}
+              onChange={(e) =>
+                changeColor(e, canvasRef.current, activeObject, dispatch)
+              }
             />
           </label>
 
@@ -187,7 +88,9 @@ function TopBar() {
           <button
             type="button"
             className="flex h-full flex-col items-center"
-            onClick={setForward}
+            onClick={() => {
+              setForward(canvasRef.current, activeObject, dispatch);
+            }}
           >
             <Image
               src="/set-front.svg"
@@ -201,7 +104,9 @@ function TopBar() {
           <button
             type="button"
             className="flex h-full flex-col items-center"
-            onClick={setBackward}
+            onClick={() => {
+              setBackward(canvasRef.current, activeObject, dispatch);
+            }}
           >
             <Image
               src="/set-back.svg"
@@ -215,7 +120,9 @@ function TopBar() {
           <button
             type="button"
             className="flex h-full flex-col items-center"
-            onClick={rotateObj}
+            onClick={(e) => {
+              rotateObject(e, canvasRef.current, activeObject, dispatch);
+            }}
           >
             <Image
               src="/rotate-object.svg"
@@ -229,7 +136,9 @@ function TopBar() {
           <button
             type="button"
             className="flex h-full flex-col items-center"
-            onClick={lock}
+            onClick={() => {
+              lockObject(canvasRef.current, activeObject, dispatch);
+            }}
           >
             <Image
               src="/lock.svg"
@@ -243,12 +152,10 @@ function TopBar() {
           <button
             type="button"
             className="flex h-full flex-col items-center"
-            onClick={() => {
-              removeObject(canvasRef.current, dispatch);
-            }}
+            onClick={() => removeObject(canvasRef.current, dispatch)}
           >
             <Image
-              src="/trash.svg"
+              src="/trash-bin.svg"
               width={25}
               height={31}
               alt="delete"
@@ -259,46 +166,10 @@ function TopBar() {
           <div className="my-auto h-12 w-0.5 bg-gray-01" />
         </div>
 
-        {activeObject.get('type') === 'textbox' && (
-          <div className="flex">
-            <input
-              type="number"
-              className="w-16 text-center"
-              value={activeObject.fontSize}
-              onChange={changeSize}
-            />
-            <select onChange={textAlign} value={activeObject.textAlign}>
-              <option value="left">left</option>
-              <option value="center">center</option>
-              <option value="right">right</option>
-              <option value="justify">justify</option>
-            </select>
-            <FaBold onClick={toggleBold} className="h-6 w-6 cursor-pointer" />
-            <FaItalic
-              onClick={toggleItalic}
-              className="h-6 w-6 cursor-pointer"
-            />
-            <FaUnderline
-              onClick={toggleUnderline}
-              className="h-6 w-6 cursor-pointer"
-            />
-            <select onChange={selectFont} value={activeObject.fontFamily}>
-              <option value="Times New Roman">Times New Roman</option>
-              <option value="Zen Dots">Zen Dots</option>
-              <option value="Noto Sans TC">Noto Sans TC</option>
-              <option value="Noto Serif TC">Noto Serif TC</option>
-              <option value="Alexandria">Alexandria</option>
-              <option value="Lato">Lato</option>
-              <option value="Poppins">Poppins</option>
-              <option value="Roboto Condensed">Roboto Condensed</option>
-              <option value="Nerko One">Nerko One</option>
-              <option value="Anton">Anton</option>
-              <option value="Dancing Script">Dancing Script</option>
-            </select>
-          </div>
-        )}
-        <div className="flex gap-7">
-          <button type="button" onClick={preview}>
+        {activeObject.get('type') === 'textbox' && <TextSetting />}
+
+        <div className="ml-auto flex gap-7">
+          <button type="button" onClick={() => preview(canvasRef.current)}>
             預覽
           </button>
           <button type="button" onClick={save}>
@@ -307,44 +178,14 @@ function TopBar() {
           <button
             type="button"
             className="w-[7.5rem] rounded-xl bg-main-02 px-5 py-2 text-rwd-h5 font-bold"
-            onClick={() => {
-              setShowWarn(true);
-            }}
+            onClick={() => setShowWarn(true)}
           >
             發布名片
           </button>
         </div>
       </div>
 
-      {showWarn && (
-        <Modal show={setShowWarn}>
-          <div className="flex flex-col items-center font-bold text-main-01">
-            <Image
-              src="/warn.svg"
-              width={180}
-              height={221}
-              alt="warning"
-              className="mb-9"
-            />
-            <p className="mb-6 text-h4">準備發布名片了嗎？</p>
-            <p className="mb-10 text-fs-6">畫布內容將會重製</p>
-            <div className="flex gap-12 text-fs-6">
-              <Button className="w-36 bg-main-01" onClick={publish}>
-                確定發布
-              </Button>
-              <Button
-                variant="outlined"
-                className="w-36 bg-white"
-                onClick={() => {
-                  setShowWarn(false);
-                }}
-              >
-                取消
-              </Button>
-            </div>
-          </div>
-        </Modal>
-      )}
+      {showWarn && <WarnModal setShowWarn={setShowWarn} />}
     </>
   );
 }
