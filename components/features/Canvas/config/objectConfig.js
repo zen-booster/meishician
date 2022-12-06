@@ -26,6 +26,8 @@ export const BACKGROUND = {
 export const CIRCLE = {
   radius: 50,
   fill: '#cccccc',
+  originX: 'center',
+  originY: 'center',
 };
 
 export const RECTANGLE = {
@@ -33,6 +35,8 @@ export const RECTANGLE = {
   width: 100,
   height: 100,
   angle: 0,
+  originX: 'center',
+  originY: 'center',
 };
 
 export const TRIANGLE = {

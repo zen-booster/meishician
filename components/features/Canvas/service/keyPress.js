@@ -8,6 +8,9 @@ function keyPress(e, cardId, canvasRef, history, dispatch, pressKey) {
   const canvas = canvasRef.current;
   const key = e.key.toLowerCase();
 
+  const activeObject = canvas.getActiveObject();
+  if (activeObject?.get('type') === 'textbox' && activeObject.isEditing) return;
+
   // 大小寫問題待解決
   switch (key) {
     case 'backspace':

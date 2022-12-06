@@ -38,6 +38,8 @@ function ImageTool() {
   function renderImage(e) {
     const src = e.target.getAttribute('src');
     fabric.Image.fromURL(src, (img) => {
+      img.set('originX', 'center');
+      img.set('originY', 'center');
       canvasRef.current.centerObject(img);
       canvasRef.current.setActiveObject(img);
       canvasRef.current.add(img);

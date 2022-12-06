@@ -41,6 +41,7 @@ function TopBar() {
   };
 
   const rotateObj = () => {
+    if (activeObject.id === 'background') return;
     const { angle } = activeObject;
     activeObject.set('angle', angle + 90);
     canvasRef.current.renderAll();
@@ -208,15 +209,24 @@ function TopBar() {
             />
             下移
           </button>
+          <button
+            type="button"
+            className="flex h-full flex-col items-center"
+            onClick={() => {
+              removeObject(canvasRef.current, dispatch);
+            }}
+          >
+            <Image
+              src="/trash.svg"
+              width={25}
+              height={31}
+              alt="delete"
+              className="my-auto"
+            />
+            刪除
+          </button>
           <div className="my-auto h-12 w-0.5 bg-gray-01" />
         </div>
-
-        <FaTrashAlt
-          onClick={() => {
-            removeObject(canvasRef.current, dispatch);
-          }}
-          className="h-6 w-6 cursor-pointer"
-        />
 
         <Image
           src="/lock.svg"

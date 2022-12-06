@@ -5,7 +5,7 @@ import Line from '../../../module/Line';
 
 function ShapeTool() {
   return (
-    <ul className="flex w-full flex-wrap items-center justify-center gap-4 px-3 text-3xl">
+    <ul className="flex w-full flex-wrap items-center justify-center gap-4 px-4 py-4 text-3xl">
       <li className="flex h-32 w-32 cursor-pointer items-center justify-center rounded-md bg-black text-center text-white">
         <Rectangle />
       </li>

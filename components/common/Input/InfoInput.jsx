@@ -7,7 +7,7 @@ function InfoInput({ onChange, value, placeholder, type, title }) {
       </p>
       <input
         type={type}
-        className="h-12 border border-black px-3"
+        className="border border-black py-2 px-3 text-body"
         onChange={onChange}
         value={value}
         placeholder={placeholder}
