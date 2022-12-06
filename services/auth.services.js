@@ -2,9 +2,8 @@ import axios from 'axios';
 import { DOMAIN_URL } from '../configs';
 
 const AuthService = {
-  verify() {
-    const auth = localStorage.getItem('auth');
-    axios.defaults.headers.common.Authorization = auth;
+  verify(token) {
+    axios.defaults.headers.common.Authorization = token;
     return axios.get(`${DOMAIN_URL}/api/users/check`);
   },
   login(email, password) {
@@ -12,11 +11,7 @@ const AuthService = {
       .post(`${DOMAIN_URL}/api/users/login`, { email, password })
       .then((response) => {
         if (response.data.token) {
-          const { token, user } = (({ token, user }) => ({ token, user }))(
-            response.data
-          );
-          localStorage.setItem('auth', `Bearer ${token}`);
-          return user;
+          return response.data;
         }
         return response.data;
       });

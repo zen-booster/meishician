@@ -1,8 +1,11 @@
 import {
   LOGIN,
+  LOGOUT,
   SET_AVATAR,
   NO_UPDATE,
   TOGGLE_LOADER,
+  SET_TOKEN,
+  LOGIN_FAILED,
 } from '../../constants/constants';
 import AuthService from '../../services/auth.services';
 import CanvasService from '../../services/canvas.service';
@@ -12,24 +15,42 @@ import toImage from '../../components/features/Canvas/service/toImage';
 import resizeCanvas from '../../components/features/Canvas/service/resizeCanvas';
 
 export const verify = () => (dispatch) => {
-  AuthService.verify()
-    .then(() => dispatch({ type: LOGIN }))
-    .catch((err) => {
-      alert(`身份驗證失敗`);
-      console.log(err);
-    });
+  const token = localStorage.getItem('auth');
+  const avatar = localStorage.getItem('avatar');
+  if (token) {
+    AuthService.verify(token)
+      .then(() => {
+        dispatch({ type: LOGIN });
+        dispatch({ type: SET_AVATAR, payload: avatar });
+        dispatch({ type: SET_TOKEN, payload: token });
+      })
+      .catch(() => {
+        dispatch({ type: LOGOUT });
+      });
+    dispatch({ type: LOGIN });
+  }
+
+  if (!token) {
+    dispatch({ type: LOGOUT });
+  }
 };
 
 export const login = (email, password) => (dispatch) => {
   dispatch({ type: TOGGLE_LOADER });
   AuthService.login(email, password)
     .then((data) => {
+      const { token } = data;
+      const avatar = data?.data?.user?.avatar;
       dispatch({ type: LOGIN });
-      console.log(data);
+
+      localStorage.setItem('auth', `Bearer ${token}`);
+      localStorage.setItem('avatar', avatar);
+
+      dispatch({ type: SET_TOKEN, payload: token });
+      dispatch({ type: SET_AVATAR, payload: avatar });
     })
-    .catch((err) => {
-      alert(`帳號密碼錯誤`);
-      console.log(err);
+    .catch(() => {
+      dispatch({ type: LOGIN_FAILED });
     })
     .finally(() => dispatch({ type: TOGGLE_LOADER }));
 };

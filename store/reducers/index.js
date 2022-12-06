@@ -20,6 +20,7 @@ const reducer = (state, action) => {
       ...state, // use previous state
       ...action.payload, // apply delta from hydration
     };
+    if (state.loginStatus) nextState.loginStatus = state.loginStatus;
     return nextState;
   }
   return combinedReducer(state, action);

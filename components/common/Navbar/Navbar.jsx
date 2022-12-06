@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { MdMenu } from 'react-icons/md';
@@ -8,7 +8,6 @@ import Drawer from './Drawer/Drawer';
 import Button from '../Button/Button';
 import { LOGOUT } from '../../../constants/constants';
 import useClickOutside from '../../../hooks/useClickOutside';
-import { getAvatar } from '../../../store/actions';
 import Modal from './Modal/Modal';
 
 function Navbar({ children }) {
@@ -40,12 +39,6 @@ function Navbar({ children }) {
     setShowExtra(false);
     router.push('/');
   };
-
-  useEffect(() => {
-    const auth = localStorage.getItem('auth');
-    if (!auth) return;
-    dispatch(getAvatar());
-  }, [isLogin]);
 
   return (
     <>

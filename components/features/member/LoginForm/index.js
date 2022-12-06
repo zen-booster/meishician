@@ -1,11 +1,14 @@
 import { useForm, Controller } from 'react-hook-form';
 import Link from 'next/link';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
+import { ToastContainer, toast } from 'react-toastify';
+import { useEffect } from 'react';
 import { login } from '../../../../store/actions';
 import Button from '../../../common/Button/Button';
 import MemberInput from '../../../common/Input/MemberInput';
 import Info from '../Info';
+import 'react-toastify/dist/ReactToastify.css';
 
 function LoginForm() {
   const {
@@ -14,17 +17,50 @@ function LoginForm() {
     formState: { errors },
   } = useForm();
   const dispatch = useDispatch();
+
   const router = useRouter();
+
+  const { isLoginFailed, isLogin } = useSelector((state) => state.loginStatus);
+
+  useEffect(() => {
+    if (isLoginFailed === true) {
+      toast.error('登入失敗', {
+        position: 'top-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      });
+    }
+
+    if (isLogin) {
+      router.push('/');
+    }
+  }, [isLoginFailed, isLogin]);
 
   const onSubmit = (data) => {
     const { email, password } = data;
     dispatch(login(email, password));
-    router.push('/');
   };
 
   return (
-    <div className="flex flex-col items-center justify-center laptop:mx-auto laptop:mt-20 laptop:h-150 laptop:w-204 laptop:flex-row laptop:overflow-hidden laptop:rounded-xl laptop:shadow-frame">
+    <div className="laptop:shadow-frame flex flex-col items-center justify-center laptop:mx-auto laptop:mt-20 laptop:h-150 laptop:w-204 laptop:flex-row laptop:overflow-hidden laptop:rounded-xl">
       <Info />
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
 
       <div className="flex w-full flex-col px-7 laptop:items-center laptop:pl-16 laptop:pr-9">
         <h2 className="mt-7 mb-6 text-h4 font-bold laptop:self-start">
