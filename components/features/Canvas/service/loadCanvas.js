@@ -1,12 +1,5 @@
 import getCenterPosition from './getCenterPosition';
-import {
-  UNDO,
-  REDO,
-  NEED_UPDATE,
-  INITIALIZE,
-  FLIP,
-  SET_ACTIVE,
-} from '../../../../constants/constants';
+import { NEED_UPDATE, SET_ACTIVE } from '../../../../constants/constants';
 import getBackground from './getBackground';
 
 const loadCanvas = (canvas, canvasData, order) => {
@@ -35,30 +28,8 @@ const loadCanvas = (canvas, canvasData, order) => {
 
   canvas.loadFromJSON(loadData, () => {
     switch (orderName) {
-      case 'undo':
-        dispatch({ type: NEED_UPDATE });
-        dispatch({ type: UNDO });
-        break;
-      case 'redo':
-        dispatch({ type: NEED_UPDATE });
-        dispatch({ type: REDO });
-        break;
       case 'load':
         dispatch({ type: NEED_UPDATE });
-        break;
-      case 'flip':
-        dispatch({ type: NEED_UPDATE });
-        dispatch({ type: FLIP });
-        break;
-      case 'init':
-        dispatch({ type: NEED_UPDATE });
-        dispatch({
-          type: INITIALIZE,
-          payload: {
-            front: order.payload.front,
-            back: order.payload.back,
-          },
-        });
         break;
       default:
     }

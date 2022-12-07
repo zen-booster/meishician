@@ -6,6 +6,9 @@ import {
   TOGGLE_LOADER,
   SET_TOKEN,
   LOGIN_FAILED,
+  SET_ACTIVE,
+  INITIALIZE,
+  NEED_UPDATE,
 } from '../../constants/constants';
 import AuthService from '../../services/auth.services';
 import CanvasService from '../../services/canvas.service';
@@ -13,6 +16,7 @@ import getBackground from '../../components/features/Canvas/service/getBackgroun
 import loadCanvas from '../../components/features/Canvas/service/loadCanvas';
 import toImage from '../../components/features/Canvas/service/toImage';
 import resizeCanvas from '../../components/features/Canvas/service/resizeCanvas';
+import setLoadData from '../../components/features/Canvas/service/setLoadData';
 
 export const verify = () => (dispatch) => {
   const token = localStorage.getItem('auth');
@@ -68,14 +72,17 @@ export const fetchCanvas = (cardId, canvasRef, outerRef) => (dispatch) => {
   dispatch({ type: TOGGLE_LOADER });
   CanvasService.getCanvasData(cardId)
     .then(({ front, back }) => {
-      const order = {
-        orderName: 'init',
-        dispatch,
-        payload: { front, back },
-      };
       dispatch({ type: NO_UPDATE });
-      loadCanvas(canvasRef.current, front, order);
-      resizeCanvas(outerRef.current, canvasRef.current);
+      const loadData = setLoadData(canvasRef.current, front);
+      canvasRef.current.loadFromJSON(loadData, () => {
+        dispatch({ type: NEED_UPDATE });
+        dispatch({ type: INITIALIZE, payload: { front, back } });
+        const background = getBackground(canvasRef.current);
+        canvasRef.current.clipPath = background;
+        canvasRef.current.renderAll();
+        dispatch({ type: SET_ACTIVE, payload: background });
+        resizeCanvas(outerRef.current, canvasRef.current);
+      });
     })
     .catch((err) => {
       console.log(err);
@@ -115,6 +122,13 @@ export const saveCanvas = (cardId, canvasRef, history) => (dispatch) => {
     cardImageData: { front: frontImage, back: backImage },
   };
 
+  CanvasService.saveCanvasData(cardId, saveData)
+    .then((res) => console.log(res))
+    .catch((err) => console.log(err))
+    .finally(() => dispatch({ type: TOGGLE_LOADER }));
+};
+
+export const newSaveCanvas = (cardId, saveData) => (dispatch) => {
   CanvasService.saveCanvasData(cardId, saveData)
     .then((res) => console.log(res))
     .catch((err) => console.log(err))
