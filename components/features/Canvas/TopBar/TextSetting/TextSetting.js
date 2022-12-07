@@ -7,22 +7,32 @@ import {
   FaAlignRight,
 } from 'react-icons/fa';
 import { MdOutlineFormatLineSpacing } from 'react-icons/md';
-import { useContext } from 'react';
+import { useContext, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import fonts from '../../../../../data/fontData';
 import selectFont from '../../service/selectFont';
 import setFontSize from '../../service/setFontSize';
 import setTextAlign from '../../service/setTextAlign';
-import setFontSpace from '../../service/setFontSpace';
 import toggleBold from '../../service/toggleBold';
 import toggleItalic from '../../service/toggleItalic';
 import toggleUnderline from '../../service/toggleUnderline';
 import { fabricContext } from '../../Canvas';
+import FontSpaceModal from '../Modal/FontSpaceModal';
+import useClickOutside from '../../../../../hooks/useClickOutside';
 
 function TextSetting() {
   const canvasRef = useContext(fabricContext);
+  const clickRef = useRef();
+  const [showModal, setShowModal] = useState(false);
   const { activeObject } = useSelector((state) => state.canvasObject);
   const dispatch = useDispatch();
+
+  const toggleModal = (e) => {
+    if (!e) return setShowModal(false);
+    return setShowModal(!showModal);
+  };
+
+  useClickOutside(clickRef, toggleModal);
 
   return (
     <div className="flex gap-6">
@@ -63,39 +73,34 @@ function TextSetting() {
         )}
       </button>
 
-      <FaBold
+      <button
+        type="button"
         onClick={() => toggleBold(canvasRef.current, activeObject, dispatch)}
-        className="h-6 w-6 cursor-pointer"
-      />
-      <FaItalic
+      >
+        <FaBold className="h-6 w-6 cursor-pointer" />
+      </button>
+
+      <button
+        type="button"
         onClick={() => toggleItalic(canvasRef.current, activeObject, dispatch)}
-        className="h-6 w-6 cursor-pointer"
-      />
-      <FaUnderline
+      >
+        <FaItalic className="h-6 w-6 cursor-pointer" />
+      </button>
+
+      <button
+        type="button"
         onClick={() =>
           toggleUnderline(canvasRef.current, activeObject, dispatch)
         }
-        className="h-6 w-6 cursor-pointer"
-      />
+      >
+        <FaUnderline className="h-6 w-6 cursor-pointer" />
+      </button>
 
-      <div className="relative">
-        <MdOutlineFormatLineSpacing className="h-6 w-6 cursor-pointer" />
-        <div className="absolute top-full rounded-lg bg-main-02 px-3 py-2">
-          <div className="flex justify-between">
-            <span>間距</span>
-            <span>{activeObject.charSpacing / 100}</span>
-          </div>
-          <input
-            type="range"
-            min="0"
-            max="3000"
-            step={100}
-            value={activeObject.charSpacing}
-            onChange={(e) => {
-              setFontSpace(e, canvasRef.current, activeObject, dispatch);
-            }}
-          />
-        </div>
+      <div className="relative" ref={clickRef}>
+        <button type="button" onClick={toggleModal} className="h-full w-full">
+          <MdOutlineFormatLineSpacing className="h-8 w-8 cursor-pointer" />
+        </button>
+        {showModal && <FontSpaceModal />}
       </div>
     </div>
   );

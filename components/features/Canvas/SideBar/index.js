@@ -33,6 +33,7 @@ function SideBar() {
         setButtonName(targetName);
     }
   };
+
   useClickOutside(clickRef, toggleDrawer);
 
   return (

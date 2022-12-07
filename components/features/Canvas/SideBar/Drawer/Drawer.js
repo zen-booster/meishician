@@ -1,6 +1,7 @@
 import TextTool from './Tool/TextTool';
 import ImageTool from './Tool/ImageTool';
 import ShapeTool from './Tool/ShapeTool';
+import TemplateTool from './Tool/TemplateTool';
 
 function Drawer({ buttonName }) {
   return (
@@ -8,6 +9,7 @@ function Drawer({ buttonName }) {
       {buttonName === 'Text' && <TextTool />}
       {buttonName === 'Material' && <ShapeTool />}
       {buttonName === 'Image' && <ImageTool />}
+      {buttonName === 'Template' && <TemplateTool />}
     </div>
   );
 }

@@ -52,10 +52,10 @@ export const TRIANGLE = {
 };
 
 export const LINE = {
-  coords: [50, 100, 250, 100],
+  coords: [50, 100, 150, 100],
   options: {
-    stroke: '#000000',
-    fill: '#000000',
+    stroke: '#cccccc',
+    fill: '#cccccc',
     strokeWidth: 3,
     originX: 'center',
     originY: 'center',

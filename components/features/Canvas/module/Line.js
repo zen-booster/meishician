@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { fabric } from 'fabric';
 import { useDispatch } from 'react-redux';
+import Image from 'next/image';
 import { fabricContext } from '../Canvas';
 import { LINE } from '../config/objectConfig';
 import { SET_ACTIVE } from '../../../../constants/constants';
@@ -20,8 +21,8 @@ function Line() {
   };
 
   return (
-    <button className="h-full w-full" onClick={addLine} type="button">
-      線條
+    <button onClick={addLine} type="button">
+      <Image src="/line.svg" width={100} height={3} alt="line" />
     </button>
   );
 }

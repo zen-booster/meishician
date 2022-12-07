@@ -66,7 +66,6 @@ export const getAvatar = () => (dispatch) => {
 
 export const fetchCanvas = (cardId, canvasRef, outerRef) => (dispatch) => {
   dispatch({ type: TOGGLE_LOADER });
-  dispatch({ type: NO_UPDATE });
   CanvasService.getCanvasData(cardId)
     .then(({ front, back }) => {
       const order = {
