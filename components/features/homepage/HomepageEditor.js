@@ -57,7 +57,7 @@ function HomepageEditor() {
     register,
     handleSubmit,
     // watch,
-    formState: { errors },
+    // formState: { errors },
   } = useForm();
 
   function onSubmit(submitData) {
