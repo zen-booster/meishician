@@ -37,7 +37,7 @@ function SignUpForm() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center laptop:mx-auto laptop:mt-20 laptop:h-150 laptop:w-204 laptop:flex-row laptop:overflow-hidden laptop:rounded-xl laptop:shadow-frame">
+    <div className="laptop:shadow-frame flex flex-col items-center justify-center shadow-02 laptop:mx-auto laptop:mt-20 laptop:h-150 laptop:w-204 laptop:flex-row laptop:overflow-hidden laptop:rounded-xl">
       <Info />
       <div className="flex w-full flex-col px-7 laptop:items-center laptop:pl-16 laptop:pr-9">
         <h2 className="mt-7 mb-6 text-h4 font-bold laptop:self-start">
@@ -154,13 +154,13 @@ function SignUpForm() {
             </p>
           </div>
 
-          <div className="mb-8 flex w-full gap-8 self-center">
-            <Link href="/login" className="w-full">
-              <Button type="button" variant="outlined">
+          <div className="mb-8 flex w-full justify-center gap-8 laptop:justify-between">
+            <Link href="/login">
+              <Button type="button" variant="outlined" className="w-36">
                 返回
               </Button>
             </Link>
-            <Button type="submit" variant="contained">
+            <Button submit variant="contained" className="w-36">
               送出
             </Button>
           </div>

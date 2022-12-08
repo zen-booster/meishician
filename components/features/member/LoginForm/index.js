@@ -47,7 +47,7 @@ function LoginForm() {
   };
 
   return (
-    <div className="laptop:shadow-frame flex flex-col items-center justify-center laptop:mx-auto laptop:mt-20 laptop:h-150 laptop:w-204 laptop:flex-row laptop:overflow-hidden laptop:rounded-xl">
+    <div className="flex flex-col items-center justify-center laptop:mx-auto laptop:mt-20 laptop:h-150 laptop:w-204 laptop:flex-row laptop:overflow-hidden laptop:rounded-xl laptop:shadow-02">
       <Info />
       <ToastContainer
         position="top-center"
@@ -137,19 +137,14 @@ function LoginForm() {
             </Link>
           </button>
 
-          <div className="mb-8 flex w-full  justify-center gap-8 laptop:justify-between">
+          <div className="mb-8 flex w-full justify-center gap-8 laptop:justify-between">
             <Link href="/sign-up">
-              <Button type="button" variant="outlined" className="w-[144px]">
+              <Button type="button" variant="outlined" className="w-36">
                 註冊帳號
               </Button>
             </Link>
 
-            <Button
-              type="submit"
-              variant="contained"
-              className="w-[144px]"
-              submit
-            >
+            <Button type="submit" variant="contained" className="w-36" submit>
               登入
             </Button>
           </div>

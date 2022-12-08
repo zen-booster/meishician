@@ -34,6 +34,7 @@ module.exports = {
       },
       boxShadow: {
         '01': '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
+        '02': '4px 4px 6px 0px rgba(0, 0, 0, 0.25)',
       },
       spacing: {
         204: '51rem',
