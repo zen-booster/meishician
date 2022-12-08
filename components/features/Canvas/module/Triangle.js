@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { fabric } from 'fabric';
 import { useDispatch } from 'react-redux';
+import Image from 'next/image';
 import { fabricContext } from '../Canvas';
 import { TRIANGLE } from '../config/objectConfig';
 import { SET_ACTIVE } from '../../../../constants/constants';
@@ -20,8 +21,8 @@ function Triangle() {
   };
 
   return (
-    <button className="h-full w-full" onClick={addTriangle} type="button">
-      三角形
+    <button onClick={addTriangle} type="button">
+      <Image src="/triangle.svg" width={367} height={317} alt="triangle" />
     </button>
   );
 }

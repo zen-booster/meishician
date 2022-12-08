@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { fabric } from 'fabric';
 import { useDispatch } from 'react-redux';
+import Image from 'next/image';
 import { fabricContext } from '../Canvas';
 import { CIRCLE } from '../config/objectConfig';
 import { SET_ACTIVE } from '../../../../constants/constants';
@@ -20,8 +21,8 @@ function Circle() {
   };
 
   return (
-    <button className="h-full w-full" onClick={addCircle} type="button">
-      圓形
+    <button onClick={addCircle} type="button">
+      <Image src="/circle.svg" width={100} height={100} alt="circle" />
     </button>
   );
 }

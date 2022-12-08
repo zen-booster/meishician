@@ -27,6 +27,7 @@ function BottomBar() {
     const newZoom = e.target.value;
     const center = canvasRef.current.getCenter();
     canvasRef.current.zoomToPoint({ x: center.left, y: center.top }, newZoom);
+    canvasRef.current.renderAll();
     setZoom(newZoom);
   };
 
@@ -70,38 +71,6 @@ function BottomBar() {
           />
           <p className="text-label text-black">{Math.round(zoom * 100)} %</p>
         </div>
-        {/* <div className="flex items-center gap-3">
-        <button
-          className="cursor-pointer bg-green-300 py-1 px-2"
-          onClick={() => {
-            flip(canvasRef.current, history, dispatch);
-          }}
-          type="button"
-        >
-          翻轉卡片
-        </button>
-        <input
-          type="range"
-          max={2}
-          min={0.01}
-          step={0.01}
-          value={zoom}
-          onChange={changeZoom}
-        />
-        <span className="bg-white py-1 px-2">
-          比例：{Math.round(zoom * 100)} %
-        </span>
-        <button
-          className="bg-green-300 py-1 px-2"
-          onClick={checkResult}
-          type="button"
-        >
-          確認效果
-        </button>
-        <span className="bg-green-300 px-2 py-1">
-          目前位置： {history.state.position}
-        </span>
-      </div> */}
       </div>
 
       {showWarn && (

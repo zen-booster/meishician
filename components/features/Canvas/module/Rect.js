@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { fabric } from 'fabric';
 import { useDispatch } from 'react-redux';
+import Image from 'next/image';
 import { fabricContext } from '../Canvas';
 import { RECTANGLE } from '../config/objectConfig';
 import { SET_ACTIVE } from '../../../../constants/constants';
@@ -20,8 +21,8 @@ function Rectangle() {
   };
 
   return (
-    <button className="h-full w-full" onClick={addRectangle} type="button">
-      方形
+    <button onClick={addRectangle} type="button">
+      <Image src="/rectangle.svg" width={100} height={100} alt="rectangle" />
     </button>
   );
 }

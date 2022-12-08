@@ -1,5 +1,11 @@
 function serialize(canvas) {
-  const { objects, ...data } = canvas.toJSON(['id', 'selectable', 'evented']);
+  const { objects, ...data } = canvas.toJSON([
+    'id',
+    'selectable',
+    'evented',
+    'lockMovementX',
+    'lockMovementY',
+  ]);
 
   const background = objects.shift();
 

@@ -4,6 +4,7 @@ function toImage(canvas, background) {
     height: background.height,
     left: background.left,
     top: background.top,
+    multiplier: 1.5,
     format: 'png',
   });
 }

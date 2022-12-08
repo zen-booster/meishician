@@ -33,14 +33,15 @@ function SideBar() {
         setButtonName(targetName);
     }
   };
+
   useClickOutside(clickRef, toggleDrawer);
 
   return (
     <div className="flex" ref={clickRef}>
-      <ul className="h-scree relative flex w-28 flex-col items-center bg-main-02 text-rwd-body">
+      <ul className="h-scree relative flex w-28 flex-col items-center bg-main-02 text-rwd-body text-main-03">
         <li
           className={`relative h-20 w-full ${
-            buttonName === 'Template' && 'shadow-01'
+            buttonName === 'Template' && 'text-white shadow-01'
           }`}
         >
           <button
@@ -68,7 +69,7 @@ function SideBar() {
         </li>
         <li
           className={`relative h-20 w-full ${
-            buttonName === 'Text' && 'shadow-01'
+            buttonName === 'Text' && 'text-white shadow-01'
           }`}
         >
           <button
@@ -96,7 +97,7 @@ function SideBar() {
         </li>
         <li
           className={`relative h-20 w-full ${
-            buttonName === 'Material' && 'shadow-01'
+            buttonName === 'Material' && 'text-white shadow-01'
           }`}
         >
           <button
@@ -124,7 +125,7 @@ function SideBar() {
         </li>
         <li
           className={`relative h-20 w-full ${
-            buttonName === 'Image' && 'shadow-01'
+            buttonName === 'Image' && 'text-white shadow-01'
           }`}
         >
           <button

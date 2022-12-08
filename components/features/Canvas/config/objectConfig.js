@@ -26,6 +26,9 @@ export const BACKGROUND = {
 export const CIRCLE = {
   radius: 50,
   fill: '#cccccc',
+  originX: 'center',
+  originY: 'center',
+  strokeWidth: 0,
 };
 
 export const RECTANGLE = {
@@ -33,6 +36,9 @@ export const RECTANGLE = {
   width: 100,
   height: 100,
   angle: 0,
+  originX: 'center',
+  originY: 'center',
+  strokeWidth: 0,
 };
 
 export const TRIANGLE = {
@@ -40,14 +46,19 @@ export const TRIANGLE = {
   width: 100,
   height: 100,
   angle: 0,
+  originX: 'center',
+  originY: 'center',
+  strokeWidth: 0,
 };
 
 export const LINE = {
-  coords: [50, 100, 250, 100],
+  coords: [50, 100, 150, 100],
   options: {
-    stroke: '#000000',
-    fill: '#000000',
+    stroke: '#cccccc',
+    fill: '#cccccc',
     strokeWidth: 3,
+    originX: 'center',
+    originY: 'center',
   },
 };
 
@@ -56,4 +67,6 @@ export const TEXTBOX = {
   editable: true,
   fill: '#000000',
   textAlign: 'left',
+  originX: 'center',
+  originY: 'center',
 };
