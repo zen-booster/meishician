@@ -1,5 +1,5 @@
 import removeObject from './removeObject';
-import { saveCanvas } from '../../../../store/actions';
+import saveCanvas from './saveCanvas';
 import undo from './undo';
 import redo from './redo';
 import flip from './flip';
@@ -18,7 +18,7 @@ function keyPress(e, cardId, canvasRef, history, dispatch, pressKey) {
       break;
     case 's':
       e.preventDefault();
-      if (pressKey.Control) dispatch(saveCanvas(cardId, canvasRef, history));
+      if (pressKey.Control) saveCanvas(cardId, canvasRef, history, dispatch);
       break;
     case 'z':
       if (pressKey.Control) undo(canvas, history, dispatch);

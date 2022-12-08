@@ -12,6 +12,9 @@ export const LOGOUT = 'LOGOUT';
 export const SET_AVATAR = 'SET_AVATAR';
 export const TOGGLE_LOADER = 'TOGGLE_LOADER';
 
+export const SET_TOKEN = 'SET_TOKEN';
+export const LOGIN_FAILED = 'LOGIN_FAILED';
+
 export const SET_HOMEPAGE_INFO = 'SET_HOMEPAGE_INFO';
 export const TOGGLE_HOMEPAGE_EDITOR = 'TOGGLE_HOMEPAGE_EDITOR';
 export const SET_AUTHOR = 'SET_AUTHOR';

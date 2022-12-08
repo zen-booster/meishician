@@ -13,8 +13,6 @@ import {
 import AuthService from '../../services/auth.services';
 import CanvasService from '../../services/canvas.service';
 import getBackground from '../../components/features/Canvas/service/getBackground';
-import loadCanvas from '../../components/features/Canvas/service/loadCanvas';
-import toImage from '../../components/features/Canvas/service/toImage';
 import resizeCanvas from '../../components/features/Canvas/service/resizeCanvas';
 import setLoadData from '../../components/features/Canvas/service/setLoadData';
 
@@ -92,82 +90,18 @@ export const fetchCanvas = (cardId, canvasRef, outerRef) => (dispatch) => {
     });
 };
 
-export const saveCanvas = (cardId, canvasRef, history) => (dispatch) => {
-  dispatch({ type: TOGGLE_LOADER });
-  const { front, back, position } = history.state;
-  const background = getBackground(canvasRef.current);
-
-  const canvasData = {
-    front: JSON.stringify(front),
-    back: JSON.stringify(back),
-  };
-
-  // get image of two side and get back where you were
-  dispatch({ type: NO_UPDATE });
-  const order = { orderName: null, dispatch };
-  loadCanvas(canvasRef.current, front, order);
-  const frontImage = toImage(canvasRef.current, background);
-  loadCanvas(canvasRef.current, back, order);
-  const backImage = toImage(canvasRef.current, background);
-  order.orderName = 'load';
-  if (position === 'front') loadCanvas(canvasRef.current, front, order);
-  if (position === 'back') loadCanvas(canvasRef.current, back, order);
-
-  const layoutDirection =
-    background.width > background.height ? 'horizontal' : 'vertical';
-
-  const saveData = {
-    canvasData,
-    layoutDirection,
-    cardImageData: { front: frontImage, back: backImage },
-  };
-
+export const saveToStorage = (cardId, saveData) => (dispatch) => {
   CanvasService.saveCanvasData(cardId, saveData)
     .then((res) => console.log(res))
     .catch((err) => console.log(err))
     .finally(() => dispatch({ type: TOGGLE_LOADER }));
 };
 
-export const newSaveCanvas = (cardId, saveData) => (dispatch) => {
-  CanvasService.saveCanvasData(cardId, saveData)
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err))
-    .finally(() => dispatch({ type: TOGGLE_LOADER }));
-};
-
-export const publishCanvas = (cardId, canvasRef, history) => (dispatch) => {
-  dispatch({ type: TOGGLE_LOADER });
-  const { front, back, position } = history.state;
-  const background = getBackground(canvasRef.current);
-
-  const canvasData = {
-    front: JSON.stringify(front),
-    back: JSON.stringify(back),
-  };
-
-  // get image of two side and get back where you were
-  dispatch({ type: NO_UPDATE });
-  const order = { orderName: null, dispatch };
-  loadCanvas(canvasRef.current, front, order);
-  const frontImage = toImage(canvasRef.current, background);
-  loadCanvas(canvasRef.current, back, order);
-  const backImage = toImage(canvasRef.current, background);
-  order.orderName = 'load';
-  if (position === 'front') loadCanvas(canvasRef.current, front, order);
-  if (position === 'back') loadCanvas(canvasRef.current, back, order);
-
-  const layoutDirection =
-    background.width > background.height ? 'horizontal' : 'vertical';
-
-  const saveData = {
-    canvasData,
-    layoutDirection,
-    cardImageData: { front: frontImage, back: backImage },
-  };
-
-  CanvasService.saveCanvasData(cardId, saveData)
+export const publishCanvas = (cardId) => (dispatch) => {
+  CanvasService.publishCanvas(cardId)
     .then(() => {
-      CanvasService.publishCanvas(cardId);
+      console.log('發布成功');
+      dispatch({ type: TOGGLE_LOADER });
     })
     .catch((err) => console.log(err))
     .finally(() => dispatch({ type: TOGGLE_LOADER }));

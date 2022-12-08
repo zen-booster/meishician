@@ -6,6 +6,7 @@ import Modal from '../../../../common/Modal/Modal';
 import Button from '../../../../common/Button/Button';
 import { publishCanvas } from '../../../../../store/actions';
 import { fabricContext } from '../../Canvas';
+import saveCanvas from '../../service/saveCanvas';
 
 function WarnModal({ setShowWarn }) {
   const canvasRef = useContext(fabricContext);
@@ -15,7 +16,8 @@ function WarnModal({ setShowWarn }) {
   const dispatch = useDispatch();
 
   const publish = () => {
-    dispatch(publishCanvas(cardId, canvasRef, history));
+    saveCanvas(cardId, canvasRef, history, dispatch);
+    publishCanvas(cardId);
     setShowWarn(false);
   };
 
