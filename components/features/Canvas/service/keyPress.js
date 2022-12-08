@@ -14,6 +14,7 @@ function keyPress(e, cardId, canvasRef, history, dispatch, pressKey) {
   // 大小寫問題待解決
   switch (key) {
     case 'backspace':
+      if (activeObject?.isSetting) return;
       removeObject(canvas, dispatch);
       break;
     case 's':
