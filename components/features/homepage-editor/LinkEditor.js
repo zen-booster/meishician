@@ -47,6 +47,7 @@ function DisplayMode({ title, subTitle, link, iconSrc, onOpenEditorClick }) {
             backgroundImage: `url(${iconSrc})`,
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
+            backgroundSize: 'contain',
             width: 40,
             height: 40,
           }}
@@ -211,7 +212,8 @@ function EditorMode({ idData, linkData, isNewLink }) {
           {isOpenUploadModal && (
             <UploadImageModal
               setShowEdit={setIsOpenUploadModal}
-              setImgUrl={() => handleUploadImg}
+              // eslint-disable-next-line react/jsx-no-bind
+              setImgUrl={handleUploadImg}
             />
           )}
         </div>
@@ -269,14 +271,13 @@ function EditorMode({ idData, linkData, isNewLink }) {
 
 function LinkEditor() {
   const { homepageData, linkEditor } = useSelector((state) => state.homepage);
+  const { token } = useSelector((state) => state.loginStatus);
+  console.log(token);
   const { cardId, homepageLink } = homepageData;
   const { isLinkEditorActive, isNewLink, activeLinkId } = linkEditor;
   const isNewLinkActive = isLinkEditorActive && isNewLink;
   const dispatch = useDispatch();
-  let token;
-  if (typeof window !== 'undefined') {
-    token = localStorage.getItem('auth');
-  }
+
   function handleOpenLinkEditor(activeLinkId, activeType) {
     dispatch(
       setLinkEditorData({
