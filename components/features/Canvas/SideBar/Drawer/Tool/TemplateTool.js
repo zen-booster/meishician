@@ -1,8 +1,14 @@
 import Image from 'next/image';
 import { useDispatch } from 'react-redux';
 import { useContext } from 'react';
-import loadCanvas from '../../../service/loadCanvas';
-import { NO_UPDATE } from '../../../../../../constants/constants';
+import setLoadData from '../../../service/setLoadData';
+import getBackground from '../../../service/getBackground';
+import {
+  NO_UPDATE,
+  NEED_UPDATE,
+  INITIALIZE,
+  SET_ACTIVE,
+} from '../../../../../../constants/constants';
 import hexTemplate from '../../../template/hexTemplate';
 import { fabricContext } from '../../../Canvas';
 import updateHistory from '../../../service/updateHistory';
@@ -14,12 +20,15 @@ function TemplateTool() {
     updateHistory(canvasRef.current, dispatch);
     const { front, back } = hexTemplate;
     dispatch({ type: NO_UPDATE });
-    const order = {
-      orderName: 'init',
-      dispatch,
-      payload: { front, back },
-    };
-    loadCanvas(canvasRef.current, front, order);
+    const loadData = setLoadData(canvasRef.current, front);
+    canvasRef.current.loadFromJSON(loadData, () => {
+      dispatch({ type: NEED_UPDATE });
+      dispatch({ type: INITIALIZE, payload: { front, back } });
+      const background = getBackground(canvasRef.current);
+      canvasRef.current.clipPath = background;
+      canvasRef.current.renderAll();
+      dispatch({ type: SET_ACTIVE, payload: background });
+    });
   };
 
   return (
