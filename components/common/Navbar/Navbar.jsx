@@ -127,7 +127,7 @@ function Navbar({ children }) {
           {!isLogin && (
             <>
               <li className="hidden laptop:block">
-                <Link href="/login">
+                <Link href="/sign-up">
                   <button
                     type="button"
                     className="w-20 rounded-md bg-main-02 py-1 text-main-01"
@@ -137,7 +137,7 @@ function Navbar({ children }) {
                 </Link>
               </li>
               <li className="hidden laptop:block">
-                <Link href="sign-up">
+                <Link href="/login">
                   <button
                     type="button"
                     className="w-20 rounded-md border border-white bg-main-01 py-1 text-white "
