@@ -1,6 +1,33 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
+const translate = {
+  content: {
+    design: '設計',
+    engineering: '工程',
+    management: '管理',
+    media: '媒體',
+    sales: '銷售',
+    finance: '金融',
+    administrative: '行政',
+    technology: '科技',
+    service: '服務',
+    others: '其他',
+  },
+  color: {
+    design: '#F4A7B9',
+    engineering: '#DEB564',
+    management: '#B4D6EF',
+    media: '#C7A2E4',
+    sales: '#91E27C',
+    finance: '#C9C9C9',
+    administrative: '#FF855F',
+    technology: '#26E39F',
+    service: '#FCF297',
+    others: '#6DD0CD',
+  },
+};
+
 function Card({ data }) {
   const {
     name,
@@ -11,20 +38,39 @@ function Card({ data }) {
     cardImageData,
     avatar,
     cardId,
+    layoutDirection,
   } = data;
 
   return (
-    <div className="mx-auto w-[17.875rem] overflow-hidden rounded-xl">
+    <div className="mx-auto w-[17.875rem]">
       <Link href={`/homepage/${cardId}`}>
-        <div className="relative flex h-64 cursor-pointer items-center justify-center bg-main-02 px-3">
-          <span className="absolute top-4 left-0 bg-blue-300 px-2 py-1">
-            {domain}
+        <div className="relative flex h-64 cursor-pointer items-center justify-center rounded-t-xl bg-main-02 px-3 py-4">
+          <span
+            className="absolute top-4 left-0 bg-blue-300 px-4 text-body"
+            style={{ backgroundColor: `${translate.color[domain]}` }}
+          >
+            {translate.content[domain]}
           </span>
-          <img src={cardImageData.front} alt="business-card" />
+
+          {layoutDirection === 'horizontal' ? (
+            <Image
+              src={cardImageData.front}
+              className="w-full"
+              width={9}
+              height={5}
+              alt="business-card"
+            />
+          ) : (
+            <img
+              src={cardImageData.front}
+              className="h-full"
+              alt="business-card"
+            />
+          )}
         </div>
       </Link>
 
-      <div className="flex flex-col bg-main-01 px-4 pt-5 pb-4 text-white">
+      <div className="flex flex-col rounded-b-xl bg-main-01 px-4 pt-5 pb-4 text-white">
         <div className="mb-3 flex items-center">
           <div className="base-10 overflow-hidden rounded-full">
             <Image
