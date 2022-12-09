@@ -1,11 +1,9 @@
 import { useState, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { MdMenu } from 'react-icons/md';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import Drawer from './Drawer/Drawer';
-import Button from '../Button/Button';
 import { LOGOUT } from '../../../constants/constants';
 import useClickOutside from '../../../hooks/useClickOutside';
 import Modal from './Modal/Modal';

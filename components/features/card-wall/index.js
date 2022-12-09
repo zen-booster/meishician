@@ -4,8 +4,8 @@ import Card from './Card/Card';
 import Pagination from '../../common/Pagination/Pagination';
 
 function CardWall({ currentPage, totalPage, records }) {
-  // console.log(currentPage);
-  // console.log(totalPage);
+  console.log(currentPage);
+  console.log(totalPage);
   console.log(records);
 
   return (
