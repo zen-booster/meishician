@@ -45,7 +45,13 @@ function Navbar({ children }) {
       <div className="fixed z-30 flex h-16 w-full items-center justify-between bg-main-01 py-2 pl-8 pr-11 font-bold text-white shadow-01">
         <div className="flex items-center gap-14 ">
           <Link href="/">
-            <Image src="/logo-dark.svg" alt="logo" width={161} height={64} />
+            <Image
+              src="/logo-dark.svg"
+              alt="logo"
+              width={161}
+              height={64}
+              priority
+            />
           </Link>
           <span className="hidden laptop:block">電子名片商務方案</span>
         </div>

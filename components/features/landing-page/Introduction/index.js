@@ -5,7 +5,7 @@ function Introduction() {
   return (
     <>
       {introductionData.map((data, index) => (
-        <Section key={data.id} data={data} index={index} />
+        <Section key={data.title} data={data} index={index} />
       ))}
     </>
   );

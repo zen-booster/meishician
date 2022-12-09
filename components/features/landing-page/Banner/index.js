@@ -8,11 +8,11 @@ function Banner() {
         <div className="pt-16" />
         <Image
           src="/logo-dark.svg"
-          width={280}
-          height={112}
+          width={161}
+          height={64}
           alt="logo"
           priority
-          className="mb-4 h-auto laptop:mb-6"
+          className="mb-4 h-auto w-[17.5rem] laptop:mb-6"
         />
         <h2 className="mb-6 text-5xl laptop:hidden">
           <p className="mb-6">電子名片</p>
