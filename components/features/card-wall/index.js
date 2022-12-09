@@ -4,8 +4,6 @@ import Card from './Card/Card';
 import Pagination from '../../common/Pagination/Pagination';
 
 function CardWall({ currentPage, totalPage, records }) {
-  console.log(currentPage);
-  console.log(totalPage);
   console.log(records);
 
   return (
@@ -28,7 +26,7 @@ function CardWall({ currentPage, totalPage, records }) {
       </div>
 
       <div className="mx-auto mb-10 max-w-204">
-        <Pagination />
+        <Pagination totalPage={totalPage} currentPage={currentPage} />
       </div>
     </>
   );
