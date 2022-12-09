@@ -21,8 +21,14 @@ function Line() {
   };
 
   return (
-    <button onClick={addLine} type="button">
-      <Image src="/line.svg" width={100} height={3} alt="line" />
+    <button onClick={addLine} type="button" className="h-full w-full">
+      <Image
+        src="/line.svg"
+        width={100}
+        height={3}
+        alt="line"
+        className="mx-auto"
+      />
     </button>
   );
 }

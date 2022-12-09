@@ -22,7 +22,8 @@ import useClickOutside from '../../../../../hooks/useClickOutside';
 
 function TextSetting() {
   const canvasRef = useContext(fabricContext);
-  const clickRef = useRef();
+  const spaceRef = useRef();
+  const fontSizeRef = useRef();
   const [showModal, setShowModal] = useState(false);
   const { activeObject } = useSelector((state) => state.canvasObject);
   const dispatch = useDispatch();
@@ -32,7 +33,13 @@ function TextSetting() {
     return setShowModal(!showModal);
   };
 
-  useClickOutside(clickRef, toggleModal);
+  const setEditing = (e) => {
+    if (!e) return activeObject.set('isSetting', false);
+    return activeObject.set('isSetting', true);
+  };
+
+  useClickOutside(spaceRef, toggleModal);
+  useClickOutside(fontSizeRef, setEditing);
 
   return (
     <div className="flex gap-6">
@@ -51,11 +58,13 @@ function TextSetting() {
       </select>
       <input
         type="number"
+        ref={fontSizeRef}
         className="w-16 rounded-md text-center"
         value={activeObject.fontSize}
         onChange={(e) =>
           setFontSize(e, canvasRef.current, activeObject, dispatch)
         }
+        onClick={setEditing}
       />
 
       <button
@@ -96,7 +105,7 @@ function TextSetting() {
         <FaUnderline className="h-6 w-6 cursor-pointer" />
       </button>
 
-      <div className="relative" ref={clickRef}>
+      <div className="relative" ref={spaceRef}>
         <button type="button" onClick={toggleModal} className="h-full w-full">
           <MdOutlineFormatLineSpacing className="h-8 w-8 cursor-pointer" />
         </button>

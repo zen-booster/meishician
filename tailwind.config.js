@@ -9,6 +9,7 @@ module.exports = {
       backgroundImage: {
         banner: "url('/banner-background.svg')",
         paper: "url('/paper-texture.svg')",
+        'card-wall': "url('/card-wall.svg')",
       },
       screens: {
         laptop: '996px',
