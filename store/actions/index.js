@@ -19,7 +19,6 @@ import setLoadData from '../../components/features/Canvas/service/setLoadData';
 export const verify = () => (dispatch) => {
   const token = localStorage.getItem('auth');
   const avatar = localStorage.getItem('avatar');
-  console.log(avatar);
   if (token) {
     AuthService.verify(token)
       .then(() => {
