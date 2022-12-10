@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import Drawer from './Drawer/Drawer';
 import { LOGOUT } from '../../../constants/constants';
 import useClickOutside from '../../../hooks/useClickOutside';
-import Modal from './Modal/Modal';
+import UploadModal from './Modal/UploadModal';
 
 function Navbar({ children }) {
   const { isLogin, avatar } = useSelector((state) => state.loginStatus);
@@ -171,7 +171,7 @@ function Navbar({ children }) {
       </div>
       <div className="pt-16" />
 
-      {showEdit && <Modal setShowEdit={setShowEdit} />}
+      {showEdit && <UploadModal setShowEdit={setShowEdit} />}
       {children}
     </>
   );
