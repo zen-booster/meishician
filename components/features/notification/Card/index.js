@@ -1,9 +1,11 @@
 import { useState } from 'react';
-import Avatar from '../../../common/Avatar/Avatar';
+import Image from 'next/image';
 import Tag from '../Tag';
 
 function Card({ notification }) {
-  const { messageBody, type, isRead, time } = notification;
+  const { messageBody, type, time } = notification;
+  const shortMessage =
+    messageBody.length > 20 ? `${messageBody.slice(0, 20)}...` : messageBody;
   const [isFull, setIsFull] = useState(false);
 
   const toggleFull = () => {
@@ -12,26 +14,28 @@ function Card({ notification }) {
 
   return (
     <div
-      className={`flex w-full flex-col items-center justify-between gap-3 ${
-        isRead ? 'bg-gray-300' : 'bg-gray-100'
-      } mb-3 cursor-pointer rounded-lg py-5 px-10 sm:flex-row`}
+      className="flex w-full cursor-pointer justify-between overflow-hidden rounded-2xl bg-white text-body"
       onClick={toggleFull}
     >
-      <div className="flex w-full items-center justify-start gap-3">
-        <Avatar />
-        <p>
-          {messageBody.length >= 10 && !isFull
-            ? messageBody.slice(0, 10)
-            : messageBody}{' '}
-          {messageBody.length >= 10 && !isFull && (
-            <span className=" text-sm text-gray-600">...繼續閱讀</span>
+      <div className="flex w-full items-center justify-start py-5 pl-10 pr-6">
+        <Image
+          src="/dark-avatar.svg"
+          width={72}
+          height={72}
+          alt="avatar"
+          className="mr-12"
+        />
+        <p className="flex w-full items-center justify-between">
+          {messageBody.length >= 20 && !isFull ? shortMessage : messageBody}
+          {messageBody.length >= 20 && !isFull && (
+            <span className="text-label text-main-01">（繼續閱讀）</span>
           )}
         </p>
       </div>
 
-      <div className="flex items-center gap-3 self-end sm:self-center">
+      <div className="flex items-center gap-8 bg-main-02 pl-6 pr-8">
         <Tag type={type} />
-        <div className="w-16">{time}</div>
+        <div className="w-20">{time}</div>
       </div>
     </div>
   );

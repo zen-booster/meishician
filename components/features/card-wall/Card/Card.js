@@ -72,9 +72,10 @@ function Card({ data }) {
 
       <div className="flex flex-col rounded-b-xl bg-main-01 px-4 pt-5 pb-4 text-white">
         <div className="mb-3 flex items-center">
-          <div className="base-10 overflow-hidden rounded-full">
+          <div className="h-10 w-10 shrink-0 overflow-hidden rounded-full">
             <Image
               src={avatar || '/avatar.svg'}
+              className="h-full w-full"
               width={40}
               height={40}
               alt="business-card"
