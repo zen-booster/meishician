@@ -60,13 +60,13 @@ function Navbar({ children }) {
 
           {isLogin && (
             <>
-              <li className="hidden laptop:block laptop:cursor-pointer">
+              <li className="hidden laptop:block">
                 <Link href="/add-card">打造名片</Link>
               </li>
-              <li className="hidden laptop:block laptop:cursor-pointer">
+              <li className="hidden laptop:block">
                 <Link href="management">管理名片</Link>
               </li>
-              <li className="cursor-pointer py-1 laptop:cursor-pointer">
+              <li className="cursor-pointer py-1">
                 <Link href="/notification">
                   <Image
                     className="cursor-pointer"
@@ -78,7 +78,7 @@ function Navbar({ children }) {
                 </Link>
               </li>
               <li
-                className="cursor-pointer py-1 laptop:hidden laptop:cursor-pointer"
+                className="cursor-pointer py-1 laptop:hidden"
                 onClick={toggleDrawer}
                 ref={drawerRef}
               >
@@ -90,7 +90,7 @@ function Navbar({ children }) {
                 />
               </li>
               <li
-                className="hidden laptop:relative laptop:block laptop:cursor-pointer"
+                className="hidden laptop:relative laptop:block"
                 onClick={toggleExtra}
                 ref={avatarRef}
               >

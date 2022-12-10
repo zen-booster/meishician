@@ -1,15 +1,15 @@
 import { useEffect } from 'react';
 import axios from 'axios';
-import Select from '../../common/Select/Select';
 import Tag from './Tag';
 import Card from './Card';
 import notificationContent from '../../../data/notificationContent';
-import notificationSelect from '../../../data/notificationSelect';
 import notificationTypes from '../../../data/notificationTypes';
 import { DOMAIN_URL } from '../../../configs';
 
 function Notification() {
   useEffect(() => {
+    const token = localStorage.getItem('auth');
+    axios.defaults.headers.common.Authorization = token;
     axios
       .get(`${DOMAIN_URL}/api/messages`)
       .then((res) => {
@@ -19,6 +19,10 @@ function Notification() {
         console.log(err);
       });
   }, []);
+
+  const selectRange = (e) => {
+    console.log(e.target.value);
+  };
 
   return (
     <div className="mx-auto max-w-container">
@@ -39,7 +43,18 @@ function Notification() {
                 </div>
               ))}
             </div>
-            <Select>{notificationSelect}</Select>
+            <div className="rounded-xl bg-gray-01 px-5 py-3 text-body">
+              <span className="mr-8 text-gray-03">篩選</span>
+              <select
+                className="border border-b-2 border-main-01 bg-white py-1 px-4 text-body text-main-01"
+                onChange={selectRange}
+                defaultValue="All"
+              >
+                <option value="ALL">所有訊息</option>
+                <option value="DELETE">名片刪除訊息</option>
+                <option value="CHANGE">職務異動訊息</option>
+              </select>
+            </div>
           </div>
 
           <div className="mb-11 flex w-full flex-col gap-6">

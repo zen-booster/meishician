@@ -28,12 +28,13 @@ export default function UploadModal({ setShowEdit }) {
       .post('http://localhost:3001/api/upload/image', file.data)
       .then((res) => {
         dispatch({ type: SET_AVATAR, payload: res.data.imgUrl });
+        localStorage.setItem('avatar', res.data.imgUrl);
         axios.patch('http://localhost:3001/api/users/profile', {
           avatar: res.data.imgUrl,
         });
       })
       .catch((err) => {
-        alert('error');
+        alert('圖片上傳失敗');
         console.log(err);
       })
       .finally(() => {
