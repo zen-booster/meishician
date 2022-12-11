@@ -15,12 +15,14 @@ import preview from '../service/preview';
 import WarnModal from './Modal/WarnModal';
 import TextSetting from './TextSetting/TextSetting';
 import saveCanvas from '../service/saveCanvas';
+import { SHOW_INFO_FROM } from '../../../../constants/constants';
 
 function TopBar() {
   const router = useRouter();
   const canvasRef = useContext(fabricContext);
   const { activeObject } = useSelector((state) => state.canvasObject);
   const { history } = useSelector((state) => state);
+  const { isPublished } = useSelector((state) => state.cardInfo);
   const [showWarn, setShowWarn] = useState(false);
   const dispatch = useDispatch();
   const { cardId } = router.query;
@@ -176,13 +178,26 @@ function TopBar() {
           >
             儲存
           </button>
-          <button
-            type="button"
-            className="w-[7.5rem] rounded-xl bg-main-02 px-5 py-2 text-rwd-h5 font-bold"
-            onClick={() => setShowWarn(true)}
-          >
-            發布名片
-          </button>
+          {isPublished && (
+            <button
+              type="button"
+              className="w-[7.5rem] rounded-xl bg-main-02 px-5 py-2 text-rwd-h5 font-bold"
+              onClick={() => {
+                dispatch({ type: SHOW_INFO_FROM });
+              }}
+            >
+              修改資訊
+            </button>
+          )}
+          {!isPublished && (
+            <button
+              type="button"
+              className="w-[7.5rem] rounded-xl bg-main-02 px-5 py-2 text-rwd-h5 font-bold"
+              onClick={() => setShowWarn(true)}
+            >
+              發布名片
+            </button>
+          )}
         </div>
       </div>
 

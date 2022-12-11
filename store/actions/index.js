@@ -1,3 +1,4 @@
+import axios from 'axios';
 import {
   LOGIN,
   LOGOUT,
@@ -9,6 +10,7 @@ import {
   SET_ACTIVE,
   INITIALIZE,
   NEED_UPDATE,
+  SET_CARD_INFO,
 } from '../../constants/constants';
 import AuthService from '../../services/auth.services';
 import CanvasService from '../../services/canvas.service';
@@ -69,7 +71,8 @@ export const getAvatar = () => (dispatch) => {
 export const fetchCanvas = (cardId, canvasRef, outerRef) => (dispatch) => {
   dispatch({ type: TOGGLE_LOADER });
   CanvasService.getCanvasData(cardId)
-    .then(({ front, back }) => {
+    .then(({ front, back, cardInfo }) => {
+      dispatch({ type: SET_CARD_INFO, payload: cardInfo });
       dispatch({ type: NO_UPDATE });
       const loadData = setLoadData(canvasRef.current, front);
       canvasRef.current.loadFromJSON(loadData, () => {
@@ -92,17 +95,25 @@ export const fetchCanvas = (cardId, canvasRef, outerRef) => (dispatch) => {
 
 export const saveToStorage = (cardId, saveData) => (dispatch) => {
   CanvasService.saveCanvasData(cardId, saveData)
-    .then((res) => console.log(res))
     .catch((err) => console.log(err))
     .finally(() => dispatch({ type: TOGGLE_LOADER }));
 };
 
 export const publishCanvas = (cardId) => (dispatch) => {
   CanvasService.publishCanvas(cardId)
-    .then(() => {
-      console.log('發布成功');
-      dispatch({ type: TOGGLE_LOADER });
-    })
+    .then(() => dispatch({ type: TOGGLE_LOADER }))
     .catch((err) => console.log(err))
     .finally(() => dispatch({ type: TOGGLE_LOADER }));
 };
+
+export const updateCard =
+  (cardId, jobInfo, messageBody, saveData, router) => async (dispatch) => {
+    const changeInfo = CanvasService.changeCardInfo(cardId, jobInfo);
+    const sendMessage = CanvasService.sendUpdateMessage(cardId, messageBody);
+    const saveCanvasData = CanvasService.saveCanvasData(cardId, saveData);
+    axios
+      .all([changeInfo, sendMessage, saveCanvasData])
+      .then(axios.spread(() => router.push('/card-wall')))
+      .catch((err) => console.log(err))
+      .finally(() => dispatch({ type: TOGGLE_LOADER }));
+  };

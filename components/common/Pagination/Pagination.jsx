@@ -1,11 +1,7 @@
 import Image from 'next/image';
 
-function Pagination() {
-  const currentPage = 1;
-  const totalPage = 10;
-  console.log(currentPage);
-  console.log(totalPage);
-  const allPages = Array.from({ length: 10 }, (_, i) => i + 1);
+function Pagination({ currentPage, totalPage }) {
+  const allPages = Array.from({ length: totalPage }, (_, i) => i + 1);
   const lastPage = allPages.length;
 
   const pageShow = (page) => {
