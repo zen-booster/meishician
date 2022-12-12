@@ -3,10 +3,12 @@ import { saveAs } from 'file-saver';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Image from 'next/legacy/image';
+import { useRouter } from 'next/router';
 import {
   SET_HOMEPAGE_INFO,
   TOGGLE_HOMEPAGE_EDITOR,
   SET_AUTHOR,
+  REMOVE_AUTHOR,
 } from '../../constants/constants';
 import HomepageService from '../../services/homepage.services';
 
@@ -22,6 +24,7 @@ import Loader from '../../components/common/Loader/Loader';
 import editIcon from '../../public/icons/edit.svg';
 
 function Homepage() {
+  const router = useRouter();
   const { isAuthor, isEditorOpen } = useSelector((state) => state.homepage);
   const { isLoading } = useSelector((state) => state.loaderStatus);
 
@@ -66,16 +69,17 @@ function Homepage() {
 
   useEffect(() => {
     async function handleIsAuthor() {
-      if (cardId) {
-        const res = await HomepageService.getHomepageInfo(cardId, token);
-        if (res?.data?.isAuthor === true) {
-          dispatch({ type: SET_AUTHOR });
-        }
+      if (!cardId) return;
+      const res = await HomepageService.getHomepageInfo(cardId, token);
+      if (res?.data?.isAuthor === true) {
+        dispatch({ type: SET_AUTHOR });
+      } else {
+        dispatch({ type: REMOVE_AUTHOR });
       }
     }
 
     handleIsAuthor();
-  }, []);
+  }, [cardId, isLogin]);
 
   function renderJobInfo() {
     return [
@@ -184,8 +188,14 @@ function Homepage() {
                 </button>
 
                 <div className="flex justify-between gap-5">
-                  {role === 'author' && (
-                    <Button variant="outlined" className="w-1/2 py-1 text-lg">
+                  {isLogin && isAuthor && (
+                    <Button
+                      variant="outlined"
+                      className="w-1/2 py-1 text-lg"
+                      onClick={() => {
+                        router.push(`/canvas-editor/${cardId}`);
+                      }}
+                    >
                       <p>編輯名片</p>
                     </Button>
                   )}
