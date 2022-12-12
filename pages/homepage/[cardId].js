@@ -27,9 +27,9 @@ function Homepage() {
 
   const { isLogin, token } = useSelector((state) => state.loginStatus);
 
-  const { cardImageData, layoutDirection } = useSelector(
-    (state) => state.homepage.homepageData
-  );
+  const { homepage } = useSelector((state) => state);
+  const cardImageData = homepage?.homepageData?.cardImageData || '';
+  const layoutDirection = homepage?.homepageData?.layoutDirection || '';
 
   const { front: frontCardImageData, back: backCardImageData } = cardImageData;
 
@@ -66,9 +66,11 @@ function Homepage() {
 
   useEffect(() => {
     async function handleIsAuthor() {
-      const res = await HomepageService.getHomepageInfo(cardId, token);
-      if (res?.data?.isAuthor === true) {
-        dispatch({ type: SET_AUTHOR });
+      if (cardId) {
+        const res = await HomepageService.getHomepageInfo(cardId, token);
+        if (res?.data?.isAuthor === true) {
+          dispatch({ type: SET_AUTHOR });
+        }
       }
     }
 
@@ -165,18 +167,20 @@ function Homepage() {
                   onClick={() => handleDisplayCard()}
                   className="mb-4"
                 >
-                  <Image
-                    className="rounded-lg  object-cover	"
-                    src={
-                      isDisplayFrontCard
-                        ? frontCardImageData
-                        : backCardImageData
-                    }
-                    width={cardSize.width}
-                    height={cardSize.height}
-                    alt={isDisplayFrontCard ? 'front card' : 'back card'}
-                    layout="responsive"
-                  />
+                  {(frontCardImageData || backCardImageData) && (
+                    <Image
+                      className="rounded-lg  object-cover	"
+                      src={
+                        isDisplayFrontCard
+                          ? frontCardImageData
+                          : backCardImageData
+                      }
+                      width={cardSize.width}
+                      height={cardSize.height}
+                      alt={isDisplayFrontCard ? 'front card' : 'back card'}
+                      layout="responsive"
+                    />
+                  )}
                 </button>
 
                 <div className="flex justify-between gap-5">
