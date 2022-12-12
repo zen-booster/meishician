@@ -89,7 +89,12 @@ function ChangeCardForm() {
                 再也不用一一告知囉！
               </p>
             </div>
-            <Image src="/invite.svg" width={200} height={218} alt="invite" />
+            <Image
+              src="/edit-info.svg"
+              width={301}
+              height={287}
+              alt="edit-info"
+            />
           </div>
         </div>
 

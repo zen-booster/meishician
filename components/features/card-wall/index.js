@@ -1,11 +1,16 @@
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import SearchForm from './SearchForm/SearchForm';
 import wallCards from '../../../data/wallCards';
 import Card from './Card/Card';
 import Pagination from '../../common/Pagination/Pagination';
 
 function CardWall({ currentPage, totalPage, records }) {
-  console.log(records);
+  const [page, setPage] = useState(1);
+  const router = useRouter();
+  console.log(router.query);
 
+  useEffect(() => {}, [router.query]);
   return (
     <>
       <div className="mb-20 w-full bg-card-wall bg-cover bg-center pb-8 pt-12">
