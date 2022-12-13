@@ -51,7 +51,7 @@ function TextSetting() {
         className="rounded-md bg-white px-2 py-1"
       >
         {fonts.map((font) => (
-          <option value={font} key={font}>
+          <option value={font} key={font} style={{ fontFamily: font }}>
             {font}
           </option>
         ))}

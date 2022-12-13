@@ -1,9 +1,9 @@
-// import Image from 'next/image';
+import Image from 'next/image';
 import { saveAs } from 'file-saver';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Image from 'next/legacy/image';
 import { useRouter } from 'next/router';
+import { motion } from 'framer-motion';
 import {
   SET_HOMEPAGE_INFO,
   TOGGLE_HOMEPAGE_EDITOR,
@@ -56,7 +56,7 @@ function Homepage() {
           const blob = b64toBlob(base64, contentType);
           saveAs(
             new Blob([blob], { type: 'image/png;base64' }),
-            `card${index}.jpg`
+            `card${index}.png`
           );
         });
     }
@@ -140,8 +140,8 @@ function Homepage() {
 
   const cardSize =
     layoutDirection === 'horizontal'
-      ? { width: 500, height: 250 }
-      : { width: 250, height: 400 };
+      ? { width: 648, height: 360 }
+      : { width: 360, height: 648 };
 
   let role;
   if (isAuthor === true && isLogin === true) {
@@ -166,14 +166,17 @@ function Homepage() {
           ) : (
             <>
               <div className="mx-auto mb-14 flex max-w-[600px] flex-col">
-                <button
+                <motion.button
+                  whileTap={{ scale: 0.95 }}
                   type="button"
                   onClick={() => handleDisplayCard()}
                   className="mb-4"
                 >
                   {(frontCardImageData || backCardImageData) && (
                     <Image
-                      className="rounded-lg  object-cover	"
+                      className={`rounded-lg ${
+                        layoutDirection === 'horizontal' && 'w-full'
+                      } ${layoutDirection === 'vertical' && 'mx-auto h-full'}`}
                       src={
                         isDisplayFrontCard
                           ? frontCardImageData
@@ -182,10 +185,9 @@ function Homepage() {
                       width={cardSize.width}
                       height={cardSize.height}
                       alt={isDisplayFrontCard ? 'front card' : 'back card'}
-                      layout="responsive"
                     />
                   )}
-                </button>
+                </motion.button>
 
                 <div className="flex justify-between gap-5">
                   {isLogin && isAuthor && (

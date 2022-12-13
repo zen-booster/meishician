@@ -20,7 +20,7 @@ function SearchForm() {
 
   const onSubmit = (data) => {
     const { domain, city, name } = data;
-    router.push({ pathname, query: { ...query, domain, city, name } });
+    router.push({ pathname, query: { ...query, domain, city, name, page: 1 } });
   };
 
   return (

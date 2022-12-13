@@ -21,7 +21,9 @@ function CardWall({ currentPage, totalPage, records }) {
           }`}
         >
           {records.length > 0 ? (
-            records.map((record) => <Card key={record.cardId} data={record} />)
+            records.map((record, index) => (
+              <Card key={record.cardId} data={record} index={index} />
+            ))
           ) : (
             <div className="mb-20 text-center text-h4 text-gray-02">
               沒有相關名片

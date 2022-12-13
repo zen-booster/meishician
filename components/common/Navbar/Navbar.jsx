@@ -96,7 +96,9 @@ function Navbar({ children }) {
               >
                 <Image
                   src={avatar || '/avatar.svg'}
-                  className={`${avatar && 'rounded-full'} h-8 w-8`}
+                  className={`${
+                    avatar && 'rounded-full'
+                  } h-8 w-8 cursor-pointer`}
                   width={32}
                   height={32}
                   alt="avatar"

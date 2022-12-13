@@ -18,7 +18,7 @@ function Pagination({ currentPage, totalPage }) {
   };
 
   const pageStatus = (page) => {
-    if (page === currentPage) return 'bg-main-02';
+    if (page === currentPage) return 'bg-main-02 pointer-events-none';
     if (page === 1 || page === lastPage) return '';
     if (page < 6 && currentPage < 5) return '';
     if (page > lastPage - 5 && currentPage > lastPage - 4) return '';
