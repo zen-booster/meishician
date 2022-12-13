@@ -1,27 +1,18 @@
 const horizonCards = [
   {
-    id: Math.random(),
-    src: 'https://fakeimg.pl/520x300/ccc/',
+    src: '/template/template.png',
     mode: 'horizon',
   },
   {
-    id: Math.random(),
-    src: 'https://fakeimg.pl/520x300/ccc/',
+    src: '/template/template2.png',
     mode: 'horizon',
   },
   {
-    id: Math.random(),
-    src: 'https://fakeimg.pl/520x300/ccc/',
+    src: '/template/template3.png',
     mode: 'horizon',
   },
   {
-    id: Math.random(),
-    src: 'https://fakeimg.pl/520x300/ccc/',
-    mode: 'horizon',
-  },
-  {
-    id: Math.random(),
-    src: 'https://fakeimg.pl/520x300/ccc/',
+    src: '/template/template4.png',
     mode: 'horizon',
   },
 ];

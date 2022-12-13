@@ -11,6 +11,7 @@ const fonts = [
   'Anton',
   'Dancing Script',
   'gensen',
+  'Great Vibes',
 ];
 
 export default fonts;

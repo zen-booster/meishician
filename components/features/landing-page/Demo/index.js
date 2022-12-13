@@ -1,20 +1,27 @@
+import Marquee from 'react-fast-marquee';
 import BusinessCard from './BusinessCard/BusinessCard';
 import horizonCards from '../../../../data/horizonCards';
 import verticalCards from '../../../../data/verticalCards';
 
 function Demo() {
   return (
-    <div className="overflow-hidden bg-gray-400 py-20">
-      <h3 className="mb-12 text-center text-3xl font-bold">各種名片</h3>
-      <div className="mb-24 flex gap-12">
-        {horizonCards.map((data) => (
-          <BusinessCard key={data.id} data={data} />
-        ))}
-      </div>
-      <div className="flex gap-12">
-        {verticalCards.map((data) => (
-          <BusinessCard key={data.id} data={data} />
-        ))}
+    <div className="bg-main-02 py-16">
+      <div className="mx-auto max-w-container overflow-hidden">
+        <h3 className="mb-28 text-center text-h3 font-bold text-white">
+          讓你的名片，創意與價值兼具
+        </h3>
+        <Marquee speed={150} gradient={false}>
+          <div className="mb-24 flex">
+            {horizonCards.map((data) => (
+              <BusinessCard key={data.src} data={data} />
+            ))}
+          </div>
+        </Marquee>
+        <div className="flex gap-12">
+          {verticalCards.map((data) => (
+            <BusinessCard key={data.id} data={data} />
+          ))}
+        </div>
       </div>
     </div>
   );

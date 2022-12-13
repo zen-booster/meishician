@@ -33,6 +33,7 @@ function Navbar({ children }) {
 
   const logout = () => {
     localStorage.removeItem('auth');
+    localStorage.removeItem('avatar');
     dispatch({ type: LOGOUT });
     setShowExtra(false);
     router.push('/');

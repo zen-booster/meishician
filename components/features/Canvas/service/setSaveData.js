@@ -28,6 +28,9 @@ async function setSaveData(canvasRef, history, dispatch) {
     await asyncLoadCanvas(canvasRef.current, backLoadData, dispatch);
   }
 
+  console.log(saveData.canvasData.front);
+  console.log(saveData.canvasData.back);
+
   dispatch({ type: NEED_UPDATE });
   return saveData;
 }

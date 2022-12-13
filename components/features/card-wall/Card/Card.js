@@ -76,8 +76,8 @@ function Card({ data, index }) {
         </div>
       </Link>
 
-      <div className="flex flex-col rounded-b-xl bg-main-01 px-4 pt-5 pb-4 text-white">
-        <div className="mb-3 flex items-center">
+      <div className="flex h-40 flex-col rounded-b-xl bg-main-01 px-4 pt-5 pb-4 text-white">
+        <div className="flex h-full items-center">
           <div className="h-10 w-10 shrink-0 overflow-hidden rounded-full">
             <Image
               src={avatar || '/avatar.svg'}
