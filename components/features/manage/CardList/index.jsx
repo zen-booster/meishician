@@ -45,7 +45,7 @@ export default function CardList() {
 
   function renderCard() {
     return (
-      <section className=" basis-full bg-slate-100 p-10 laptop:basis-3/5 xl:basis-3/4 ">
+      <section className=" basis-full bg-gray-200 p-10 laptop:basis-3/5 xl:basis-3/4">
         <h3 className="text-3xl font-bold text-main-01">
           {renderMainSectionHeader()}
         </h3>
