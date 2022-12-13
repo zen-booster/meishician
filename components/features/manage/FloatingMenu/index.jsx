@@ -1,12 +1,5 @@
-import FloatingMenuItem from './FloatingMenuItem';
-
-function FloatingMenu() {
-  return (
-    <ul className="inline-block w-40">
-      <FloatingMenuItem>編輯名片註記</FloatingMenuItem>
-      <FloatingMenuItem warning>刪除名片</FloatingMenuItem>
-    </ul>
-  );
+function FloatingMenu({ children }) {
+  return <ul className="inline-block w-40 drop-shadow-md">{children}</ul>;
 }
 
 export default FloatingMenu;

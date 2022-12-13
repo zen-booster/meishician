@@ -14,9 +14,6 @@ export const SET_TOKEN = 'SET_TOKEN';
 export const TOGGLE_LOADER = 'TOGGLE_LOADER';
 export const LOGIN_FAILED = 'LOGIN_FAILED';
 
-export const SET_TOKEN = 'SET_TOKEN';
-export const LOGIN_FAILED = 'LOGIN_FAILED';
-
 export const SET_HOMEPAGE_INFO = 'SET_HOMEPAGE_INFO';
 export const TOGGLE_HOMEPAGE_EDITOR = 'TOGGLE_HOMEPAGE_EDITOR';
 export const SET_AUTHOR = 'SET_AUTHOR';
@@ -31,3 +28,11 @@ export const SET_LINK_ORDER = 'SET_LINK_ORDER';
 export const SET_CARD_INFO = 'SET_CARD_INFO';
 export const SHOW_INFO_FROM = 'SHOW_INFO_FROM';
 export const HIDE_INFO_FROM = 'HIDE_INFO_FROM';
+export const SET_INIT_DATA = 'SET_INIT_DATA';
+export const OPEN_MODAL = 'OPEN_MODAL';
+export const TOGGLE_DROPDOWN = 'TOGGLE_DROPDOWN';
+export const CLOSE_ALL = 'CLOSE_ALL';
+export const SET_ACTIVE_SECTION = 'SET_ACTIVE_SECTION';
+
+export const SET_GROUP_ORDER = 'SET_GROUP_ORDER';
+export const UPDATE_ACTIVE_SECTION = 'UPDATE_ACTIVE_SECTION';
