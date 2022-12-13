@@ -44,7 +44,11 @@ function CardDnd({ children, id }) {
   return (
     <>
       <DragPreviewImage connect={preview} src={boxImage} />
-      <div ref={ref} style={{ transform: `scale(${opacity}})`, opacity }}>
+      <div
+        className="h-full"
+        ref={ref}
+        style={{ transform: `scale(${opacity}})`, opacity }}
+      >
         {children}
       </div>
     </>
@@ -147,7 +151,7 @@ export default function Card({ cardData }) {
             </Link>
           </div>
 
-          <div className="flex grow items-center justify-center rounded-b-xl bg-main-02  p-3">
+          <div className="flex grow items-center justify-center rounded-b-xl bg-[#d5eadc] p-3">
             <div className="flex basis-3/4 flex-wrap gap-2">
               {tags.map((ele) => (
                 <SectionTag>{ele}</SectionTag>

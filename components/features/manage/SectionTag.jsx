@@ -11,7 +11,7 @@ export default function SectionTag({ children }) {
   }
 
   return (
-    <li className="inline-block rounded bg-[#efc7d0] py-1 px-2  text-sm text-gray-700 drop-shadow-md hover:bg-main-02 hover:text-main-01">
+    <li className="inline-block rounded bg-[#efc7d0] py-1 px-2 text-sm  text-gray-700 drop-shadow-md hover:bg-[#b63954] hover:text-gray-200">
       <button
         type="button"
         onClick={(e) => {
