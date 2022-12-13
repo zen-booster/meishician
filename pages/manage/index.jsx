@@ -3,7 +3,9 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
-import CardList from '../../components/features/manage/CardList';
+import BookmarkCardList from '../../components/features/manage/BookmarkCardList';
+import PortfolioCardList from '../../components/features/manage/PortfolioCardList';
+
 import Sidebar from '../../components/features/manage/Sidebar';
 import EditBookmarkModal from '../../components/features/manage/Modal/EditBookmarkModal';
 import DeleteBookmarkModal from '../../components/features/manage/Modal/DeleteBookmarkModal';
@@ -12,12 +14,17 @@ import DeleteGroupModal from '../../components/features/manage/Modal/DeleteGroup
 import RenameGroupModal from '../../components/features/manage/Modal/RenameGroupModal';
 
 import { useWindowWide } from '../../hooks/useWindowWide';
-import { manageModalType } from '../../store/reducers/manageReducer';
+import {
+  manageActiveSectionType,
+  manageModalType,
+} from '../../store/reducers/manageReducer';
 
 export default function Manage() {
   const wide = useWindowWide();
-  const { isModalOpen, modal } = useSelector((state) => state.manage);
-
+  const { isModalOpen, modal, activeSection } = useSelector(
+    (state) => state.manage
+  );
+  const { type: activeType } = activeSection;
   const [isSidebarActive, setIsSidebarActive] = useState(false);
 
   const handleSidebarActiveClick = () => {
@@ -55,6 +62,13 @@ export default function Manage() {
     return <div />;
   }
 
+  function renderCardList() {
+    if (activeType === manageActiveSectionType.PORTFOLIO) {
+      return <PortfolioCardList />;
+    }
+    return <BookmarkCardList />;
+  }
+
   return (
     <DndProvider backend={HTML5Backend}>
       <main className="relative flex min-h-screen">
@@ -71,9 +85,9 @@ export default function Manage() {
         >
           <Sidebar />
         </aside>
-
-        <CardList />
-
+        <section className=" basis-full bg-gray-200 p-10 laptop:basis-3/5 xl:basis-3/4">
+          {renderCardList()}
+        </section>
         <button
           type="button"
           onClick={() => handleSidebarActiveClick()}

@@ -2,11 +2,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import Card from './Card';
 import { manageActiveSectionType } from '../../../../store/reducers/manageReducer';
 import { setInitData } from '../../../../store/actions/manageActions';
+import PlaceholderPage from '../PlaceholderPage';
 
 export default function CardList() {
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.loginStatus);
-  const { activeGroupId, mainSectionData, type, sortBy } = useSelector(
+  const { activeGroupId, mainSectionData, sortBy } = useSelector(
     (state) => state.manage.activeSection
   );
 
@@ -45,7 +46,7 @@ export default function CardList() {
 
   function renderCard() {
     return (
-      <section className=" basis-full bg-gray-200 p-10 laptop:basis-3/5 xl:basis-3/4">
+      <>
         <h3 className="text-3xl font-bold text-main-01">
           {renderMainSectionHeader()}
         </h3>
@@ -74,10 +75,10 @@ export default function CardList() {
             <Card key={ele.cardId} cardData={ele} />
           ))}
         </ul>
-      </section>
+      </>
     );
   }
 
   // eslint-disable-next-line react/jsx-no-useless-fragment
-  return <>{mainSectionData.length > 0 ? renderCard() : <div>{type}</div>}</>;
+  return <>{mainSectionData.length > 0 ? renderCard() : <PlaceholderPage />}</>;
 }
