@@ -10,7 +10,7 @@ function CardHeader(props) {
   //   console.log('hi');
   // });
   return (
-    <div className="mb-7 flex items-center">
+    <div className="mb-5 flex items-center">
       <h2 className="mr-auto text-xl font-bold">{name}</h2>
       <button
         className="mr-3 text-lg"

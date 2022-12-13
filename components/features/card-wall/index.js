@@ -5,6 +5,7 @@ import wallCards from '../../../data/wallCards';
 import Card from './Card/Card';
 import Pagination from '../../common/Pagination/Pagination';
 
+// eslint-disable-next-line no-unused-vars
 function CardWall({ currentPage, totalPage, records }) {
   const [page, setPage] = useState(1);
   const router = useRouter();

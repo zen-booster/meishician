@@ -4,8 +4,8 @@ import { useDrag, useDrop } from 'react-dnd';
 import { BiDotsHorizontalRounded } from 'react-icons/bi';
 import SectionTag from '../SectionTag';
 import SidebarHeader from './SidebarHeader';
-import FloatingMenu from '../FloatingMenu';
-import FloatingMenuItem from '../FloatingMenu/FloatingMenuItem';
+import DropdownMenu from '../DropdownMenu';
+import DropdownMenuItem from '../DropdownMenu/DropdownMenuItem';
 import {
   setInitData,
   setGroupListActive,
@@ -105,7 +105,7 @@ function ListItemDnD({ id, children, index }) {
     <div
       ref={ref}
       style={{ opacity }}
-      className={`mb-2 rounded-2xl border bg-slate-100 p-2 text-blue-700 ${
+      className={`mb-2 rounded-3xl border bg-slate-100 p-2 ${
         isCardHover && 'bg-[#A8D8B9]'
       }`}
     >
@@ -130,7 +130,7 @@ function SectionListItem({ children, groupId, active }) {
   }
 
   const baseStyle =
-    'flex justify-between py-3 text-xl font-bold px-6 rounded-xl relative';
+    'flex justify-between py-1 text-lg font-bold px-4 rounded-2xl relative';
   const statusStyle = active
     ? 'bg-main-01 text-white'
     : 'bg-white text-main-01';
@@ -180,24 +180,24 @@ function SectionListItem({ children, groupId, active }) {
       </button>
       {isCurrentDropdown && (
         <div className="absolute top-14 right-3 z-10 text-base font-normal">
-          <FloatingMenu>
-            <FloatingMenuItem>
+          <DropdownMenu>
+            <DropdownMenuItem>
               <button
                 type="button"
                 onClick={() => handleOpenRenameGroupModal()}
               >
                 群組更名
               </button>
-            </FloatingMenuItem>
-            <FloatingMenuItem warning>
+            </DropdownMenuItem>
+            <DropdownMenuItem warning>
               <button
                 type="button"
                 onClick={() => handleOpenDeleteGroupModal()}
               >
                 刪除群組
               </button>
-            </FloatingMenuItem>
-          </FloatingMenu>
+            </DropdownMenuItem>
+          </DropdownMenu>
         </div>
       )}
     </li>

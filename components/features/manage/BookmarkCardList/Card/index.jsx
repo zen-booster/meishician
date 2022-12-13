@@ -6,13 +6,13 @@ import { useRef } from 'react';
 
 import { useDrag, DragPreviewImage } from 'react-dnd';
 import Image from 'next/image';
-import { boxImage } from './img';
+import { boxImage } from './dnd-preview-img';
 
 import SectionTag from '../../SectionTag';
 import CardHeader from './CardHeader';
 import CardJobInfo from './CardJobInfo';
-import FloatingMenu from '../../FloatingMenu';
-import FloatingMenuItem from '../../FloatingMenu/FloatingMenuItem';
+import DropdownMenu from '../../DropdownMenu';
+import DropdownMenuItem from '../../DropdownMenu/DropdownMenuItem';
 import ItemTypes from '../../ItemTypes';
 import {
   toggleDropdown,
@@ -181,24 +181,24 @@ export default function Card({ cardData }) {
 
       {isCurrentDropdown && (
         <div className="absolute top-16 right-0 z-10">
-          <FloatingMenu>
-            <FloatingMenuItem>
+          <DropdownMenu>
+            <DropdownMenuItem>
               <button
                 type="button"
                 onClick={(e) => handleOpenEditBookmarkNotesModal(e)}
               >
                 編輯名片
               </button>
-            </FloatingMenuItem>
-            <FloatingMenuItem warning>
+            </DropdownMenuItem>
+            <DropdownMenuItem warning>
               <button
                 type="button"
                 onClick={(e) => handleOpenDeleteBookMarkModal(e)}
               >
                 刪除名片
               </button>
-            </FloatingMenuItem>
-          </FloatingMenu>
+            </DropdownMenuItem>
+          </DropdownMenu>
         </div>
       )}
     </div>
