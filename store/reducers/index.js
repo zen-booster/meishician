@@ -5,6 +5,7 @@ import objectReducer from './objectReducer';
 import loginReducer from './loginReducer';
 import loaderReducer from './loaderReducer';
 import homepageReducer from './homepageReducer';
+import manageReducer from './manageReducer';
 
 const combinedReducer = combineReducers({
   history: historyReducer,
@@ -12,6 +13,7 @@ const combinedReducer = combineReducers({
   loginStatus: loginReducer,
   loaderStatus: loaderReducer,
   homepage: homepageReducer,
+  manage: manageReducer,
 });
 
 const reducer = (state, action) => {

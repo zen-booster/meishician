@@ -1,8 +1,9 @@
-function CardJobInfo({ corpNameTitle, contactNumber }) {
+function CardJobInfo({ jobTitle, companyName, phoneNumber }) {
   return (
     <div className="mb-3">
-      <p>{corpNameTitle}</p>
-      <p>{contactNumber}</p>
+      <p>{companyName}</p>
+      <p>{jobTitle}</p>
+      <p>{phoneNumber}</p>
     </div>
   );
 }

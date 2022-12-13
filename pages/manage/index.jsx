@@ -1,46 +1,87 @@
 import { FaFolderOpen } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
-import CardList from '../../components/CardList/CardList';
-import BookmarkSidebar from '../../components/BookmarkSidebar';
-import cardDataJSON from './data.json';
+import { useSelector } from 'react-redux';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { DndProvider } from 'react-dnd';
+import CardList from '../../components/features/manage/CardList';
+import Sidebar from '../../components/features/manage/Sidebar';
+import EditBookmarkModal from '../../components/features/manage/Modal/EditBookmarkModal';
+import DeleteBookmarkModal from '../../components/features/manage/Modal/DeleteBookmarkModal';
+import AddNewGroupModal from '../../components/features/manage/Modal/AddNewGroupModal';
+import DeleteGroupModal from '../../components/features/manage/Modal/DeleteGroupModal';
+import RenameGroupModal from '../../components/features/manage/Modal/RenameGroupModal';
 
 import { useWindowWide } from '../../hooks/useWindowWide';
+import { manageModalType } from '../../store/reducers/manageReducer';
 
 export default function Manage() {
   const wide = useWindowWide();
-  const cardData = cardDataJSON.data;
+  const { isModalOpen, modal } = useSelector((state) => state.manage);
 
   const [isSidebarActive, setIsSidebarActive] = useState(false);
 
   const handleSidebarActiveClick = () => {
-    if (wide < 768) setIsSidebarActive((prev) => !prev);
+    if (wide < 996) setIsSidebarActive((prev) => !prev);
   };
 
   useEffect(() => {
-    if (wide < 768) setIsSidebarActive(false);
-    if (wide >= 768) setIsSidebarActive(true);
+    if (wide < 996) setIsSidebarActive(false);
+    if (wide >= 996) setIsSidebarActive(true);
   }, [wide]);
+
+  function renderModal() {
+    if (isModalOpen) {
+      switch (modal.type) {
+        case manageModalType.EDIT_BOOKMARK: {
+          return <EditBookmarkModal />;
+        }
+        case manageModalType.DELETE_BOOKMARK: {
+          return <DeleteBookmarkModal />;
+        }
+        case manageModalType.ADD_GROUP: {
+          return <AddNewGroupModal />;
+        }
+        case manageModalType.DELETE_GROUP: {
+          return <DeleteGroupModal />;
+        }
+        case manageModalType.RENAME_GROUP: {
+          return <RenameGroupModal />;
+        }
+        default: {
+          return <div />;
+        }
+      }
+    }
+    return <div />;
+  }
+
   return (
-    <main className="relative flex min-h-screen">
-      <aside
-        className={`${isSidebarActive ? 'block' : 'hidden'} 
-        absolute z-30 min-h-screen bg-white p-5 drop-shadow-xl md:static md:basis-2/5 lg:basis-1/4`}
-      >
-        <BookmarkSidebar />
-      </aside>
+    <DndProvider backend={HTML5Backend}>
+      <main className="relative flex min-h-screen">
+        {renderModal()}
+        <aside
+          className={`${isSidebarActive ? 'block' : 'hidden'} 
+        absolute z-20 min-h-screen 
+        w-3/4
+        bg-white
+        p-5
+        drop-shadow-xl
+        laptop:static
+        laptop:basis-2/5 xl:basis-1/4`}
+        >
+          <Sidebar />
+        </aside>
 
-      <section className="basis-full bg-slate-200 p-5 md:basis-3/5 lg:basis-3/4">
-        <div className="text-xl font-bold">預設群組</div>
-        <CardList dataArr={cardData} />
-      </section>
+        <CardList />
 
-      <button
-        type="button"
-        onClick={() => handleSidebarActiveClick()}
-        className="fixed bottom-3 right-3 flex h-14 w-14 items-center  justify-center rounded-full bg-white drop-shadow-xl md:hidden"
-      >s
-        <FaFolderOpen />
-      </button>
-    </main>
+        <button
+          type="button"
+          onClick={() => handleSidebarActiveClick()}
+          className="fixed bottom-3 right-3 flex h-14 w-14 items-center  justify-center rounded-full bg-white drop-shadow-xl laptop:hidden"
+        >
+          <FaFolderOpen />
+        </button>
+      </main>
+    </DndProvider>
   );
 }

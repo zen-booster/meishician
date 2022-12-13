@@ -23,7 +23,7 @@ export const verify = () => (dispatch) => {
     AuthService.verify(token)
       .then(() => {
         dispatch({ type: LOGIN });
-        dispatch({ type: SET_AVATAR, payload: avatar });
+        if (avatar) dispatch({ type: SET_AVATAR, payload: avatar });
         dispatch({ type: SET_TOKEN, payload: token });
       })
       .catch(() => {
@@ -46,7 +46,7 @@ export const login = (email, password) => (dispatch) => {
       dispatch({ type: LOGIN });
 
       localStorage.setItem('auth', `Bearer ${token}`);
-      localStorage.setItem('avatar', avatar);
+      if (avatar) localStorage.setItem('avatar', avatar);
 
       dispatch({ type: SET_TOKEN, payload: token });
       dispatch({ type: SET_AVATAR, payload: avatar });

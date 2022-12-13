@@ -1,7 +1,7 @@
 export default function FloatingMenuItem({ children, warning }) {
   return (
     <li
-      className={`border-x border-t border-black bg-white p-3 hover:bg-gray-300 ${
+      className={`border border-x border-t bg-white p-4 hover:bg-gray-100 ${
         warning ? 'text-red-500' : 'text-black'
       } last:border-b`}
     >

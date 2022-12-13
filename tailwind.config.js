@@ -21,7 +21,8 @@ module.exports = {
       colors: {
         'main-01': '#2B5F75',
         'main-02': '#A8D8B9',
-        'main-03': '#268785',
+        'main-03': '#E6684F',
+        'main-05': '#F4A7B9',
         danger: '#E3265F',
         success: '#26E39F',
         highlight: '#F4A7B9',
