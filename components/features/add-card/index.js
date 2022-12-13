@@ -50,11 +50,11 @@ function AddCardForm() {
       jobInfo.phoneNumber = phoneNumber;
     }
 
+    const auth = localStorage.getItem('auth');
+    axios.defaults.headers.common.Authorization = auth;
     axios
       .post('http://localhost:3001/api/portfolio', { jobInfo })
       .then((res) => {
-        const auth = localStorage.getItem('auth');
-        axios.defaults.headers.common.Authorization = auth;
         const { cardId } = res.data.data;
         router.push(`/canvas-editor/${cardId}`);
       })

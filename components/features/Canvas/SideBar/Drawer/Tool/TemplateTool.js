@@ -14,6 +14,7 @@ import template1 from '../../../template/template1';
 import template2 from '../../../template/template2';
 import template3 from '../../../template/template3';
 import template4 from '../../../template/template4';
+import classic from '../../../template/classic';
 import { fabricContext } from '../../../Canvas';
 import updateHistory from '../../../service/updateHistory';
 
@@ -83,6 +84,17 @@ function TemplateTool() {
       >
         <Image
           src="/template/template4.png"
+          width={972}
+          height={540}
+          alt="template"
+        />
+      </li>
+      <li
+        className="w-44 cursor-pointer duration-200 ease-in hover:z-20 hover:scale-110"
+        onClick={() => setTemplate(classic)}
+      >
+        <Image
+          src="/template/classic.png"
           width={972}
           height={540}
           alt="template"

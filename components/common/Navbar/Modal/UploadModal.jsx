@@ -23,6 +23,8 @@ export default function UploadModal({ setShowEdit }) {
   };
 
   const uploadImage = () => {
+    const auth = localStorage.getItem('auth');
+    axios.defaults.headers.common.Authorization = auth;
     dispatch({ type: TOGGLE_LOADER });
     axios
       .post('http://localhost:3001/api/upload/image', file.data)
