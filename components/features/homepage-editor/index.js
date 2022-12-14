@@ -21,14 +21,10 @@ import editIcon from '../../../public/icons/edit.svg';
 
 function HomepageEditor() {
   const [activeSection, setActiveSection] = useState();
+  const { token } = useSelector((state) => state.loginStatus);
   const { homepageData } = useSelector((state) => state.homepage);
   const { jobInfo, cardId } = homepageData;
   const dispatch = useDispatch();
-
-  let token;
-  if (typeof window !== 'undefined') {
-    token = localStorage.getItem('auth');
-  }
 
   function handleOpenEditor() {
     dispatch({ type: TOGGLE_HOMEPAGE_EDITOR });

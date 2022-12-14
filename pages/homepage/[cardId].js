@@ -10,8 +10,7 @@ import {
 } from '../../constants/constants';
 import HomepageService from '../../services/homepage.services';
 
-import HomepageEditor from '../../components/features/homepage/HomepageEditor';
-
+import HomepageEditor from '../../components/features/homepage-editor';
 import Button from '../../components/common/Button/Button';
 
 import { b64toBlob } from '../../utils/b64toBlob';
@@ -26,7 +25,7 @@ function Homepage() {
   const { isAuthor, isEditorOpen } = useSelector((state) => state.homepage);
   const { isLoading } = useSelector((state) => state.loaderStatus);
 
-  const { isLogin } = useSelector((state) => state.loginStatus);
+  const { isLogin, token } = useSelector((state) => state.loginStatus);
 
   const { cardImageData, layoutDirection } = useSelector(
     (state) => state.homepage.homepageData
@@ -60,9 +59,13 @@ function Homepage() {
     }
   };
 
+  const [isDisplayFrontCard, setIsDisplayFrontCard] = useState(true);
+  function handleDisplayCard() {
+    setIsDisplayFrontCard((prev) => (backCardImageData ? !prev : true));
+  }
+
   useEffect(() => {
     async function handleIsAuthor() {
-      const token = localStorage.getItem('auth');
       const res = await HomepageService.getHomepageInfo(cardId, token);
       if (res?.data?.isAuthor === true) {
         dispatch({ type: SET_AUTHOR });
@@ -95,20 +98,16 @@ function Homepage() {
     });
   }
 
-  const [isDisplayFrontCard, setIsDisplayFrontCard] = useState(true);
-  function handleDisplayCard() {
-    setIsDisplayFrontCard((prev) => (backCardImageData ? !prev : true));
-  }
-
   function renderHomepageLink() {
     return homepageLink.map((el) => {
       const { type, title, subTitle, link, icon, _id: linkId } = el;
       const iconSrc = icon || linkTypeIconMap[type].src;
+
       return (
         <a
           key={linkId}
-          className="mb-6 flex bg-main-02 py-2 px-5 last:mb-0 laptop:rounded-xl"
-          href={link}
+          className="mb-6 flex items-center bg-main-02 py-2 px-5 last:mb-0 laptop:rounded-xl"
+          href={type === 'EMAIL' ? `mailto:${link}` : link}
         >
           <div className="mr-3">
             <div
@@ -116,12 +115,13 @@ function Homepage() {
                 backgroundImage: `url(${iconSrc})`,
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
+                backgroundSize: 'contain',
                 width: 48,
                 height: 48,
               }}
             />
           </div>
-          <div>
+          <div className="flex flex-col justify-center">
             <h3 className="font-bold text-main-01">
               {title && <p> {el.title}</p>}
             </h3>
@@ -136,6 +136,15 @@ function Homepage() {
     layoutDirection === 'horizontal'
       ? { width: 500, height: 250 }
       : { width: 250, height: 400 };
+
+  let role;
+  if (isAuthor === true && isLogin === true) {
+    role = 'author';
+  } else if (isAuthor === false && isLogin === true) {
+    role = 'member';
+  } else {
+    role = 'guest';
+  }
 
   return (
     // eslint-disable-next-line react/jsx-no-useless-fragment
@@ -171,11 +180,13 @@ function Homepage() {
                 </button>
 
                 <div className="flex justify-between gap-5">
-                  {isLogin && isAuthor ? (
+                  {role === 'author' && (
                     <Button variant="outlined" className="w-1/2 py-1 text-lg">
                       <p>編輯名片</p>
                     </Button>
-                  ) : (
+                  )}
+
+                  {role === 'member' && (
                     <Button variant="outlined" className="w-1/2 py-1 text-lg">
                       <p>收藏名片</p>
                     </Button>
@@ -183,7 +194,9 @@ function Homepage() {
 
                   <Button
                     variant="outlined"
-                    className=" w-1/2 py-1 text-lg"
+                    className={`py-1 text-lg ${
+                      role !== 'guest' ? 'w-1/2' : 'w-full'
+                    }`}
                     onClick={() =>
                       saveFile([frontCardImageData, backCardImageData])
                     }

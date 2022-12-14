@@ -25,7 +25,7 @@ export const verify = () => (dispatch) => {
     AuthService.verify(token)
       .then(() => {
         dispatch({ type: LOGIN });
-        dispatch({ type: SET_AVATAR, payload: avatar });
+        if (avatar) dispatch({ type: SET_AVATAR, payload: avatar });
         dispatch({ type: SET_TOKEN, payload: token });
       })
       .catch(() => {
