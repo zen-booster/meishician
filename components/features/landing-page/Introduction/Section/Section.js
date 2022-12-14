@@ -9,7 +9,11 @@ function Section({ data, index }) {
         index % 2 !== 0 && 'bg-main-02'
       }`}
     >
-      <div className="m-auto flex max-w-container flex-col items-center justify-center gap-10 p-5 laptop:flex-row laptop:gap-6">
+      <div
+        className="m-auto flex max-w-container flex-col items-center justify-center gap-10 p-5 laptop:flex-row laptop:gap-6"
+        data-aos={index % 2 !== 0 ? 'fade-right' : 'fade-left'}
+        data-aos-delay="250"
+      >
         <div className={`max-w-full ${index % 2 !== 0 && 'laptop:order-1'}`}>
           <Image src={src} alt="introduction-image" width={562} height={303} />
         </div>
