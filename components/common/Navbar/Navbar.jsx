@@ -64,7 +64,7 @@ function Navbar({ children }) {
               <li className="hidden laptop:block">
                 <Link href="/add-card">打造名片</Link>
               </li>
-              <li className="hidden laptop:block laptop:cursor-pointer laptop:px-6">
+              <li className="hidden laptop:block laptop:cursor-pointer">
                 <Link href="manage">管理名片</Link>
               </li>
               <li className="cursor-pointer py-1">
