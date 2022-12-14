@@ -35,7 +35,7 @@ function ForgetPasswordForm() {
   return (
     <div className="min-h-screen bg-main-02 pt-20">
       <form
-        className="mx-auto flex w-89 flex-col rounded-xl bg-white px-5 py-7 shadow-frame laptop:w-96 laptop:px-10 laptop:py-24"
+        className="mx-auto flex w-89 flex-col rounded-xl bg-white px-5 py-7 shadow-02 laptop:w-96 laptop:px-10 laptop:py-24"
         onSubmit={handleSubmit(onSubmit)}
       >
         <h2 className="mb-3 text-h4 font-bold">忘記密碼？</h2>
@@ -72,13 +72,13 @@ function ForgetPasswordForm() {
         </div>
 
         <div className="flex w-full gap-8 self-center">
-          <Link href="/login" className="w-full">
-            <Button type="button" variant="outlined">
+          <Link href="/login">
+            <Button type="button" variant="outlined" className="w-36">
               返回
             </Button>
           </Link>
 
-          <Button type="submit" variant="contained">
+          <Button submit variant="contained" className="w-36">
             送出
           </Button>
         </div>

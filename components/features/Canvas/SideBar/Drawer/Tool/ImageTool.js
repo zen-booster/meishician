@@ -66,23 +66,24 @@ function ImageTool() {
       <p className="mb-4 text-label text-black">已上傳的圖片</p>
       <div className="mb-6 h-0.5 w-full bg-gray-01" />
       <div className="scrollbar-hide max-h-[70vh] overflow-auto">
-        {imagesArray.map((image, index) => (
-          <div key={Math.random()} className="group relative">
-            <img
-              src={image}
-              alt="local-data"
-              className="my-6 cursor-pointer"
-              onClick={renderImage}
-            />
-            <span
-              className="absolute top-2 right-2 z-10 hidden cursor-pointer text-2xl text-red-600 group-hover:block"
-              onClick={deleteLocalImage}
-              data-index={index}
-            >
-              <TiDelete className="pointer-events-none" />
-            </span>
-          </div>
-        ))}
+        {imagesArray &&
+          imagesArray.map((image, index) => (
+            <div key={Math.random()} className="group relative">
+              <img
+                src={image}
+                alt="local-data"
+                className="my-6 cursor-pointer"
+                onClick={renderImage}
+              />
+              <span
+                className="absolute top-2 right-2 z-10 hidden cursor-pointer text-2xl text-red-600 group-hover:block"
+                onClick={deleteLocalImage}
+                data-index={index}
+              >
+                <TiDelete className="pointer-events-none" />
+              </span>
+            </div>
+          ))}
       </div>
     </div>
   );

@@ -3,7 +3,7 @@ import Image from 'next/image';
 function SolutionCard({ data }) {
   const { src, title, info } = data;
   return (
-    <div className="mx-auto flex h-rwd-card-height w-64 flex-col justify-end bg-paper pt-4 laptop:h-card-height laptop:w-72">
+    <div className="mx-auto flex h-rwd-card-height w-64 flex-col justify-end bg-paper pt-4 shadow-02 laptop:h-card-height laptop:w-72">
       <div className="mb-4 h-full px-8">
         <Image
           src={src}

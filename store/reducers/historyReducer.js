@@ -27,6 +27,7 @@ export default function (state = historyState, action) {
       const newState = produce(state, (draftState) => {
         draftState.state.front = action.payload.front;
         draftState.state.back = action.payload.back;
+        draftState.state.position = 'front';
       });
       return newState;
     }

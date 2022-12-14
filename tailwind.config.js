@@ -22,6 +22,7 @@ module.exports = {
         'main-01': '#2B5F75',
         'main-02': '#A8D8B9',
         'main-03': '#268785',
+        'main-04': '#F4A7B9',
         danger: '#E3265F',
         success: '#26E39F',
         highlight: '#F4A7B9',
@@ -34,6 +35,7 @@ module.exports = {
       },
       boxShadow: {
         '01': '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
+        '02': '4px 4px 6px 0px rgba(0, 0, 0, 0.25)',
       },
       spacing: {
         204: '51rem',

@@ -9,6 +9,7 @@ import serialize from './service/serialize';
 import { UPDATE } from '../../../constants/constants';
 import { fetchCanvas } from '../../../store/actions';
 import keyPress from './service/keyPress';
+import ChangeCardForm from '../change-card';
 
 export const fabricContext = createContext();
 
@@ -18,6 +19,7 @@ function Canvas({ cardId }) {
   const [pressKey, setPressKey] = useState({});
   const { activeObject } = useSelector((state) => state.canvasObject);
   const { history } = useSelector((state) => state);
+  const { showInfoForm } = useSelector((state) => state).cardInfo;
   const dispatch = useDispatch();
 
   function updateHistory() {
@@ -83,6 +85,8 @@ function Canvas({ cardId }) {
           </div>
         </div>
       </div>
+
+      {showInfoForm && <ChangeCardForm />}
     </fabricContext.Provider>
   );
 }
