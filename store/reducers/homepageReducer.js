@@ -25,10 +25,7 @@ export default function (state = initState, action) {
   switch (action.type) {
     case SET_HOMEPAGE_INFO:
       return produce(state, (draftState) => {
-        draftState.homepageData = {
-          ...draftState.homepageData,
-          ...action.payload,
-        };
+        draftState.homepageData = action.payload;
       });
     case SET_AUTHOR:
       return produce(state, (draftState) => {
