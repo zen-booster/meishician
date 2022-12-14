@@ -55,10 +55,11 @@ function BottomBar() {
             <Image src="/flip.svg" width={32} height={32} alt="rotate" />
             <p>名片翻面</p>
           </button>
-          <span className="bg-green-300 px-2 py-1">
-            目前位置： {history.state.position}
-          </span>
         </div>
+
+        <span className="rounded-xl bg-main-01 px-2 py-1 text-body font-bold text-white">
+          目前位置： {history.state.position === 'front' ? '正面' : '背面'}
+        </span>
 
         <div className="flex flex-col items-center">
           <input

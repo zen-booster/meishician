@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 
 const translate = {
   content: {
@@ -28,7 +29,7 @@ const translate = {
   },
 };
 
-function Card({ data }) {
+function Card({ data, index }) {
   const {
     name,
     companyName,
@@ -42,7 +43,12 @@ function Card({ data }) {
   } = data;
 
   return (
-    <div className="mx-auto w-[17.875rem]">
+    <motion.div
+      className="mx-auto w-[17.875rem] duration-300 ease-in hover:z-20 hover:scale-110"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3, delay: index * 0.1 }}
+    >
       <Link href={`/homepage/${cardId}`}>
         <div className="relative flex h-64 cursor-pointer items-center justify-center rounded-t-xl bg-main-02 px-3 py-4">
           <span
@@ -70,8 +76,8 @@ function Card({ data }) {
         </div>
       </Link>
 
-      <div className="flex flex-col rounded-b-xl bg-main-01 px-4 pt-5 pb-4 text-white">
-        <div className="mb-3 flex items-center">
+      <div className="flex h-40 flex-col rounded-b-xl bg-main-01 px-4 pt-5 pb-4 text-white">
+        <div className="flex h-full items-center">
           <div className="h-10 w-10 shrink-0 overflow-hidden rounded-full">
             <Image
               src={avatar || '/avatar.svg'}
@@ -104,7 +110,7 @@ function Card({ data }) {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

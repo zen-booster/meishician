@@ -1,6 +1,10 @@
 import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 function Pagination({ currentPage, totalPage }) {
+  const router = useRouter();
+  const { pathname, query } = router;
   const allPages = Array.from({ length: totalPage }, (_, i) => i + 1);
   const lastPage = allPages.length;
 
@@ -14,7 +18,7 @@ function Pagination({ currentPage, totalPage }) {
   };
 
   const pageStatus = (page) => {
-    if (page === currentPage) return 'bg-main-02';
+    if (page === currentPage) return 'bg-main-02 pointer-events-none';
     if (page === 1 || page === lastPage) return '';
     if (page < 6 && currentPage < 5) return '';
     if (page > lastPage - 5 && currentPage > lastPage - 4) return '';
@@ -24,11 +28,21 @@ function Pagination({ currentPage, totalPage }) {
     return 'hidden';
   };
 
+  const toPreviousPage = () => {
+    if (currentPage <= 1) return;
+    router.push({ pathname, query: { ...query, page: currentPage - 1 } });
+  };
+
+  const toNextPage = () => {
+    if (currentPage + 1 > totalPage) return;
+    router.push({ pathname, query: { ...query, page: currentPage + 1 } });
+  };
+
   return (
     <nav>
       <ul className="flex items-center justify-center gap-2">
         <li className="mr-4 flex items-center">
-          <button type="button" disabled>
+          <button type="button" onClick={toPreviousPage}>
             <Image
               src="/caret-left.svg"
               className="cursor-pointer"
@@ -39,17 +53,22 @@ function Pagination({ currentPage, totalPage }) {
           </button>
         </li>
         {allPages.map((page) => (
-          <li
-            className={`flex h-10 w-10 cursor-pointer items-center justify-center rounded-full  text-body text-main-01 hover:bg-main-02 ${pageStatus(
-              page
-            )}`}
-            key={page}
-          >
-            {pageShow(page)}
+          <li key={page}>
+            <Link
+              href={{
+                pathname,
+                query: { ...query, page },
+              }}
+              className={`flex h-10 w-10 cursor-pointer items-center justify-center rounded-full  text-body text-main-01 hover:bg-main-02 ${pageStatus(
+                page
+              )}`}
+            >
+              {pageShow(page)}
+            </Link>
           </li>
         ))}
         <li className="ml-4 flex items-center">
-          <button type="button">
+          <button type="button" onClick={toNextPage}>
             <Image
               src="/caret-right.svg"
               className="cursor-pointer"

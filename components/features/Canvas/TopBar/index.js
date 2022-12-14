@@ -43,7 +43,11 @@ function TopBar() {
             <input
               className="invisible absolute bottom-0"
               type="color"
-              value={activeObject.fill}
+              value={
+                activeObject.isType('line')
+                  ? activeObject.stroke
+                  : activeObject.fill
+              }
               onChange={(e) =>
                 changeColor(e, canvasRef.current, activeObject, dispatch)
               }

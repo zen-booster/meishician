@@ -1,5 +1,6 @@
 import { useForm, Controller } from 'react-hook-form';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import SearchInput from '../../../common/Input/SearchInput';
 import domainData from '../../../../data/domainData';
 import areaData from '../../../../data/areaData';
@@ -11,11 +12,16 @@ const all = {
 };
 
 function SearchForm() {
+  const router = useRouter();
+  const { pathname, query } = router;
   const allDomain = [all, ...domainData];
   const allArea = [all, ...areaData];
-
   const { register, control, handleSubmit } = useForm();
-  const onSubmit = (data) => console.log(data);
+
+  const onSubmit = (data) => {
+    const { domain, city, name } = data;
+    router.push({ pathname, query: { ...query, domain, city, name, page: 1 } });
+  };
 
   return (
     <form
@@ -43,12 +49,12 @@ function SearchForm() {
         </select>
 
         <select
-          {...register('area')}
+          {...register('city')}
           className="w-44 rounded-lg border border-dark-light bg-white px-2 text-dark-light"
         >
-          {allArea.map((area) => (
-            <option key={area.value} value={area.value}>
-              {area.content}
+          {allArea.map((city) => (
+            <option key={city.value} value={city.value}>
+              {city.content}
             </option>
           ))}
         </select>
@@ -56,7 +62,7 @@ function SearchForm() {
         <div className="flex w-96">
           <Controller
             control={control}
-            name="search"
+            name="name"
             defaultValue=""
             render={({ field: { onChange, value, name } }) => (
               <SearchInput

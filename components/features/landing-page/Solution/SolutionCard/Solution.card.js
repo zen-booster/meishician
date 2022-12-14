@@ -1,9 +1,20 @@
 import Image from 'next/image';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import { useEffect } from 'react';
 
 function SolutionCard({ data }) {
   const { src, title, info } = data;
+
+  useEffect(() => {
+    AOS.init({ duration: 750 });
+  }, []);
+
   return (
-    <div className="mx-auto flex h-rwd-card-height w-64 flex-col justify-end bg-paper pt-4 shadow-02 laptop:h-card-height laptop:w-72">
+    <div
+      className="mx-auto flex h-rwd-card-height w-64 flex-col justify-end bg-paper pt-4 shadow-02 laptop:h-card-height laptop:w-72"
+      data-aos="zoom-in"
+    >
       <div className="mb-4 h-full px-8">
         <Image
           src={src}

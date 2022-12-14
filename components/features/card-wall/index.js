@@ -1,17 +1,9 @@
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
 import SearchForm from './SearchForm/SearchForm';
-import wallCards from '../../../data/wallCards';
 import Card from './Card/Card';
 import Pagination from '../../common/Pagination/Pagination';
 
 // eslint-disable-next-line no-unused-vars
 function CardWall({ currentPage, totalPage, records }) {
-  const [page, setPage] = useState(1);
-  const router = useRouter();
-  console.log(router.query);
-
-  useEffect(() => {}, [router.query]);
   return (
     <>
       <div className="mb-20 w-full bg-card-wall bg-cover bg-center pb-8 pt-12">
@@ -22,11 +14,20 @@ function CardWall({ currentPage, totalPage, records }) {
       </div>
 
       <div className="mx-auto mb-20 max-w-container">
-        <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 laptop:grid-cols-3 xl:grid-cols-4">
-          {wallCards ? (
-            records.map((record) => <Card key={record.cardId} data={record} />)
+        <div
+          className={`${
+            records.length > 0 &&
+            'grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 laptop:grid-cols-3 xl:grid-cols-4'
+          }`}
+        >
+          {records.length > 0 ? (
+            records.map((record, index) => (
+              <Card key={record.cardId} data={record} index={index} />
+            ))
           ) : (
-            <div>沒資料啦</div>
+            <div className="mb-20 text-center text-h4 text-gray-02">
+              沒有相關名片
+            </div>
           )}
         </div>
       </div>

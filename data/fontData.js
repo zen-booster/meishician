@@ -10,6 +10,8 @@ const fonts = [
   'Nerko One',
   'Anton',
   'Dancing Script',
+  'gensen',
+  'Great Vibes',
 ];
 
 export default fonts;

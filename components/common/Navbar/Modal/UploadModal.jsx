@@ -2,6 +2,8 @@ import axios from 'axios';
 import Image from 'next/image';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Modal from '../../Modal/Modal';
 import Button from '../../Button/Button';
 import { TOGGLE_LOADER, SET_AVATAR } from '../../../../constants/constants';
@@ -10,9 +12,42 @@ export default function UploadModal({ setShowEdit }) {
   const dispatch = useDispatch();
   const [file, setFile] = useState(null);
 
+  const validImage = (file) => {
+    const fileType = file.type;
+    const validType = ['image/jpeg', 'image/png'];
+    if (!validType.includes(fileType)) {
+      toast.error('圖片格式不符', {
+        position: 'top-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      });
+      return false;
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      toast.error('圖片超過 2MB', {
+        position: 'top-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      });
+      return false;
+    }
+    return true;
+  };
+
   const selectImage = (e) => {
     const file = e.target.files[0];
     if (!file) return;
+    if (!validImage(file)) return;
     const reader = new FileReader();
     reader.onloadend = () => {
       const formData = new FormData();
@@ -23,6 +58,8 @@ export default function UploadModal({ setShowEdit }) {
   };
 
   const uploadImage = () => {
+    const auth = localStorage.getItem('auth');
+    axios.defaults.headers.common.Authorization = auth;
     dispatch({ type: TOGGLE_LOADER });
     axios
       .post('http://localhost:3001/api/upload/image', file.data)
@@ -45,6 +82,19 @@ export default function UploadModal({ setShowEdit }) {
 
   return (
     <Modal show={setShowEdit}>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+
       <div className="flex flex-col items-center font-bold text-main-01">
         <h4 className="mb-8 text-h4">上傳圖片</h4>
         {file ? (

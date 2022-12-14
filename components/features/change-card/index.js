@@ -186,9 +186,10 @@ function ChangeCardForm() {
                       onChange={onChange}
                       value={value}
                       name={name}
+                      option={false}
                       type="text"
                       title="電話"
-                      placeholder="電話"
+                      placeholder="電話（選填）"
                     />
                   )}
                 />

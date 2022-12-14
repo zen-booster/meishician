@@ -1,12 +1,14 @@
-// import Image from 'next/image';
+import Image from 'next/image';
 import { saveAs } from 'file-saver';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Image from 'next/legacy/image';
+import { useRouter } from 'next/router';
+import { motion } from 'framer-motion';
 import {
   SET_HOMEPAGE_INFO,
   TOGGLE_HOMEPAGE_EDITOR,
   SET_AUTHOR,
+  REMOVE_AUTHOR,
 } from '../../constants/constants';
 import HomepageService from '../../services/homepage.services';
 
@@ -22,14 +24,15 @@ import Loader from '../../components/common/Loader/Loader';
 import editIcon from '../../public/icons/edit.svg';
 
 function Homepage() {
+  const router = useRouter();
   const { isAuthor, isEditorOpen } = useSelector((state) => state.homepage);
   const { isLoading } = useSelector((state) => state.loaderStatus);
 
   const { isLogin, token } = useSelector((state) => state.loginStatus);
 
-  const { cardImageData, layoutDirection } = useSelector(
-    (state) => state.homepage.homepageData
-  );
+  const { homepage } = useSelector((state) => state);
+  const cardImageData = homepage?.homepageData?.cardImageData || '';
+  const layoutDirection = homepage?.homepageData?.layoutDirection || '';
 
   const { front: frontCardImageData, back: backCardImageData } = cardImageData;
 
@@ -53,7 +56,7 @@ function Homepage() {
           const blob = b64toBlob(base64, contentType);
           saveAs(
             new Blob([blob], { type: 'image/png;base64' }),
-            `card${index}.jpg`
+            `card${index}.png`
           );
         });
     }
@@ -66,14 +69,17 @@ function Homepage() {
 
   useEffect(() => {
     async function handleIsAuthor() {
+      if (!cardId) return;
       const res = await HomepageService.getHomepageInfo(cardId, token);
       if (res?.data?.isAuthor === true) {
         dispatch({ type: SET_AUTHOR });
+      } else {
+        dispatch({ type: REMOVE_AUTHOR });
       }
     }
 
     handleIsAuthor();
-  }, []);
+  }, [cardId, isLogin]);
 
   function renderJobInfo() {
     return [
@@ -134,8 +140,8 @@ function Homepage() {
 
   const cardSize =
     layoutDirection === 'horizontal'
-      ? { width: 500, height: 250 }
-      : { width: 250, height: 400 };
+      ? { width: 648, height: 360 }
+      : { width: 360, height: 648 };
 
   let role;
   if (isAuthor === true && isLogin === true) {
@@ -160,28 +166,38 @@ function Homepage() {
           ) : (
             <>
               <div className="mx-auto mb-14 flex max-w-[600px] flex-col">
-                <button
+                <motion.button
+                  whileTap={{ scale: 0.95 }}
                   type="button"
                   onClick={() => handleDisplayCard()}
                   className="mb-4"
                 >
-                  <Image
-                    className="rounded-lg  object-cover	"
-                    src={
-                      isDisplayFrontCard
-                        ? frontCardImageData
-                        : backCardImageData
-                    }
-                    width={cardSize.width}
-                    height={cardSize.height}
-                    alt={isDisplayFrontCard ? 'front card' : 'back card'}
-                    layout="responsive"
-                  />
-                </button>
+                  {(frontCardImageData || backCardImageData) && (
+                    <Image
+                      className={`rounded-lg ${
+                        layoutDirection === 'horizontal' && 'w-full'
+                      } ${layoutDirection === 'vertical' && 'mx-auto h-full'}`}
+                      src={
+                        isDisplayFrontCard
+                          ? frontCardImageData
+                          : backCardImageData
+                      }
+                      width={cardSize.width}
+                      height={cardSize.height}
+                      alt={isDisplayFrontCard ? 'front card' : 'back card'}
+                    />
+                  )}
+                </motion.button>
 
                 <div className="flex justify-between gap-5">
-                  {role === 'author' && (
-                    <Button variant="outlined" className="w-1/2 py-1 text-lg">
+                  {isLogin && isAuthor && (
+                    <Button
+                      variant="outlined"
+                      className="w-1/2 py-1 text-lg"
+                      onClick={() => {
+                        router.push(`/canvas-editor/${cardId}`);
+                      }}
+                    >
                       <p>編輯名片</p>
                     </Button>
                   )}

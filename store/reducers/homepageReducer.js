@@ -3,6 +3,7 @@ import {
   SET_HOMEPAGE_INFO,
   TOGGLE_HOMEPAGE_EDITOR,
   SET_AUTHOR,
+  REMOVE_AUTHOR,
   SET_LINK_EDITOR_DATA,
   SET_LINK_ORDER,
 } from '../../constants/constants';
@@ -32,6 +33,10 @@ export default function (state = initState, action) {
     case SET_AUTHOR:
       return produce(state, (draftState) => {
         draftState.isAuthor = true;
+      });
+    case REMOVE_AUTHOR:
+      return produce(state, (draftState) => {
+        draftState.isAuthor = false;
       });
     case TOGGLE_HOMEPAGE_EDITOR:
       return produce(state, (draftState) => {

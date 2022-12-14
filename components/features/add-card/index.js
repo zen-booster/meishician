@@ -50,10 +50,11 @@ function AddCardForm() {
       jobInfo.phoneNumber = phoneNumber;
     }
 
+    const auth = localStorage.getItem('auth');
+    axios.defaults.headers.common.Authorization = auth;
     axios
       .post('http://localhost:3001/api/portfolio', { jobInfo })
       .then((res) => {
-        console.log(res);
         const { cardId } = res.data.data;
         router.push(`/canvas-editor/${cardId}`);
       })
@@ -175,9 +176,10 @@ function AddCardForm() {
                     onChange={onChange}
                     value={value}
                     name={name}
+                    option={false}
                     type="text"
                     title="電話"
-                    placeholder="電話"
+                    placeholder="電話（選填）"
                   />
                 )}
               />
