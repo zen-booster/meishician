@@ -1,6 +1,6 @@
 import { FaFolderOpen } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 import BookmarkCardList from '../../components/features/manage/BookmarkCardList';
@@ -12,6 +12,7 @@ import DeleteBookmarkModal from '../../components/features/manage/Modal/DeleteBo
 import AddNewGroupModal from '../../components/features/manage/Modal/AddNewGroupModal';
 import DeleteGroupModal from '../../components/features/manage/Modal/DeleteGroupModal';
 import RenameGroupModal from '../../components/features/manage/Modal/RenameGroupModal';
+import ShowCardModal from '../../components/features/manage/Modal/ShowCardModal';
 
 import { useWindowWide } from '../../hooks/useWindowWide';
 import {
@@ -19,8 +20,17 @@ import {
   manageModalType,
 } from '../../store/reducers/manageReducer';
 
+import { setInitData, setBaseUrl } from '../../store/actions/manageActions';
+
 export default function Manage() {
   const wide = useWindowWide();
+  const baseUrl =
+    typeof window !== 'undefined' && window.location.origin
+      ? window.location.origin
+      : '';
+
+  const dispatch = useDispatch();
+  const { token, isLogin } = useSelector((state) => state.loginStatus);
   const { isModalOpen, modal, activeSection } = useSelector(
     (state) => state.manage
   );
@@ -30,11 +40,6 @@ export default function Manage() {
   const handleSidebarActiveClick = () => {
     if (wide < 996) setIsSidebarActive((prev) => !prev);
   };
-
-  useEffect(() => {
-    if (wide < 996) setIsSidebarActive(false);
-    if (wide >= 996) setIsSidebarActive(true);
-  }, [wide]);
 
   function renderModal() {
     if (isModalOpen) {
@@ -54,6 +59,9 @@ export default function Manage() {
         case manageModalType.RENAME_GROUP: {
           return <RenameGroupModal />;
         }
+        case manageModalType.SHOW_CARD: {
+          return <ShowCardModal />;
+        }
         default: {
           return <div />;
         }
@@ -68,6 +76,18 @@ export default function Manage() {
     }
     return <BookmarkCardList />;
   }
+
+  useEffect(() => {
+    if (isLogin && !!token) {
+      dispatch(setInitData(token));
+      dispatch(setBaseUrl(baseUrl));
+    }
+  }, [isLogin, token]);
+
+  useEffect(() => {
+    if (wide < 996) setIsSidebarActive(false);
+    if (wide >= 996) setIsSidebarActive(true);
+  }, [wide]);
 
   return (
     <DndProvider backend={HTML5Backend}>

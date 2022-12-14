@@ -149,6 +149,16 @@ const ManageService = {
       .then((response) => response.data);
   },
 
+  getPortfolio(token) {
+    const config = {
+      headers: { Authorization: token },
+    };
+
+    return axios
+      .get(`${DOMAIN_URL}/api/portfolio`, {}, config)
+      .then((response) => response.data);
+  },
+
   sendDeleteMessage(token, cardId, messageBody) {
     const config = {
       headers: { Authorization: token },

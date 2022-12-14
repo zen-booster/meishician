@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrag, useDrop } from 'react-dnd';
 import { BiDotsHorizontalRounded } from 'react-icons/bi';
@@ -7,7 +7,7 @@ import SidebarHeader from './SidebarHeader';
 import DropdownMenu from '../DropdownMenu';
 import DropdownMenuItem from '../DropdownMenu/DropdownMenuItem';
 import {
-  setInitData,
+  setPortfolioActive,
   setGroupListActive,
   openModal,
   toggleDropdown,
@@ -130,7 +130,7 @@ function SectionListItem({ children, groupId, active }) {
   }
 
   const baseStyle =
-    'flex justify-between py-1 text-lg font-bold px-4 rounded-2xl relative';
+    'flex justify-between py-1 text-lg font-bold px-4 rounded-2xl relative ';
   const statusStyle = active
     ? 'bg-main-01 text-white'
     : 'bg-white text-main-01';
@@ -165,7 +165,11 @@ function SectionListItem({ children, groupId, active }) {
 
   return (
     <li className={`${baseStyle} ${statusStyle}`}>
-      <button className="pr-3" type="button" onClick={() => handleSetActive()}>
+      <button
+        className="pr-3 text-left "
+        type="button"
+        onClick={() => handleSetActive()}
+      >
         {children}
       </button>
 
@@ -204,22 +208,21 @@ function SectionListItem({ children, groupId, active }) {
   );
 }
 
-export default function BookmarkSidebar() {
+export default function Sidebar() {
   const dispatch = useDispatch();
-  const { token, isLogin } = useSelector((state) => state.loginStatus);
+  const { token } = useSelector((state) => state.loginStatus);
   const { groupList, tags } = useSelector((state) => state.manage);
   const { activeSection } = useSelector((state) => state.manage);
-
-  useEffect(() => {
-    if (isLogin && !!token) dispatch(setInitData(token));
-  }, [isLogin, token]);
-
   function handleOpenAddNewGroupModal() {
     dispatch(
       openModal({
         type: manageModalType.ADD_GROUP,
       })
     );
+  }
+
+  function handleSetPortfolioActive() {
+    dispatch(setPortfolioActive(token));
   }
 
   function renderGroupList() {
@@ -242,7 +245,14 @@ export default function BookmarkSidebar() {
 
   return (
     <>
-      <SidebarHeader className="mb-11">我的名片</SidebarHeader>
+      <SidebarHeader
+        className="mb-11"
+        active={activeSection.type === manageActiveSectionType.PORTFOLIO}
+      >
+        <button type="button" onClick={() => handleSetPortfolioActive()}>
+          我的名片
+        </button>
+      </SidebarHeader>
 
       <section className="mb-11">
         <SidebarHeader>收藏的名片</SidebarHeader>
@@ -251,7 +261,7 @@ export default function BookmarkSidebar() {
           {renderGroupList()}
           <button
             type="button"
-            className=" py-3 pl-1 text-xl  text-gray-400 hover:font-bold"
+            className=" py-3 pl-1 text-xl	 text-gray-400 hover:font-bold"
             onClick={() => handleOpenAddNewGroupModal()}
           >
             + 新增群組

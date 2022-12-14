@@ -5,10 +5,7 @@ import { FaStar, FaRegStar } from 'react-icons/fa';
 function CardHeader(props) {
   const { name, isPinned, onMenuActiveClick, onToggleCardPin } = props;
   const closeRef = useRef();
-  // useClickOutSide(closeRef, () => {
-  //   onCloseAll();
-  //   console.log('hi');
-  // });
+
   return (
     <div className="mb-5 flex items-center">
       <h2 className="mr-auto text-xl font-bold">{name}</h2>

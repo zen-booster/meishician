@@ -7,6 +7,7 @@ import {
   SET_ACTIVE_SECTION,
   SET_GROUP_ORDER,
   UPDATE_ACTIVE_SECTION,
+  SET_BASE_URL,
 } from '../../constants/constants';
 
 import ManageService from '../../services/manage.service';
@@ -19,6 +20,7 @@ import {
 export const setInitData =
   (token, groupId, page, sortBy) => async (dispatch) => {
     dispatch({ type: TOGGLE_LOADER });
+    dispatch({ type: CLOSE_ALL });
     page = page ?? 1;
     sortBy = sortBy ?? '-isPinned';
 
@@ -73,9 +75,13 @@ export const setInitData =
     }
   };
 
+export const setBaseUrl = (url) => ({ type: SET_BASE_URL, payload: url });
+
 export const setGroupListActive =
   (token, groupId) => async (dispatch, getState) => {
     dispatch({ type: TOGGLE_LOADER });
+    dispatch({ type: CLOSE_ALL });
+
     try {
       let { sortBy } = getState().manage.activeSection;
       sortBy = sortBy ?? '-isPinned';
@@ -289,4 +295,28 @@ export const setBookmarkGroup = (token, groupId, cardId) => (dispatch) => {
       alert(`錯誤 ${error}`);
       dispatch({ type: TOGGLE_LOADER });
     });
+};
+
+export const setPortfolioActive = (token) => async (dispatch) => {
+  dispatch({ type: TOGGLE_LOADER });
+  dispatch({ type: CLOSE_ALL });
+
+  try {
+    const apiRes = await ManageService.getPortfolio(token);
+    const mainSectionData = apiRes?.data?.records ?? [];
+    dispatch({
+      type: SET_ACTIVE_SECTION,
+      payload: {
+        type: manageActiveSectionType.PORTFOLIO,
+        activeGroupId: null,
+        activeGroupName: null,
+        isPublish: true,
+        mainSectionData,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+  } finally {
+    dispatch({ type: TOGGLE_LOADER });
+  }
 };

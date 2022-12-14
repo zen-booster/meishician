@@ -8,6 +8,7 @@ import {
   SET_ACTIVE_SECTION,
   SET_GROUP_ORDER,
   UPDATE_ACTIVE_SECTION,
+  SET_BASE_URL,
 } from '../../constants/constants';
 
 export const manageModalType = {
@@ -19,6 +20,7 @@ export const manageModalType = {
   ADD_GROUP: 'ADD_GROUP',
   RENAME_GROUP: 'RENAME_GROUP',
   DELETE_GROUP: 'DELETE_GROUP',
+  SHOW_CARD: 'SHOW_CARD',
 };
 
 export const manageActiveSectionType = {
@@ -37,7 +39,7 @@ export const manageDropdownType = {
 const initState = {
   userId: null,
   groupList: [],
-
+  baseUrl: null,
   defaultGroupId: null,
   activeSection: {
     type: null, // PORTFOLIO  BOOKMARK, SEARCH, TAG_FILTER
@@ -78,11 +80,14 @@ export default function (state = initState, action) {
   switch (action.type) {
     case SET_INIT_DATA:
       return { ...state, ...action.payload };
+    case SET_BASE_URL:
+      return produce(state, (draftState) => {
+        draftState.baseUrl = action.payload;
+      });
     case OPEN_MODAL:
       return produce(state, (draftState) => {
         draftState.isModalOpen = true;
         draftState.modal = action.payload;
-        console.log(draftState.modal);
       });
     case TOGGLE_DROPDOWN:
       return produce(state, (draftState) => {
