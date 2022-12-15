@@ -1,11 +1,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import Space from '../../../common/Space/Space';
 
 function Banner() {
   return (
-    <div className="relative -mt-16 flex h-screen flex-col items-center bg-main-02 bg-cover font-bold text-main-01 laptop:bg-[url(/banner-background2.svg),_url(/banner-background.svg)]">
+    <div className="relative flex h-screen flex-col items-center bg-main-02 bg-cover font-bold text-main-01 laptop:bg-[url(/banner-background2.svg),_url(/banner-background.svg)]">
+      <Space />
       <div className="mx-auto flex h-full w-full max-w-204 flex-col items-center pt-9 laptop:items-start laptop:pt-32">
-        <div className="pt-16" />
         <Image
           src="/logo-dark.svg"
           width={161}

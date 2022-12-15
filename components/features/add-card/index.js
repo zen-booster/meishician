@@ -9,6 +9,7 @@ import { allDomain } from '../../../data/domainData';
 import { allArea } from '../../../data/areaData';
 import initJobInfo from '../../../utils/initJobInfo';
 import { TOGGLE_LOADER } from '../../../constants/constants';
+import Space from '../../common/Space/Space';
 import Button from '../../common/Button/Button';
 
 function AddCardForm() {
@@ -43,8 +44,8 @@ function AddCardForm() {
   };
 
   return (
-    <div className="-mt-16 h-screen">
-      <div className="pt-16" />
+    <div className="h-screen">
+      <Space />
       <div className="h-36 bg-main-02">
         <div className="mx-auto flex h-full max-w-204 flex-col justify-center">
           <h2 className="text-h3 font-bold text-main-01">創建個人名片</h2>

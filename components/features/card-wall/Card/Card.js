@@ -30,7 +30,7 @@ function Card({ data, index }) {
 
   return (
     <motion.div
-      className="mx-auto w-[17.875rem] duration-300 ease-in hover:z-20 hover:scale-110"
+      className="mx-auto w-[17.875rem] duration-200 ease-in hover:z-20 hover:scale-105"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3, delay: index * 0.1 }}
@@ -75,8 +75,8 @@ function Card({ data, index }) {
           </div>
           <div className="ml-4 w-full">
             <div className="flex items-center">
-              <p className="text-fs-6">{name}</p>
-              <p className="mx-auto text-center text-label">{jobTitle}</p>
+              <h4 className="text-fs-6 font-bold">{name}</h4>
+              <p className="mx-auto text-center">{jobTitle}</p>
             </div>
             <p className="mb-1 text-rwd-body">{companyName}</p>
             <div className="flex text-main-02">
@@ -88,9 +88,9 @@ function Card({ data, index }) {
                 className="mr-2"
               />
               {city === '海外' ? (
-                <p className="text-label ">{city}</p>
+                <p className="">{city}</p>
               ) : (
-                <p className="text-label">台灣，{city}</p>
+                <p className="">台灣，{city}</p>
               )}
             </div>
           </div>

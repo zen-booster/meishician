@@ -1,11 +1,13 @@
 import SearchForm from './SearchForm/SearchForm';
 import Card from './Card/Card';
+import Space from '../../common/Space/Space';
 import Pagination from '../../common/Pagination/Pagination';
 
 // eslint-disable-next-line no-unused-vars
 function CardWall({ currentPage, totalPage, records }) {
   return (
     <>
+      <Space />
       <div className="mb-20 w-full bg-card-wall bg-cover bg-center px-3 pb-8 pt-12">
         <h2 className="mb-10 text-center text-h2 font-bold text-main-01">
           名片牆
