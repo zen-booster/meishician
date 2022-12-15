@@ -6,7 +6,7 @@ import Pagination from '../../common/Pagination/Pagination';
 function CardWall({ currentPage, totalPage, records }) {
   return (
     <>
-      <div className="mb-20 w-full bg-card-wall bg-cover bg-center pb-8 pt-12">
+      <div className="mb-20 w-full bg-card-wall bg-cover bg-center px-3 pb-8 pt-12">
         <h2 className="mb-10 text-center text-h2 font-bold text-main-01">
           名片牆
         </h2>

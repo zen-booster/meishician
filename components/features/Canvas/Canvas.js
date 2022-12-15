@@ -71,7 +71,7 @@ function Canvas({ cardId }) {
         <div className="pt-16" />
         <div className="relative flex h-full w-full">
           <SideBar />
-          <div className="z-10 flex h-full w-full flex-col overflow-hidden">
+          <div className="flex h-full w-full flex-col overflow-hidden">
             {activeObject && <TopBar />}
 
             <div

@@ -28,8 +28,8 @@ function SideBar() {
   };
 
   return (
-    <div className="flex duration-200 ease-in" ref={clickRef}>
-      <ul className="h-scree relative flex w-28 flex-col items-center bg-main-02 text-rwd-body text-main-03">
+    <div className="flex" ref={clickRef}>
+      <ul className="h-scree flex w-28 flex-col items-center bg-main-02 text-rwd-body text-main-03">
         <li
           className={`relative h-20 w-full duration-200 hover:text-white ${
             buttonName === 'Template' && 'text-white shadow-01'
