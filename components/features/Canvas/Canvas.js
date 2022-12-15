@@ -1,6 +1,7 @@
 import { createContext, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import initCanvas from './initCanvas';
+import Space from '../../common/Space/Space';
 import TopBar from './TopBar';
 import SideBar from './SideBar';
 import BottomBar from './BottomBar';
@@ -67,9 +68,9 @@ function Canvas({ cardId }) {
 
   return (
     <fabricContext.Provider value={canvasRef}>
-      <div className="-mt-16 flex h-screen flex-col">
-        <div className="pt-16" />
-        <div className="relative flex h-full w-full">
+      <div className="flex h-screen flex-col">
+        <Space />
+        <div className="relative flex  h-full w-full">
           <SideBar />
           <div className="flex h-full w-full flex-col overflow-hidden">
             {activeObject && <TopBar />}

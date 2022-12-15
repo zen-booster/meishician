@@ -47,7 +47,11 @@ function Pagination({ currentPage, totalPage }) {
             onClick={toPreviousPage}
             disabled={currentPage === 1}
           >
-            <MdKeyboardArrowLeft className="pointer-events-none text-h4 text-main-01" />
+            <MdKeyboardArrowLeft
+              className={`pointer-events-none text-h4 text-main-01 ${
+                currentPage === 1 && 'text-dark-light'
+              }`}
+            />
           </button>
         </li>
         {allPages.map((page) => (
@@ -57,7 +61,7 @@ function Pagination({ currentPage, totalPage }) {
                 pathname,
                 query: { ...query, page },
               }}
-              className={`flex h-10 w-10 cursor-pointer items-center justify-center rounded-full  text-body text-main-01 hover:bg-main-02 ${pageStatus(
+              className={`flex h-10 w-10 cursor-pointer items-center justify-center rounded-full  text-body text-main-01 duration-200 hover:bg-main-02 ${pageStatus(
                 page
               )}`}
             >
@@ -71,7 +75,11 @@ function Pagination({ currentPage, totalPage }) {
             onClick={toNextPage}
             disabled={currentPage === lastPage}
           >
-            <MdKeyboardArrowRight className="pointer-events-none text-h4 text-main-01" />
+            <MdKeyboardArrowRight
+              className={`pointer-events-none text-h4 text-main-01 ${
+                currentPage === lastPage && 'text-dark-light'
+              }`}
+            />
           </button>
         </li>
       </ul>

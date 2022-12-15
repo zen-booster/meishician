@@ -31,7 +31,7 @@ function SideBar() {
     <div className="flex" ref={clickRef}>
       <ul className="h-scree flex w-28 flex-col items-center bg-main-02 text-rwd-body text-main-03">
         <li
-          className={`relative h-20 w-full duration-200 hover:text-white ${
+          className={`relative h-24 w-full duration-200 hover:text-white ${
             buttonName === 'Template' && 'text-white shadow-01'
           }`}
         >
@@ -43,13 +43,23 @@ function SideBar() {
             name="Template"
             onClick={toggleDrawer}
           >
-            <Image
-              src="/template.svg"
-              width={40}
-              height={30}
-              alt="template"
-              className="pointer-events-none"
-            />
+            {buttonName === 'Template' ? (
+              <Image
+                src="/template-hover.svg"
+                width={40}
+                height={30}
+                alt="template"
+                className="pointer-events-none"
+              />
+            ) : (
+              <Image
+                src="/template.svg"
+                width={40}
+                height={30}
+                alt="template"
+                className="pointer-events-none"
+              />
+            )}
             <span className="pointer-events-none">名片模板</span>
           </button>
           <div
@@ -58,8 +68,9 @@ function SideBar() {
             }`}
           />
         </li>
+
         <li
-          className={`relative h-20 w-full duration-200 hover:text-white ${
+          className={`relative h-24 w-full duration-200 hover:text-white ${
             buttonName === 'Text' && 'text-white shadow-01'
           }`}
         >
@@ -71,23 +82,34 @@ function SideBar() {
             name="Text"
             onClick={toggleDrawer}
           >
-            <Image
-              src="/text.svg"
-              width={40}
-              height={30}
-              alt="text"
-              className="pointer-events-none"
-            />
+            {buttonName === 'Text' ? (
+              <Image
+                src="/text-hover.svg"
+                width={40}
+                height={30}
+                alt="text"
+                className="pointer-events-none"
+              />
+            ) : (
+              <Image
+                src="/text.svg"
+                width={40}
+                height={30}
+                alt="text"
+                className="pointer-events-none"
+              />
+            )}
             <span className="pointer-events-none">新增文字</span>
           </button>
           <div
             className={`absolute top-1/2 left-full h-4 w-4 -translate-y-1/2 -translate-x-1/2 rotate-45 bg-gray-03 ${
               buttonName === 'Text' ? 'block' : 'hidden'
             }`}
-          />{' '}
+          />
         </li>
+
         <li
-          className={`relative h-20 w-full duration-200 hover:text-white ${
+          className={`relative h-24 w-full duration-200 hover:text-white ${
             buttonName === 'Material' && 'text-white shadow-01'
           }`}
         >
@@ -99,23 +121,34 @@ function SideBar() {
             name="Material"
             onClick={toggleDrawer}
           >
-            <Image
-              src="/shape.svg"
-              width={40}
-              height={30}
-              alt="shape"
-              className="pointer-events-none"
-            />
+            {buttonName === 'Material' ? (
+              <Image
+                src="/shape-hover.svg"
+                width={40}
+                height={30}
+                alt="shape"
+                className="pointer-events-none"
+              />
+            ) : (
+              <Image
+                src="/shape.svg"
+                width={40}
+                height={30}
+                alt="shape"
+                className="pointer-events-none"
+              />
+            )}
             <span className="pointer-events-none">素材庫</span>
           </button>
           <div
             className={`absolute top-1/2 left-full h-4 w-4 -translate-y-1/2 -translate-x-1/2 rotate-45 bg-gray-03 ${
               buttonName === 'Material' ? 'block' : 'hidden'
             }`}
-          />{' '}
+          />
         </li>
+
         <li
-          className={`relative h-20 w-full duration-200 hover:text-white ${
+          className={`relative h-24 w-full duration-200 hover:text-white ${
             buttonName === 'Image' && 'text-white shadow-01'
           }`}
         >
@@ -127,13 +160,23 @@ function SideBar() {
             name="Image"
             onClick={toggleDrawer}
           >
-            <Image
-              src="/image.svg"
-              width={40}
-              height={30}
-              alt="image"
-              className="pointer-events-none"
-            />
+            {buttonName === 'Image' ? (
+              <Image
+                src="/image-hover.svg"
+                width={40}
+                height={30}
+                alt="image"
+                className="pointer-events-none"
+              />
+            ) : (
+              <Image
+                src="/image.svg"
+                width={40}
+                height={30}
+                alt="image"
+                className="pointer-events-none"
+              />
+            )}
             <span className="pointer-events-none">圖片</span>
           </button>
           <div

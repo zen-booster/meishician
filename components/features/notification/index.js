@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import axios from 'axios';
+import Space from '../../common/Space/Space';
 import Tag from './Tag';
 import Card from './Card';
 import notificationContent from '../../../data/notificationContent';
@@ -26,7 +27,8 @@ function Notification() {
 
   return (
     <div className="mx-auto max-w-container">
-      <div className="-mt-16 flex min-h-screen flex-col items-center bg-gray-04 pt-36">
+      <div className="flex min-h-screen flex-col items-center bg-gray-04 pt-20">
+        <Space />
         <div className="w-full max-w-5xl">
           <h2 className="mb-7 self-start text-h4 font-bold text-main-01">
             訊息通知
@@ -57,7 +59,7 @@ function Notification() {
             </div>
           </div>
 
-          <div className="mb-11 flex w-full flex-col gap-6">
+          <div className="mb-11 flex w-full flex-col gap-8">
             {notificationContent.map((notification) => (
               <Card key={notification.id} notification={notification} />
             ))}
