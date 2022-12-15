@@ -5,8 +5,8 @@ import { useDispatch } from 'react-redux';
 import Image from 'next/image';
 import InfoInput from '../../common/Input/InfoInput';
 import Select from '../../common/Select/Select';
-import domainData from '../../../data/domainData';
-import areaData from '../../../data/areaData';
+import { allDomain } from '../../../data/domainData';
+import { allArea } from '../../../data/areaData';
 import initJobInfo from '../../../utils/initJobInfo';
 import { TOGGLE_LOADER } from '../../../constants/constants';
 import Button from '../../common/Button/Button';
@@ -15,24 +15,6 @@ function AddCardForm() {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const allArea = [
-    {
-      id: Math.random(),
-      content: '地區',
-      value: '',
-      hidden: true,
-    },
-    ...areaData,
-  ];
-  const allDomain = [
-    {
-      id: Math.random(),
-      content: '領域',
-      value: '',
-      hidden: true,
-    },
-    ...domainData,
-  ];
   const {
     control,
     handleSubmit,
@@ -42,13 +24,6 @@ function AddCardForm() {
   const onSubmit = (data) => {
     dispatch({ type: TOGGLE_LOADER });
     const jobInfo = initJobInfo(data);
-    if (data.phoneNumber) {
-      const phoneNumber = {
-        content: data.phoneNumber,
-        isPublic: true,
-      };
-      jobInfo.phoneNumber = phoneNumber;
-    }
 
     const auth = localStorage.getItem('auth');
     axios.defaults.headers.common.Authorization = auth;
@@ -84,7 +59,13 @@ function AddCardForm() {
             </p>
             <p className="text-body">放心，你可以在之後選擇是否公開：）</p>
           </div>
-          <Image src="/invite.svg" width={200} height={218} alt="invite" />
+          <Image
+            src="/invite.svg"
+            width={200}
+            height={218}
+            alt="invite"
+            priority
+          />
         </div>
       </div>
 

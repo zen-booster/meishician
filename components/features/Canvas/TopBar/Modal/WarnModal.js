@@ -19,7 +19,7 @@ function WarnModal({ setShowWarn }) {
     saveCanvas(cardId, canvasRef, history, dispatch);
     dispatch(publishCanvas(cardId));
     setShowWarn(false);
-    router.push('/management');
+    router.push('/manage');
   };
 
   return (

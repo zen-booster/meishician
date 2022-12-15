@@ -2,31 +2,17 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 
-const translate = {
-  content: {
-    design: '設計',
-    engineering: '工程',
-    management: '管理',
-    media: '媒體',
-    sales: '銷售',
-    finance: '金融',
-    administrative: '行政',
-    technology: '科技',
-    service: '服務',
-    others: '其他',
-  },
-  color: {
-    design: '#F4A7B9',
-    engineering: '#DEB564',
-    management: '#B4D6EF',
-    media: '#C7A2E4',
-    sales: '#91E27C',
-    finance: '#C9C9C9',
-    administrative: '#FF855F',
-    technology: '#26E39F',
-    service: '#FCF297',
-    others: '#6DD0CD',
-  },
+const labelColor = {
+  設計: '#F4A7B9',
+  工程: '#DEB564',
+  管理: '#B4D6EF',
+  媒體: '#C7A2E4',
+  銷售: '#91E27C',
+  金融: '#C9C9C9',
+  行政: '#FF855F',
+  科技: '#26E39F',
+  服務: '#FCF297',
+  其他: '#6DD0CD',
 };
 
 function Card({ data, index }) {
@@ -53,9 +39,9 @@ function Card({ data, index }) {
         <div className="relative flex h-64 cursor-pointer items-center justify-center rounded-t-xl bg-main-02 px-3 py-4">
           <span
             className="absolute top-4 left-0 bg-blue-300 px-4 text-body"
-            style={{ backgroundColor: `${translate.color[domain]}` }}
+            style={{ backgroundColor: `${labelColor[domain]}` }}
           >
-            {translate.content[domain]}
+            {domain}
           </span>
 
           {layoutDirection === 'horizontal' ? (
