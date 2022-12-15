@@ -33,7 +33,7 @@ function Drawer({ buttonName, toggleDrawer }) {
 
   return (
     <motion.div
-      className="relative z-20 flex h-full w-52 flex-col items-center bg-gray-03 px-3 py-4"
+      className="relative flex h-full w-52 flex-col items-center bg-gray-03 px-3 py-4"
       variants={containerVariants}
       initial="init"
       animate="show"
@@ -42,7 +42,7 @@ function Drawer({ buttonName, toggleDrawer }) {
         onClick={toggleDrawer}
         name="close"
         type="button"
-        className="absolute top-1/2 left-full -translate-y-1/2 rounded-r-xl bg-gray-03 py-5"
+        className="absolute top-1/2 left-full z-10 -translate-y-1/2 rounded-r-xl bg-gray-03 py-5"
       >
         <MdKeyboardArrowLeft className="pointer-events-none text-h5 text-white" />
       </button>

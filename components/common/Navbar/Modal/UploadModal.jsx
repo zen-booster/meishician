@@ -29,7 +29,7 @@ export default function UploadModal({ setShowEdit }) {
       return false;
     }
     if (file.size > 2 * 1024 * 1024) {
-      toast.error('圖片超過 2MB', {
+      toast.error('圖片太大', {
         position: 'top-center',
         autoClose: 5000,
         hideProgressBar: false,

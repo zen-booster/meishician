@@ -1,6 +1,6 @@
 function Modal({ show, children }) {
   return (
-    <div className="fixed inset-0 z-30 overflow-y-auto">
+    <div className="fixed inset-0 z-40 overflow-y-auto">
       <div
         className="fixed inset-0 h-full w-full bg-black opacity-40"
         onClick={() => {
