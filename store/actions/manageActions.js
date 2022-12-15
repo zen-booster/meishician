@@ -8,11 +8,12 @@ import {
   SET_GROUP_ORDER,
   UPDATE_ACTIVE_SECTION,
   SET_BASE_URL,
+  UPDATE_MODAL_DATA,
 } from '../../constants/constants';
 
 import ManageService from '../../services/manage.service';
 import {
-  // manageModalType,
+  manageModalType,
   manageActiveSectionType,
   // manageDropdownType,
 } from '../reducers/manageReducer';
@@ -314,6 +315,36 @@ export const setPortfolioActive = (token) => async (dispatch) => {
         mainSectionData,
       },
     });
+  } catch (err) {
+    console.log(err);
+  } finally {
+    dispatch({ type: TOGGLE_LOADER });
+  }
+};
+
+export const setPortfolioCarImage = (token, cardId) => async (dispatch) => {};
+
+export const openShowCardModal = (token, cardId) => async (dispatch) => {
+  dispatch({ type: CLOSE_ALL });
+  dispatch({ type: TOGGLE_LOADER });
+  try {
+    const apiRes = await ManageService.getPortfolioCard(token, cardId);
+    const cardImage = apiRes?.data?.cardImageData;
+    const layoutDirection = apiRes?.data?.layoutDirection;
+    console.log(layoutDirection);
+    if (cardImage) {
+      dispatch({
+        type: OPEN_MODAL,
+        payload: {
+          type: manageModalType.SHOW_CARD,
+          activeCardId: cardId,
+        },
+      });
+      dispatch({
+        type: UPDATE_MODAL_DATA,
+        payload: { activeCardImage: cardImage, layoutDirection },
+      });
+    }
   } catch (err) {
     console.log(err);
   } finally {

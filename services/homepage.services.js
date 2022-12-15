@@ -10,7 +10,7 @@ const HomepageService = {
       : {};
 
     return axios
-      .get(`${DOMAIN_URL}/api/homepage/${cardId}`, {}, config)
+      .get(`${DOMAIN_URL}/api/homepage/${cardId}`, config)
       .then((response) => response.data);
   },
 
@@ -95,6 +95,24 @@ const HomepageService = {
         requestBody,
         config
       )
+      .then((response) => response.data);
+  },
+
+  saveBookmark(cardId, token) {
+    const config = {
+      headers: { Authorization: token },
+    };
+    return axios
+      .post(`${DOMAIN_URL}/api/bookmark-list/cards/${cardId}`, {}, config)
+      .then((response) => response.data);
+  },
+
+  deleteBookmark(cardId, token) {
+    const config = {
+      headers: { Authorization: token },
+    };
+    return axios
+      .delete(`${DOMAIN_URL}/api/bookmark-list/cards/${cardId}`, {}, config)
       .then((response) => response.data);
   },
 };

@@ -11,6 +11,7 @@ import DropdownMenuItem from '../../DropdownMenu/DropdownMenuItem';
 import {
   toggleDropdown,
   openModal,
+  openShowCardModal,
   // toggleCardPin,
   // setInitData,
 } from '../../../../../store/actions/manageActions';
@@ -21,35 +22,33 @@ import {
 } from '../../../../../store/reducers/manageReducer';
 
 export default function Card({ cardData }) {
+  // const { token } = useSelector((state) => state.loginStatus);
+
   const { token } = useSelector((state) => state.loginStatus);
   const { isDropdownOpen, dropdown } = useSelector((state) => state.manage);
   const dispatch = useDispatch();
 
-  const {
-    cardId,
-    companyName = '公司未公開',
-    createdAt,
-    jobTitle = '職稱未公開',
-    name = '姓名未公開',
-    phoneNumber,
-  } = cardData;
+  const { cardId, companyName, createdAt, jobTitle, name, phoneNumber } =
+    cardData;
 
   const isCurrentDropdown =
     isDropdownOpen &&
     dropdown.activeCardId === cardId &&
-    dropdown.type === manageDropdownType.BOOKMARK;
+    dropdown.type === manageDropdownType.PORTFOLIO;
 
   function handleDropdown(e) {
     e.preventDefault();
     e.stopPropagation();
     dispatch(
       toggleDropdown({
-        type: manageDropdownType.BOOKMARK,
+        type: manageDropdownType.PORTFOLIO,
         activeCardId: cardId,
       })
     );
   }
-  function handleOpenShowCardModal() {
+  async function handleOpenShowCardModal() {
+    dispatch(openShowCardModal(token, cardId));
+
     dispatch(
       openModal({
         type: manageModalType.SHOW_CARD,
@@ -59,20 +58,11 @@ export default function Card({ cardData }) {
   }
 
   function handleOpenShowQrCodeModal() {
+    console.log(cardId);
     dispatch(
       openModal({
         type: manageModalType.SHOW_QRCODE,
         activeCardId: cardId,
-      })
-    );
-  }
-
-  function handleOpenDeleteBookMarkModal() {
-    dispatch(
-      openModal({
-        type: manageModalType.DELETE_BOOKMARK,
-        activeCardId: cardId,
-        activeGroupId: groupId,
       })
     );
   }
@@ -100,9 +90,10 @@ export default function Card({ cardData }) {
 
         <button
           type="button"
+          onClick={(e) => handleOpenShowQrCodeModal(e)}
           className="flex grow items-center justify-center rounded-b-xl bg-[#268785] p-3 text-white"
         >
-          展開名片
+          打開QR Code
         </button>
       </div>
 
@@ -115,17 +106,12 @@ export default function Card({ cardData }) {
               </button>
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <button
-                type="button"
-                onClick={(e) => handleOpenDeleteBookMarkModal(e)}
-              >
-                修改名片
-              </button>
+              <Link href={`/canvas-editor/${cardId}`}>修改名片</Link>
             </DropdownMenuItem>
             <DropdownMenuItem warning>
               <button
                 type="button"
-                onClick={(e) => handleOpenDeleteBookMarkModal(e)}
+                onClick={(e) => handleOpenDeletePortfolioModal(e)}
               >
                 刪除名片
               </button>

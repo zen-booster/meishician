@@ -8,7 +8,7 @@ const ManageService = {
     };
     console.log('config', config);
     return axios
-      .get(`${DOMAIN_URL}/api/bookmark-list/groups`, {}, config)
+      .get(`${DOMAIN_URL}/api/bookmark-list/groups`, config)
       .then((response) => response.data);
   },
 
@@ -18,7 +18,7 @@ const ManageService = {
     };
 
     return axios
-      .get(`${DOMAIN_URL}/api/bookmark-list/tags`, {}, config)
+      .get(`${DOMAIN_URL}/api/bookmark-list/tags`, config)
       .then((response) => response.data);
   },
 
@@ -30,7 +30,6 @@ const ManageService = {
     return axios
       .get(
         `${DOMAIN_URL}/api/bookmark-list/groups/${groupId}/cards?asc=${sortBy}&page=${page}`,
-        {},
         config
       )
       .then((response) => response.data);
@@ -42,7 +41,7 @@ const ManageService = {
     };
 
     return axios
-      .delete(`${DOMAIN_URL}/api/bookmark-list/cards/${cardId}`, {}, config)
+      .delete(`${DOMAIN_URL}/api/bookmark-list/cards/${cardId}`, config)
       .then((response) => response.data);
   },
 
@@ -52,7 +51,7 @@ const ManageService = {
     };
 
     return axios
-      .delete(`${DOMAIN_URL}/api/bookmark-list/groups/${groupId}`, {}, config)
+      .delete(`${DOMAIN_URL}/api/bookmark-list/groups/${groupId}`, config)
       .then((response) => response.data);
   },
 
@@ -90,7 +89,7 @@ const ManageService = {
     };
 
     return axios
-      .get(`${DOMAIN_URL}/api/bookmark-list/tags/${tag}`, {}, config)
+      .get(`${DOMAIN_URL}/api/bookmark-list/tags/${tag}`, config)
       .then((response) => response.data);
   },
 
@@ -145,7 +144,7 @@ const ManageService = {
     };
 
     return axios
-      .delete(`${DOMAIN_URL}/api/portfolio/${cardId}`, {}, config)
+      .delete(`${DOMAIN_URL}/api/portfolio/${cardId}`, config)
       .then((response) => response.data);
   },
 
@@ -155,7 +154,7 @@ const ManageService = {
     };
 
     return axios
-      .get(`${DOMAIN_URL}/api/portfolio`, {}, config)
+      .get(`${DOMAIN_URL}/api/portfolio`, config)
       .then((response) => response.data);
   },
 
@@ -171,6 +170,16 @@ const ManageService = {
 
     return axios
       .post(`${DOMAIN_URL}/api/messages/${cardId}`, requestBody, config)
+      .then((response) => response.data);
+  },
+
+  getPortfolioCard(token, cardId) {
+    const config = {
+      headers: { Authorization: token },
+    };
+
+    return axios
+      .get(`${DOMAIN_URL}/api/portfolio/${cardId}`, config)
       .then((response) => response.data);
   },
 };

@@ -27,7 +27,7 @@ function EditBookmarkModal() {
     // formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     let { tags } = data;
     const { groupId, note } = data;
     if (tags) tags = tags.replace(/\s/g, '').split(',');
@@ -38,8 +38,10 @@ function EditBookmarkModal() {
       note,
       followerGroupId: groupId,
     };
-    dispatch(editBookmarkNotes(token, activeCardId, newNotes));
-    dispatch(setInitData(token, groupId));
+    const editRes = await dispatch(
+      editBookmarkNotes(token, activeCardId, newNotes)
+    );
+    const setRes = await dispatch(setInitData(token, groupId));
   };
 
   // const onSubmit = (data) => {

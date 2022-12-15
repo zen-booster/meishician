@@ -1,14 +1,15 @@
 import Image from 'next/image';
+import { getCookie } from 'cookies-next';
+
 import { saveAs } from 'file-saver';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
+
 import { motion } from 'framer-motion';
 import {
   SET_HOMEPAGE_INFO,
   TOGGLE_HOMEPAGE_EDITOR,
-  SET_AUTHOR,
-  REMOVE_AUTHOR,
 } from '../../constants/constants';
 import HomepageService from '../../services/homepage.services';
 
@@ -23,12 +24,15 @@ import linkTypeIconMap from '../../data/linkTypeIconMap';
 import Loader from '../../components/common/Loader/Loader';
 import editIcon from '../../public/icons/edit.svg';
 
+import { saveBookmark } from '../../store/actions/homepageActions';
+
 function Homepage() {
   const router = useRouter();
-  const { isAuthor, isEditorOpen } = useSelector((state) => state.homepage);
-  const { isLoading } = useSelector((state) => state.loaderStatus);
+  const { isEditorOpen } = useSelector((state) => state.homepage);
+  const { token } = useSelector((state) => state.loginStatus);
+  console.log(token);
 
-  const { isLogin, token } = useSelector((state) => state.loginStatus);
+  const { isLoading } = useSelector((state) => state.loaderStatus);
 
   const { homepage } = useSelector((state) => state);
   const cardImageData = homepage?.homepageData?.cardImageData || '';
@@ -41,10 +45,16 @@ function Homepage() {
   const homepageLink = data?.homepageLink;
   const cardId = data?.cardId;
   const homepageTitle = data?.homepageTitle;
+  const role = data?.role;
+
   const dispatch = useDispatch();
 
   function handleOpenEditor() {
     dispatch({ type: TOGGLE_HOMEPAGE_EDITOR });
+  }
+
+  function handleSetBookmark() {
+    dispatch(saveBookmark(cardId, token));
   }
 
   const saveFile = (b64DataArr) => {
@@ -67,20 +77,6 @@ function Homepage() {
     setIsDisplayFrontCard((prev) => (backCardImageData ? !prev : true));
   }
 
-  useEffect(() => {
-    async function handleIsAuthor() {
-      if (!cardId) return;
-      const res = await HomepageService.getHomepageInfo(cardId, token);
-      if (res?.data?.isAuthor === true) {
-        dispatch({ type: SET_AUTHOR });
-      } else {
-        dispatch({ type: REMOVE_AUTHOR });
-      }
-    }
-
-    handleIsAuthor();
-  }, [cardId, isLogin]);
-
   function renderJobInfo() {
     return [
       'name',
@@ -90,9 +86,9 @@ function Homepage() {
       'city',
       'domain',
     ].map((el) => {
-      const { isPublic } = jobInfo[el];
+      const isPublic = !!jobInfo?.[el]?.content;
       const zhName = ZhEnMap[el];
-      const value = jobInfo[el].content;
+      const value = jobInfo?.[el]?.content;
       return (
         isPublic && (
           <tr key={value}>
@@ -143,13 +139,43 @@ function Homepage() {
       ? { width: 648, height: 360 }
       : { width: 360, height: 648 };
 
-  let role;
-  if (isAuthor === true && isLogin === true) {
-    role = 'author';
-  } else if (isAuthor === false && isLogin === true) {
-    role = 'member';
-  } else {
-    role = 'guest';
+  function renderCardButton() {
+    switch (role) {
+      case 'author':
+        return (
+          <Button
+            variant="outlined"
+            className="mr-5 w-1/2 py-1 text-lg"
+            onClick={() => {
+              router.push(`/canvas-editor/${cardId}`);
+            }}
+          >
+            <p>編輯名片</p>
+          </Button>
+        );
+      case 'nonBookmarkedMember':
+        return (
+          <Button
+            onClick={() => handleSetBookmark()}
+            variant="outlined"
+            className="mr-5 w-1/2 py-1 text-lg"
+          >
+            <p>收藏名片</p>
+          </Button>
+        );
+      case 'bookmarkedMember':
+        return (
+          <Button
+            variant="outlined"
+            className="mr-5 w-1/2 py-1 text-lg"
+            disabled
+          >
+            <p>名片已收藏</p>
+          </Button>
+        );
+      default:
+        return <div />;
+    }
   }
 
   return (
@@ -189,25 +215,8 @@ function Homepage() {
                   )}
                 </motion.button>
 
-                <div className="flex justify-between gap-5">
-                  {isLogin && isAuthor && (
-                    <Button
-                      variant="outlined"
-                      className="w-1/2 py-1 text-lg"
-                      onClick={() => {
-                        router.push(`/canvas-editor/${cardId}`);
-                      }}
-                    >
-                      <p>編輯名片</p>
-                    </Button>
-                  )}
-
-                  {role === 'member' && (
-                    <Button variant="outlined" className="w-1/2 py-1 text-lg">
-                      <p>收藏名片</p>
-                    </Button>
-                  )}
-
+                <div className="flex justify-between">
+                  {renderCardButton()}
                   <Button
                     variant="outlined"
                     className={`py-1 text-lg ${
@@ -226,7 +235,7 @@ function Homepage() {
                 <h2 className="mr-auto text-h4 font-bold text-main-01">
                   個人資訊Info
                 </h2>
-                {isAuthor && (
+                {role === 'author' && (
                   <button
                     className="flex hover:font-bold"
                     type="button"
@@ -255,10 +264,14 @@ function Homepage() {
 
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async (context) => {
+    const { req, res } = context;
     const { cardId } = context.params;
 
+    const token = getCookie('auth', { req, res });
+    // token = JSON.parse(JSON.stringify(token));
+
     try {
-      const apiResponse = await HomepageService.getHomepageInfo(cardId);
+      const apiResponse = await HomepageService.getHomepageInfo(cardId, token);
       store.dispatch({ type: SET_HOMEPAGE_INFO, payload: apiResponse.data });
       return { props: {} };
     } catch {

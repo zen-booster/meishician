@@ -47,9 +47,6 @@ export default function CardList() {
   function renderCard() {
     return (
       <>
-        <h3 className="text-3xl font-bold text-main-01">
-          {renderMainSectionHeader()}
-        </h3>
         {activeType === manageActiveSectionType.BOOKMARK && (
           <div className="flex justify-end">
             <label
@@ -80,5 +77,12 @@ export default function CardList() {
   }
 
   // eslint-disable-next-line react/jsx-no-useless-fragment
-  return <>{mainSectionData.length > 0 ? renderCard() : <PlaceholderPage />}</>;
+  return (
+    <>
+      <h3 className="text-3xl font-bold text-main-01">
+        {renderMainSectionHeader()}
+      </h3>
+      {mainSectionData.length > 0 ? renderCard() : <PlaceholderPage />}
+    </>
+  );
 }

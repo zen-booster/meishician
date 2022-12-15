@@ -171,6 +171,7 @@ export default function Card({ cardData }) {
                   width={56}
                   height={56}
                   style={{ objectFit: 'contain' }}
+                  className="h-[56px] w-[56px]"
                   alt="card avatar"
                 />
               </div>

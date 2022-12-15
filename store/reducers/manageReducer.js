@@ -9,6 +9,7 @@ import {
   SET_GROUP_ORDER,
   UPDATE_ACTIVE_SECTION,
   SET_BASE_URL,
+  UPDATE_MODAL_DATA,
 } from '../../constants/constants';
 
 export const manageModalType = {
@@ -68,6 +69,8 @@ const initState = {
     activeQrCodeLink: null,
     isCustomMessage: false,
     CustomMessageBody: null,
+    activeCardImage: null,
+    layoutDirection: null,
   },
   dropdown: {
     type: null,
@@ -88,6 +91,10 @@ export default function (state = initState, action) {
       return produce(state, (draftState) => {
         draftState.isModalOpen = true;
         draftState.modal = action.payload;
+      });
+    case UPDATE_MODAL_DATA:
+      return produce(state, (draftState) => {
+        Object.assign(draftState.modal, action.payload);
       });
     case TOGGLE_DROPDOWN:
       return produce(state, (draftState) => {
