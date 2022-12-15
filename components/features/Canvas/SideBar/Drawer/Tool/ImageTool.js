@@ -58,7 +58,7 @@ function ImageTool() {
   }
 
   return (
-    <div className="w-full px-3 py-7">
+    <div className="w-full">
       <label className="mb-7 flex w-full cursor-pointer items-center justify-center rounded-xl border border-black bg-gray-02 py-1 text-body text-black">
         上傳圖片＋
         <input type="file" onChange={saveLocalImage} className="hidden" />
@@ -72,16 +72,17 @@ function ImageTool() {
               <img
                 src={image}
                 alt="local-data"
-                className="my-6 cursor-pointer"
+                className="m-auto my-6 cursor-pointer duration-200 ease-in hover:scale-110"
                 onClick={renderImage}
               />
-              <span
+              <button
+                type="button"
                 className="absolute top-2 right-2 z-10 hidden cursor-pointer text-2xl text-red-600 group-hover:block"
                 onClick={deleteLocalImage}
                 data-index={index}
               >
                 <TiDelete className="pointer-events-none" />
-              </span>
+              </button>
             </div>
           ))}
       </div>

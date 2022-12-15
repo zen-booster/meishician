@@ -1,7 +1,6 @@
 import { useState, useRef } from 'react';
 import Image from 'next/image';
 import Drawer from './Drawer/Drawer';
-import useClickOutside from '../../../../hooks/useClickOutside';
 
 function SideBar() {
   const clickRef = useRef();
@@ -9,12 +8,6 @@ function SideBar() {
   const [buttonName, setButtonName] = useState('');
 
   const toggleDrawer = (e) => {
-    if (e === undefined) {
-      setShowDrawer(false);
-      setButtonName(null);
-      return;
-    }
-
     const targetName = e.target.getAttribute('name');
 
     switch (targetName) {
@@ -34,13 +27,11 @@ function SideBar() {
     }
   };
 
-  useClickOutside(clickRef, toggleDrawer);
-
   return (
-    <div className="flex" ref={clickRef}>
+    <div className="flex duration-200 ease-in" ref={clickRef}>
       <ul className="h-scree relative flex w-28 flex-col items-center bg-main-02 text-rwd-body text-main-03">
         <li
-          className={`relative h-20 w-full ${
+          className={`relative h-20 w-full duration-200 hover:text-white ${
             buttonName === 'Template' && 'text-white shadow-01'
           }`}
         >
@@ -68,7 +59,7 @@ function SideBar() {
           />
         </li>
         <li
-          className={`relative h-20 w-full ${
+          className={`relative h-20 w-full duration-200 hover:text-white ${
             buttonName === 'Text' && 'text-white shadow-01'
           }`}
         >
@@ -96,7 +87,7 @@ function SideBar() {
           />{' '}
         </li>
         <li
-          className={`relative h-20 w-full ${
+          className={`relative h-20 w-full duration-200 hover:text-white ${
             buttonName === 'Material' && 'text-white shadow-01'
           }`}
         >
@@ -124,7 +115,7 @@ function SideBar() {
           />{' '}
         </li>
         <li
-          className={`relative h-20 w-full ${
+          className={`relative h-20 w-full duration-200 hover:text-white ${
             buttonName === 'Image' && 'text-white shadow-01'
           }`}
         >
@@ -152,8 +143,9 @@ function SideBar() {
           />{' '}
         </li>
       </ul>
+
       {showDrawer && (
-        <Drawer closeDrawer={toggleDrawer} buttonName={buttonName} />
+        <Drawer buttonName={buttonName} toggleDrawer={toggleDrawer} />
       )}
     </div>
   );
