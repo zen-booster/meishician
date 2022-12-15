@@ -26,7 +26,7 @@ function Notification() {
 
   return (
     <div className="mx-auto max-w-container">
-      <div className="flex flex-col items-center bg-gray-04 pt-20">
+      <div className="-mt-16 flex min-h-screen flex-col items-center bg-gray-04 pt-36">
         <div className="w-full max-w-5xl">
           <h2 className="mb-7 self-start text-h4 font-bold text-main-01">
             訊息通知

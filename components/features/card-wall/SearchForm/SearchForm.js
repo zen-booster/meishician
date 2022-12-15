@@ -2,11 +2,10 @@ import { useForm, Controller } from 'react-hook-form';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import SearchInput from '../../../common/Input/SearchInput';
-import domainData from '../../../../data/domainData';
-import areaData from '../../../../data/areaData';
+import { defaultDomain } from '../../../../data/domainData';
+import { defaultArea } from '../../../../data/areaData';
 
 const all = {
-  id: Math.random(),
   content: 'All',
   value: 'all',
 };
@@ -14,8 +13,8 @@ const all = {
 function SearchForm() {
   const router = useRouter();
   const { pathname, query } = router;
-  const allDomain = [all, ...domainData];
-  const allArea = [all, ...areaData];
+  const allDomain = [all, ...defaultDomain];
+  const allArea = [all, ...defaultArea];
   const { register, control, handleSubmit } = useForm();
 
   const onSubmit = (data) => {

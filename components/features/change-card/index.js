@@ -5,8 +5,8 @@ import { useState, useContext } from 'react';
 import Image from 'next/image';
 import InfoInput from '../../common/Input/InfoInput';
 import Select from '../../common/Select/Select';
-import domainData from '../../../data/domainData';
-import areaData from '../../../data/areaData';
+import { allDomain } from '../../../data/domainData';
+import { allArea } from '../../../data/areaData';
 import initJobInfo from '../../../utils/initJobInfo';
 import { TOGGLE_LOADER, HIDE_INFO_FROM } from '../../../constants/constants';
 import Button from '../../common/Button/Button';
@@ -23,24 +23,6 @@ function ChangeCardForm() {
   const [isCustomized, setIsCustomized] = useState(false);
   const canvasRef = useContext(fabricContext);
 
-  const allArea = [
-    {
-      id: Math.random(),
-      content: '地區',
-      value: '',
-      hidden: true,
-    },
-    ...areaData,
-  ];
-  const allDomain = [
-    {
-      id: Math.random(),
-      content: '領域',
-      value: '',
-      hidden: true,
-    },
-    ...domainData,
-  ];
   const {
     register,
     control,
@@ -52,13 +34,7 @@ function ChangeCardForm() {
     dispatch({ type: TOGGLE_LOADER });
     const { message } = data;
     const jobInfo = initJobInfo(data);
-    if (data.phoneNumber) {
-      const phoneNumber = {
-        content: data.phoneNumber,
-        isPublic: true,
-      };
-      jobInfo.phoneNumber = phoneNumber;
-    }
+
     const messageBody = isCustomized
       ? message
       : `${jobInfo.name.content}已更新名片`;

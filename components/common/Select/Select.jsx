@@ -15,7 +15,7 @@ function Select({ onChange, value, children }) {
       value={value}
     >
       {children.map((option) => (
-        <Options key={option.id} data={option} />
+        <Options key={option.content} data={option} />
       ))}
     </select>
   );

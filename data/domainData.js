@@ -1,54 +1,51 @@
-const domainData = [
+export const defaultDomain = [
   {
     content: '設計',
-    value: 'design',
-    id: Math.random(),
+    value: '設計',
   },
   {
     content: '工程',
-    value: 'engineering',
-    id: Math.random(),
+    value: '工程',
   },
   {
     content: '管理',
-    value: 'management',
-    id: Math.random(),
+    value: '管理',
   },
   {
     content: '媒體',
-    value: 'media',
-    id: Math.random(),
+    value: '媒體',
   },
   {
     content: '銷售',
-    value: 'sales',
-    id: Math.random(),
+    value: '銷售',
   },
   {
     content: '金融',
-    value: 'finance',
-    id: Math.random(),
+    value: '金融',
   },
   {
     content: '行政',
-    value: 'administrative',
-    id: Math.random(),
+    value: '行政',
   },
   {
     content: '科技',
-    value: 'technology',
-    id: Math.random(),
+    value: '科技',
   },
   {
     content: '服務',
-    value: 'service',
-    id: Math.random(),
+    value: '服務',
   },
   {
     content: '其他',
-    value: 'others',
-    id: Math.random(),
+    value: '其他',
   },
 ];
 
-export default domainData;
+export const allDomain = [
+  {
+    content: '領域',
+    value: '',
+    hidden: true,
+  },
+  ...defaultDomain,
+];

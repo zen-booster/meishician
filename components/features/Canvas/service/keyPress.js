@@ -3,6 +3,9 @@ import saveCanvas from './saveCanvas';
 import undo from './undo';
 import redo from './redo';
 import flip from './flip';
+import toggleBold from './toggleBold';
+import toggleItalic from './toggleItalic';
+import toggleUnderline from './toggleUnderline';
 
 function keyPress(e, cardId, canvasRef, history, dispatch, pressKey) {
   const canvas = canvasRef.current;
@@ -26,6 +29,20 @@ function keyPress(e, cardId, canvasRef, history, dispatch, pressKey) {
       break;
     case 'y':
       if (pressKey.Control) redo(canvas, history, dispatch);
+      break;
+    case 'b':
+      if (pressKey.Control && activeObject?.get('type') === 'textbox')
+        toggleBold(canvas, activeObject, dispatch);
+      break;
+    case 'i':
+      e.preventDefault();
+      if (pressKey.Control && activeObject?.get('type') === 'textbox')
+        toggleItalic(canvas, activeObject, dispatch);
+      break;
+    case 'u':
+      e.preventDefault();
+      if (pressKey.Control && activeObject?.get('type') === 'textbox')
+        toggleUnderline(canvas, activeObject, dispatch);
       break;
     case ' ':
       if (pressKey.Control) flip(canvas, history, dispatch);
