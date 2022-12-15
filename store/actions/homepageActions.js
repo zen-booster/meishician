@@ -3,6 +3,7 @@ import {
   TOGGLE_LOADER,
   SET_LINK_EDITOR_DATA,
   SET_LINK_ORDER,
+  SAVE_BOOKMARK,
 } from '../../constants/constants';
 
 import HomepageService from '../../services/homepage.services';
@@ -111,3 +112,15 @@ export const updateLinkOrderApi =
       })
       .finally(() => dispatch({ type: TOGGLE_LOADER }));
   };
+
+export const saveBookmark = (cardId, token) => (dispatch) => {
+  dispatch({ type: TOGGLE_LOADER });
+  HomepageService.saveBookmark(cardId, token)
+    .then(() => {
+      dispatch({ type: SAVE_BOOKMARK });
+    })
+    .catch((error) => {
+      alert(`錯誤 ${error}`);
+    })
+    .finally(() => dispatch({ type: TOGGLE_LOADER }));
+};

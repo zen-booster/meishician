@@ -4,14 +4,12 @@ import { QRCodeSVG } from 'qrcode.react';
 import Modal from '../Modal';
 import ModalHeader from '../ModalHeader';
 
-import Button from '../../../../common/Button/Button';
-
 import { closeAll } from '../../../../../store/actions/manageActions';
 
 function QrCodeModal() {
   const dispatch = useDispatch();
   const { baseUrl } = useSelector((state) => state.manage);
-  const { activeCardId } = useSelector((state) => state.manage.activeSection);
+  const { activeCardId } = useSelector((state) => state.manage.modal);
 
   function handleCloseOpen() {
     dispatch(closeAll());
@@ -21,8 +19,9 @@ function QrCodeModal() {
   return (
     <Modal onCloseModal={() => handleCloseOpen()}>
       <ModalHeader>個人頁面 QR Code</ModalHeader>
-      <QRCodeSVG value={urlValue} />
-      <Button>取消</Button>
+      <div className="flex justify-center">
+        <QRCodeSVG value={urlValue} size={256} />
+      </div>
     </Modal>
   );
 }
