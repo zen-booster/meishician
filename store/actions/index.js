@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { getCookies, getCookie, setCookie, deleteCookie } from 'cookies-next';
+
 import {
   LOGIN,
   LOGOUT,
@@ -18,9 +20,43 @@ import getBackground from '../../components/features/Canvas/service/getBackgroun
 import resizeCanvas from '../../components/features/Canvas/service/resizeCanvas';
 import setLoadData from '../../components/features/Canvas/service/setLoadData';
 
-export const verify = () => (dispatch) => {
+export const verify = () => (dispatch, getState) => {
   const token = localStorage.getItem('auth');
   const avatar = localStorage.getItem('avatar');
+  // if (token) {
+  //   AuthService.verify(token)
+  //     .then(() => {
+  //       console.log('action log');
+  //       dispatch({ type: LOGIN });
+
+  //       console.log('action set token');
+
+  //       if (avatar) dispatch({ type: SET_AVATAR, payload: avatar });
+
+  //       if (!getState().loginStatus.token)
+  //         dispatch({ type: SET_TOKEN, payload: token });
+  //     })
+  //     .catch(() => {
+  //       dispatch({ type: LOGOUT });
+  //     });
+  // }
+  if (token) {
+    if (avatar) dispatch({ type: SET_AVATAR, payload: avatar });
+    if (!getState().loginStatus.token) {
+      dispatch({ type: SET_TOKEN, payload: token });
+      dispatch({ type: LOGIN });
+    }
+    if (!getState().loginStatus.isLogin) {
+      dispatch({ type: LOGIN });
+    }
+  }
+
+  if (!token) {
+    dispatch({ type: LOGOUT });
+  }
+};
+
+export const verifyCookies = (token, avatar) => (dispatch) => {
   if (token) {
     AuthService.verify(token)
       .then(() => {
@@ -48,9 +84,17 @@ export const login = (email, password) => (dispatch) => {
       dispatch({ type: LOGIN });
 
       localStorage.setItem('auth', `Bearer ${token}`);
-      if (avatar) localStorage.setItem('avatar', avatar);
+      setCookie('auth', `Bearer ${token}`, {
+        expires: new Date(Date.now() + 30 * 86400 * 1000),
+      });
 
-      dispatch({ type: SET_TOKEN, payload: token });
+      if (avatar) localStorage.setItem('avatar', avatar);
+      if (avatar)
+        setCookie('avatar', avatar, {
+          expires: new Date(Date.now() + 30 * 86400 * 1000),
+        });
+
+      dispatch({ type: SET_TOKEN, payload: `Bearer ${token}` });
       if (avatar) dispatch({ type: SET_AVATAR, payload: avatar });
     })
     .catch(() => {

@@ -1,8 +1,10 @@
 import { FaFolderOpen } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
+import { getCookie } from 'cookies-next';
 import BookmarkCardList from '../../components/features/manage/BookmarkCardList';
 import PortfolioCardList from '../../components/features/manage/PortfolioCardList';
 
@@ -13,6 +15,7 @@ import AddNewGroupModal from '../../components/features/manage/Modal/AddNewGroup
 import DeleteGroupModal from '../../components/features/manage/Modal/DeleteGroupModal';
 import RenameGroupModal from '../../components/features/manage/Modal/RenameGroupModal';
 import ShowCardModal from '../../components/features/manage/Modal/ShowCardModal';
+import QrCodeModal from '../../components/features/manage/Modal/QrCodeModal';
 
 import { useWindowWide } from '../../hooks/useWindowWide';
 import {
@@ -23,6 +26,7 @@ import {
 import { setInitData, setBaseUrl } from '../../store/actions/manageActions';
 
 export default function Manage() {
+  const router = useRouter();
   const wide = useWindowWide();
   const baseUrl =
     typeof window !== 'undefined' && window.location.origin
@@ -30,7 +34,10 @@ export default function Manage() {
       : '';
 
   const dispatch = useDispatch();
-  const { token, isLogin } = useSelector((state) => state.loginStatus);
+  // const { token, isLogin } = useSelector((state) => state.loginStatus);
+  // const loginStatus = useSelector((state) => state.loginStatus);
+  // console.log(token, isLogin, loginStatus);
+
   const { isModalOpen, modal, activeSection } = useSelector(
     (state) => state.manage
   );
@@ -62,6 +69,9 @@ export default function Manage() {
         case manageModalType.SHOW_CARD: {
           return <ShowCardModal />;
         }
+        case manageModalType.SHOW_QRCODE: {
+          return <QrCodeModal />;
+        }
         default: {
           return <div />;
         }
@@ -78,11 +88,14 @@ export default function Manage() {
   }
 
   useEffect(() => {
-    if (isLogin && !!token) {
+    if (getCookie('auth')) {
+      const token = getCookie('auth');
       dispatch(setInitData(token));
       dispatch(setBaseUrl(baseUrl));
+    } else {
+      router.push('/login');
     }
-  }, [isLogin, token]);
+  }, []);
 
   useEffect(() => {
     if (wide < 996) setIsSidebarActive(false);
@@ -95,7 +108,7 @@ export default function Manage() {
         {renderModal()}
         <aside
           className={`${isSidebarActive ? 'block' : 'hidden'} 
-        absolute z-20 min-h-screen 
+        absolute z-20 
         w-3/4
         bg-white
         p-5
