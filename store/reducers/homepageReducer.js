@@ -2,10 +2,9 @@ import produce from 'immer';
 import {
   SET_HOMEPAGE_INFO,
   TOGGLE_HOMEPAGE_EDITOR,
-  SET_AUTHOR,
-  REMOVE_AUTHOR,
   SET_LINK_EDITOR_DATA,
   SET_LINK_ORDER,
+  SAVE_BOOKMARK,
 } from '../../constants/constants';
 
 const initState = {
@@ -27,14 +26,11 @@ export default function (state = initState, action) {
       return produce(state, (draftState) => {
         draftState.homepageData = action.payload;
       });
-    case SET_AUTHOR:
+    case SAVE_BOOKMARK:
       return produce(state, (draftState) => {
-        draftState.isAuthor = true;
+        draftState.homepageData.role = 'bookmarkedMember';
       });
-    case REMOVE_AUTHOR:
-      return produce(state, (draftState) => {
-        draftState.isAuthor = false;
-      });
+
     case TOGGLE_HOMEPAGE_EDITOR:
       return produce(state, (draftState) => {
         draftState.isEditorOpen = !draftState.isEditorOpen;
