@@ -29,5 +29,7 @@
   },
   "editor.tabSize": 2,
   "javascript.preferences.quoteStyle": "double",
-  "prettier.configPath": ".prettierrc"
+  "prettier.configPath": ".prettierrc",
+  "typescript.suggest.paths": false,
+  "javascript.suggest.paths": false
 }
