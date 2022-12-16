@@ -8,7 +8,7 @@ import { LOGOUT } from '../../../constants/constants';
 import useClickOutside from '../../../hooks/useClickOutside';
 import UploadModal from './Modal/UploadModal';
 
-function Navbar({ children }) {
+function Navbar() {
   const { isLogin, avatar } = useSelector((state) => state.loginStatus);
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
@@ -41,7 +41,7 @@ function Navbar({ children }) {
 
   return (
     <>
-      <div className="fixed z-30 flex h-16 w-full items-center justify-between bg-main-01 py-2 pl-8 pr-11 font-bold text-white shadow-01">
+      <div className="fixed z-30 flex w-full items-center justify-between bg-main-01 py-2 pl-8 pr-11 font-bold text-white shadow-01">
         <div className="flex items-center gap-14 ">
           <Link href="/">
             <Image
@@ -54,6 +54,7 @@ function Navbar({ children }) {
           </Link>
           <span className="hidden laptop:block">電子名片商務方案</span>
         </div>
+
         <ul className="flex items-center gap-12">
           <li className="hidden laptop:block laptop:h-full">
             <Link href="/card-wall">名片牆</Link>
@@ -172,10 +173,8 @@ function Navbar({ children }) {
           />
         )}
       </div>
-      <div className="pt-16" />
 
       {showEdit && <UploadModal setShowEdit={setShowEdit} />}
-      {children}
     </>
   );
 }

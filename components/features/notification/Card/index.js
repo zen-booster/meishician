@@ -14,7 +14,7 @@ function Card({ notification }) {
 
   return (
     <div
-      className="flex w-full cursor-pointer justify-between overflow-hidden rounded-2xl bg-white text-body"
+      className="flex w-full cursor-pointer justify-between overflow-hidden rounded-2xl bg-white text-body duration-200 hover:scale-105"
       onClick={toggleFull}
     >
       <div className="flex w-full items-center justify-start py-5 pl-10 pr-6">
@@ -28,7 +28,7 @@ function Card({ notification }) {
         <p className="flex w-full items-center justify-between">
           {messageBody.length >= 20 && !isFull ? shortMessage : messageBody}
           {messageBody.length >= 20 && !isFull && (
-            <span className="text-label text-main-01">（繼續閱讀）</span>
+            <span className="text-main-01">（繼續閱讀）</span>
           )}
         </p>
       </div>

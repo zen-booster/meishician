@@ -2,11 +2,10 @@ import { useForm, Controller } from 'react-hook-form';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import SearchInput from '../../../common/Input/SearchInput';
-import domainData from '../../../../data/domainData';
-import areaData from '../../../../data/areaData';
+import { defaultDomain } from '../../../../data/domainData';
+import { defaultArea } from '../../../../data/areaData';
 
 const all = {
-  id: Math.random(),
   content: 'All',
   value: 'all',
 };
@@ -14,8 +13,8 @@ const all = {
 function SearchForm() {
   const router = useRouter();
   const { pathname, query } = router;
-  const allDomain = [all, ...domainData];
-  const allArea = [all, ...areaData];
+  const allDomain = [all, ...defaultDomain];
+  const allArea = [all, ...defaultArea];
   const { register, control, handleSubmit } = useForm();
 
   const onSubmit = (data) => {
@@ -32,34 +31,36 @@ function SearchForm() {
         搜尋名片
       </h3>
 
-      <div className="flex h-12 w-full justify-center gap-6">
-        <select
-          {...register('domain')}
-          className="w-44 rounded-lg border border-dark-light bg-white px-2 text-dark-light"
-        >
-          {allDomain.map((domain) => (
-            <option
-              key={domain.value}
-              value={domain.value}
-              className="text-black"
-            >
-              {domain.content}
-            </option>
-          ))}
-        </select>
+      <div className="flex w-full flex-col justify-center gap-6 px-3 sm:flex-row">
+        <div className="flex gap-6">
+          <select
+            {...register('domain')}
+            className="h-12 w-full rounded-lg border border-dark-light bg-white px-2 text-dark-light sm:w-44"
+          >
+            {allDomain.map((domain) => (
+              <option
+                key={domain.value}
+                value={domain.value}
+                className="text-black"
+              >
+                {domain.content}
+              </option>
+            ))}
+          </select>
 
-        <select
-          {...register('city')}
-          className="w-44 rounded-lg border border-dark-light bg-white px-2 text-dark-light"
-        >
-          {allArea.map((city) => (
-            <option key={city.value} value={city.value}>
-              {city.content}
-            </option>
-          ))}
-        </select>
+          <select
+            {...register('city')}
+            className="h-12 w-full rounded-lg border border-dark-light bg-white px-2 text-dark-light sm:w-44"
+          >
+            {allArea.map((city) => (
+              <option key={city.value} value={city.value}>
+                {city.content}
+              </option>
+            ))}
+          </select>
+        </div>
 
-        <div className="flex w-96">
+        <div className="flex h-12 sm:w-96">
           <Controller
             control={control}
             name="name"

@@ -29,7 +29,7 @@ export default function UploadModal({ setShowEdit }) {
       return false;
     }
     if (file.size > 2 * 1024 * 1024) {
-      toast.error('圖片超過 2MB', {
+      toast.error('圖片太大', {
         position: 'top-center',
         autoClose: 5000,
         hideProgressBar: false,
@@ -121,6 +121,14 @@ export default function UploadModal({ setShowEdit }) {
         </p>
 
         <div className="flex gap-12">
+          <Button
+            variant="outlined"
+            className="w-36 bg-white"
+            onClick={() => setShowEdit(false)}
+          >
+            取消上傳
+          </Button>
+
           {file ? (
             <Button className="w-36 bg-main-01" onClick={uploadImage}>
               上傳檔案
@@ -131,14 +139,6 @@ export default function UploadModal({ setShowEdit }) {
               <input type="file" className="hidden" onChange={selectImage} />
             </label>
           )}
-
-          <Button
-            variant="outlined"
-            className="w-36 bg-white"
-            onClick={() => setShowEdit(false)}
-          >
-            取消上傳
-          </Button>
         </div>
       </div>
     </Modal>

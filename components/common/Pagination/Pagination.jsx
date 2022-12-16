@@ -1,6 +1,6 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 
 function Pagination({ currentPage, totalPage }) {
   const router = useRouter();
@@ -41,14 +41,16 @@ function Pagination({ currentPage, totalPage }) {
   return (
     <nav>
       <ul className="flex items-center justify-center gap-2">
-        <li className="mr-4 flex items-center">
-          <button type="button" onClick={toPreviousPage}>
-            <Image
-              src="/caret-left.svg"
-              className="cursor-pointer"
-              width="11"
-              height="17"
-              alt="previous-page"
+        <li className="flex items-center">
+          <button
+            type="button"
+            onClick={toPreviousPage}
+            disabled={currentPage === 1}
+          >
+            <MdKeyboardArrowLeft
+              className={`pointer-events-none text-h4 text-main-01 ${
+                currentPage === 1 && 'text-dark-light'
+              }`}
             />
           </button>
         </li>
@@ -59,7 +61,7 @@ function Pagination({ currentPage, totalPage }) {
                 pathname,
                 query: { ...query, page },
               }}
-              className={`flex h-10 w-10 cursor-pointer items-center justify-center rounded-full  text-body text-main-01 hover:bg-main-02 ${pageStatus(
+              className={`flex h-10 w-10 cursor-pointer items-center justify-center rounded-full  text-body text-main-01 duration-200 hover:bg-main-02 ${pageStatus(
                 page
               )}`}
             >
@@ -67,14 +69,16 @@ function Pagination({ currentPage, totalPage }) {
             </Link>
           </li>
         ))}
-        <li className="ml-4 flex items-center">
-          <button type="button" onClick={toNextPage}>
-            <Image
-              src="/caret-right.svg"
-              className="cursor-pointer"
-              width="11"
-              height="17"
-              alt="next-page"
+        <li className="flex items-center">
+          <button
+            type="button"
+            onClick={toNextPage}
+            disabled={currentPage === lastPage}
+          >
+            <MdKeyboardArrowRight
+              className={`pointer-events-none text-h4 text-main-01 ${
+                currentPage === lastPage && 'text-dark-light'
+              }`}
             />
           </button>
         </li>

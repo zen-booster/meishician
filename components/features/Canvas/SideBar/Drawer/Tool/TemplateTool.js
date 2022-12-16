@@ -38,15 +38,15 @@ function TemplateTool() {
   };
 
   return (
-    <ul className="flex flex-col items-center gap-6 py-4">
+    <ul className="flex flex-col items-center gap-6">
       <li
-        className="w-44 cursor-pointer duration-200 ease-in hover:z-20 hover:scale-110"
+        className="w-44 cursor-pointer duration-200 ease-in hover:scale-110"
         onClick={() => setTemplate(hexTemplate)}
       >
         <Image src="/hex.png" width={972} height={540} alt="template" />
       </li>
       <li
-        className="w-44 cursor-pointer duration-200 ease-in hover:z-20 hover:scale-110"
+        className="w-44 cursor-pointer duration-200 ease-in hover:scale-110"
         onClick={() => setTemplate(template1)}
       >
         <Image
@@ -57,7 +57,7 @@ function TemplateTool() {
         />
       </li>
       <li
-        className="w-44 cursor-pointer duration-200 ease-in hover:z-20 hover:scale-110"
+        className="w-44 cursor-pointer duration-200 ease-in hover:scale-110"
         onClick={() => setTemplate(template2)}
       >
         <Image
@@ -68,7 +68,7 @@ function TemplateTool() {
         />
       </li>
       <li
-        className="w-44 cursor-pointer duration-200 ease-in hover:z-20 hover:scale-110"
+        className="w-44 cursor-pointer duration-200 ease-in hover:scale-110"
         onClick={() => setTemplate(template3)}
       >
         <Image
@@ -79,7 +79,7 @@ function TemplateTool() {
         />
       </li>
       <li
-        className="w-44 cursor-pointer duration-200 ease-in hover:z-20 hover:scale-110"
+        className="w-44 cursor-pointer duration-200 ease-in hover:scale-110"
         onClick={() => setTemplate(template4)}
       >
         <Image
@@ -90,7 +90,7 @@ function TemplateTool() {
         />
       </li>
       <li
-        className="w-44 cursor-pointer duration-200 ease-in hover:z-20 hover:scale-110"
+        className="w-44 cursor-pointer duration-200 ease-in hover:scale-110"
         onClick={() => setTemplate(classic)}
       >
         <Image

@@ -7,7 +7,7 @@ function Demo() {
   return (
     <div className="bg-main-02 py-16">
       <div className="mx-auto max-w-container overflow-hidden">
-        <h3 className="mb-28 text-center text-h3 font-bold text-white">
+        <h3 className="mb-28 text-center text-h3 font-bold text-main-01">
           讓你的名片，創意與價值兼具
         </h3>
         <Marquee speed={150} gradient={false}>

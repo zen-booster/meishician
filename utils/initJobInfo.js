@@ -1,11 +1,10 @@
 function initJobInfo(data) {
   const { name, companyName, jobTitle, city, domain } = data;
-  return {
+  const result = {
     name: {
       content: name,
       isPublic: true,
     },
-
     companyName: {
       content: companyName,
       isPublic: true,
@@ -23,6 +22,16 @@ function initJobInfo(data) {
       isPublic: true,
     },
   };
+
+  if (data.phoneNumber) {
+    const phoneNumber = {
+      content: data.phoneNumber,
+      isPublic: true,
+    };
+    result.phoneNumber = phoneNumber;
+  }
+
+  return result;
 }
 
 export default initJobInfo;
