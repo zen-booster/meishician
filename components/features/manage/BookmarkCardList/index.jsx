@@ -15,7 +15,7 @@ export default function CardList() {
     type: activeType,
     activeGroupName,
     activeTag,
-    activeQuery,
+    activesSearchQuery,
   } = useSelector((state) => state.manage.activeSection);
 
   function handleSortBy(e) {
@@ -32,7 +32,7 @@ export default function CardList() {
         return '我的名片';
       }
       case manageActiveSectionType.SEARCH: {
-        return `${activeQuery}的搜尋結果`;
+        return `${activesSearchQuery}的搜尋結果`;
       }
       case manageActiveSectionType.TAG_FILTER: {
         return `#${activeTag} 篩選結果`;
@@ -76,13 +76,24 @@ export default function CardList() {
     );
   }
 
+  function renderMainSectionData() {
+    if (activeType !== manageActiveSectionType.SEARCH) {
+      return mainSectionData.length > 0 ? renderCard() : <PlaceholderPage />;
+    }
+    return mainSectionData.length > 0 ? (
+      renderCard()
+    ) : (
+      <PlaceholderPage searchPlaceholder />
+    );
+  }
+
   // eslint-disable-next-line react/jsx-no-useless-fragment
   return (
     <>
       <h3 className="text-3xl font-bold text-main-01">
         {renderMainSectionHeader()}
       </h3>
-      {mainSectionData.length > 0 ? renderCard() : <PlaceholderPage />}
+      {renderMainSectionData()}
     </>
   );
 }

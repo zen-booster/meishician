@@ -53,7 +53,7 @@ export default function Sidebar() {
     <>
       <SearchBar />
       <SidebarHeader
-        className="mb-11"
+        className="mb-8"
         active={activeSection.type === manageActiveSectionType.PORTFOLIO}
       >
         <button type="button" onClick={() => handleSetPortfolioActive()}>
@@ -61,7 +61,7 @@ export default function Sidebar() {
         </button>
       </SidebarHeader>
 
-      <section className="mb-11">
+      <section className="mb-8">
         <SidebarHeader>收藏的名片</SidebarHeader>
 
         <ul className=" pl-4 pr-6">

@@ -182,6 +182,15 @@ const ManageService = {
       .get(`${DOMAIN_URL}/api/portfolio/${cardId}`, config)
       .then((response) => response.data);
   },
+  searchBookmark(token, queryString) {
+    const config = {
+      headers: { Authorization: token },
+    };
+
+    return axios
+      .get(`${DOMAIN_URL}/api/bookmark-list/search?q=${queryString}`, config)
+      .then((response) => response.data);
+  },
 };
 
 export default ManageService;

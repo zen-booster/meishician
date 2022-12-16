@@ -66,7 +66,6 @@ const initState = {
     activeCardId: null,
     activeGroupId: null,
     activeGroupName: null,
-    activeQrCodeLink: null,
 
     activeCardImage: null,
     layoutDirection: null,
@@ -117,26 +116,8 @@ export default function (state = initState, action) {
       return produce(state, (draftState) => {
         draftState.isModalOpen = false;
         draftState.isDropdownOpen = false;
-        draftState.modal = {
-          type: null,
-          activeBookmarkNote: {
-            tags: [],
-            groupId: null,
-            note: null,
-          },
-          activeCardId: null,
-          activeGroupId: null,
-          activeGroupName: null,
-          newGroupName: null,
-          activeQrCodeLink: null,
-          isCustomMessage: false,
-          CustomMessageBody: null,
-        };
-        draftState.dropdown = {
-          type: null,
-          activeGroupId: null,
-          activeCardId: null,
-        };
+        draftState.modal = initState.modal;
+        draftState.dropdown = initState.dropdown;
       });
 
     case SET_ACTIVE_SECTION:

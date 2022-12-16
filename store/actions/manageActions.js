@@ -311,7 +311,6 @@ export const setPortfolioActive = (token) => async (dispatch) => {
         type: manageActiveSectionType.PORTFOLIO,
         activeGroupId: null,
         activeGroupName: null,
-        isPublish: true,
         mainSectionData,
       },
     });
@@ -379,6 +378,28 @@ export const deleteScratch = (token, cardId) => async (dispatch) => {
     const deleteRes = await ManageService.deletePortfolio(token, cardId);
 
     dispatch(setPortfolioActive(token));
+  } catch (err) {
+    console.log(err);
+  } finally {
+    dispatch({ type: TOGGLE_LOADER });
+  }
+};
+
+export const setSearchActive = (token, queryString) => async (dispatch) => {
+  dispatch({ type: TOGGLE_LOADER });
+  dispatch({ type: CLOSE_ALL });
+
+  try {
+    const apiRes = await ManageService.searchBookmark(token, queryString);
+    const mainSectionData = apiRes?.data?.records ?? [];
+    dispatch({
+      type: SET_ACTIVE_SECTION,
+      payload: {
+        type: manageActiveSectionType.SEARCH,
+        activesSearchQuery: queryString,
+        mainSectionData,
+      },
+    });
   } catch (err) {
     console.log(err);
   } finally {
