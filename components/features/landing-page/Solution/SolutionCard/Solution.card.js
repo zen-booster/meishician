@@ -12,7 +12,7 @@ function SolutionCard({ data }) {
 
   return (
     <div
-      className="mx-auto flex h-rwd-card-height w-64 flex-col justify-end bg-paper pt-4 shadow-02 laptop:h-card-height laptop:w-72"
+      className="mx-auto flex h-rwd-card-height w-64 flex-col justify-end rounded-xl bg-paper pt-4 shadow-02 laptop:h-card-height laptop:w-72"
       data-aos="zoom-in"
     >
       <div className="mb-4 h-full px-8">
