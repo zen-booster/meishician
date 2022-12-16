@@ -33,7 +33,7 @@ function Card({ data, index }) {
       className="mx-auto w-[17.875rem] duration-200 ease-in hover:z-20 hover:scale-105"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.3, delay: index * 0.1 }}
+      transition={{ duration: 0.2, delay: index * 0.1 }}
     >
       <Link href={`/homepage/${cardId}`}>
         <div className="relative flex h-64 cursor-pointer items-center justify-center rounded-t-xl bg-main-02 px-3 py-4">

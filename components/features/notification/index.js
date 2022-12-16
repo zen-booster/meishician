@@ -1,29 +1,19 @@
-import { useEffect } from 'react';
-import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Space from '../../common/Space/Space';
 import Tag from './Tag';
 import Card from './Card';
-import notificationContent from '../../../data/notificationContent';
 import notificationTypes from '../../../data/notificationTypes';
-import { DOMAIN_URL } from '../../../configs';
+import { getAllMessages } from '../../../store/actions/messageActions';
 
 function Notification() {
-  useEffect(() => {
-    const token = localStorage.getItem('auth');
-    axios.defaults.headers.common.Authorization = token;
-    axios
-      .get(`${DOMAIN_URL}/api/messages`)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  const dispatch = useDispatch();
+  const { messages } = useSelector((state) => state.messageStatus);
+  const [category, setCategory] = useState('ALL');
 
-  const selectRange = (e) => {
-    console.log(e.target.value);
-  };
+  useEffect(() => {
+    dispatch(getAllMessages());
+  }, []);
 
   return (
     <div className="mx-auto max-w-container">
@@ -49,7 +39,7 @@ function Notification() {
               <span className="mr-8 text-gray-03">篩選</span>
               <select
                 className="border border-b-2 border-main-01 bg-white py-1 px-4 text-body text-main-01"
-                onChange={selectRange}
+                onChange={(e) => setCategory(e.target.value)}
                 defaultValue="All"
               >
                 <option value="ALL">所有訊息</option>
@@ -60,9 +50,22 @@ function Notification() {
           </div>
 
           <div className="mb-11 flex w-full flex-col gap-8">
-            {notificationContent.map((notification) => (
-              <Card key={notification.id} notification={notification} />
-            ))}
+            {category === 'ALL' &&
+              messages.map((message) => (
+                <Card key={message.messageId} message={message} />
+              ))}
+            {category === 'DELETE' &&
+              messages
+                .filter((item) => item.category === category)
+                .map((message) => (
+                  <Card key={message.messageId} message={message} />
+                ))}
+            {category === 'CHANGE' &&
+              messages
+                .filter((item) => item.category === category)
+                .map((message) => (
+                  <Card key={message.messageId} message={message} />
+                ))}
           </div>
           <p className="mb-20 text-center text-h4 text-gray-02">
             -<br />
