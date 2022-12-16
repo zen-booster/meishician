@@ -8,7 +8,7 @@ import { LOGOUT } from '../../../constants/constants';
 import useClickOutside from '../../../hooks/useClickOutside';
 import UploadModal from './Modal/UploadModal';
 
-function Navbar({ children }) {
+function Navbar() {
   const { isLogin, avatar } = useSelector((state) => state.loginStatus);
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
@@ -175,7 +175,6 @@ function Navbar({ children }) {
       </div>
 
       {showEdit && <UploadModal setShowEdit={setShowEdit} />}
-      {children}
     </>
   );
 }

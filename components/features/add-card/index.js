@@ -44,7 +44,7 @@ function AddCardForm() {
   };
 
   return (
-    <div className="h-screen">
+    <div className="min-h-screen">
       <Space />
       <div className="h-36 bg-main-02">
         <div className="mx-auto flex h-full max-w-204 flex-col justify-center">

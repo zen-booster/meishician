@@ -1,14 +1,15 @@
 import { useSelector } from 'react-redux';
 import Navbar from '../Navbar/Navbar';
+import Footer from '../Footer/Footer';
 import Loader from '../Loader/Loader';
 
 function Layout({ children }) {
   const { isLoading } = useSelector((state) => state.loaderStatus);
-  // const { isLogin } = useSelector((state) => state.loginStatus);
   return (
     <>
-      <Navbar>{children}</Navbar>
-      {/* {isLogin && 'hi'} */}
+      <Navbar />
+      {children}
+      <Footer />
       {isLoading && <Loader />}
     </>
   );
