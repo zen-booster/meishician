@@ -22,14 +22,14 @@ const ManageService = {
       .then((response) => response.data);
   },
 
-  getBookmarks(token, groupId, page = 1, sortBy = '-isPinned') {
+  getBookmarks(token, groupId, page = 1, sortBy = 'isPinned') {
     const config = {
       headers: { Authorization: token },
     };
 
     return axios
       .get(
-        `${DOMAIN_URL}/api/bookmark-list/groups/${groupId}/cards?asc=${sortBy}&page=${page}`,
+        `${DOMAIN_URL}/api/bookmark-list/groups/${groupId}/cards?desc=${sortBy}&page=${page}`,
         config
       )
       .then((response) => response.data);
@@ -83,13 +83,13 @@ const ManageService = {
       .then((response) => response.data);
   },
 
-  getTagBookmarks(token, tag) {
+  getTagBookmarks(token, tag, page = 1) {
     const config = {
       headers: { Authorization: token },
     };
 
     return axios
-      .get(`${DOMAIN_URL}/api/bookmark-list/tags/${tag}`, config)
+      .get(`${DOMAIN_URL}/api/bookmark-list/tags/${tag}?page=${page}`, config)
       .then((response) => response.data);
   },
 
@@ -182,13 +182,17 @@ const ManageService = {
       .get(`${DOMAIN_URL}/api/portfolio/${cardId}`, config)
       .then((response) => response.data);
   },
-  searchBookmark(token, queryString) {
+
+  searchBookmark(token, queryString, page = 1) {
     const config = {
       headers: { Authorization: token },
     };
 
     return axios
-      .get(`${DOMAIN_URL}/api/bookmark-list/search?q=${queryString}`, config)
+      .get(
+        `${DOMAIN_URL}/api/bookmark-list/search?q=${queryString}?&page=${page}`,
+        config
+      )
       .then((response) => response.data);
   },
 };

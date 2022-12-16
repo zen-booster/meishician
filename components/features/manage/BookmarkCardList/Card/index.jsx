@@ -73,7 +73,6 @@ export default function Card({ cardData }) {
     note,
     followerGroupId: groupId,
   } = cardData;
-
   const isCurrentDropdown =
     isDropdownOpen &&
     dropdown.activeCardId === cardId &&

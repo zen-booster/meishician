@@ -25,7 +25,11 @@ import {
   manageModalType,
 } from '../../store/reducers/manageReducer';
 
-import { setInitData, setBaseUrl } from '../../store/actions/manageActions';
+import {
+  setInitData,
+  setBaseUrl,
+  setPortfolioActive,
+} from '../../store/actions/manageActions';
 
 export default function Manage() {
   const router = useRouter();
@@ -36,9 +40,8 @@ export default function Manage() {
       : '';
 
   const dispatch = useDispatch();
-  // const { token, isLogin } = useSelector((state) => state.loginStatus);
-  // const loginStatus = useSelector((state) => state.loginStatus);
-  // console.log(token, isLogin, loginStatus);
+
+  const queryType = router.query.type;
 
   const { isModalOpen, modal, activeSection } = useSelector(
     (state) => state.manage
@@ -100,7 +103,17 @@ export default function Manage() {
   useEffect(() => {
     if (getCookie('auth')) {
       const token = getCookie('auth');
-      dispatch(setInitData(token));
+
+      switch (queryType) {
+        case 'portfolio':
+          dispatch(setPortfolioActive(token));
+          break;
+
+        default:
+          dispatch(setInitData(token));
+          break;
+      }
+
       dispatch(setBaseUrl(baseUrl));
     } else {
       router.push('/login');

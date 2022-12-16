@@ -10,6 +10,7 @@ import {
   UPDATE_ACTIVE_SECTION,
   SET_BASE_URL,
   UPDATE_MODAL_DATA,
+  SET_MANAGE_PAGE,
 } from '../../constants/constants';
 
 export const manageModalType = {
@@ -138,6 +139,13 @@ export default function (state = initState, action) {
         draftState.groupList.splice(dragIndex, 1);
         draftState.groupList.splice(hoverIndex, 0, dragListItem);
       });
+
+    case SET_MANAGE_PAGE:
+      return produce(state, (draftState) => {
+        console.log('trigger', action.payload);
+        draftState.activeSection.currentPage = action.payload;
+      });
+
     default:
       return state;
   }

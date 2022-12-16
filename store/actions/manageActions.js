@@ -9,6 +9,7 @@ import {
   UPDATE_ACTIVE_SECTION,
   SET_BASE_URL,
   UPDATE_MODAL_DATA,
+  SET_MANAGE_PAGE,
 } from '../../constants/constants';
 
 import ManageService from '../../services/manage.service';
@@ -23,7 +24,7 @@ export const setInitData =
     dispatch({ type: TOGGLE_LOADER });
     dispatch({ type: CLOSE_ALL });
     page = page ?? 1;
-    sortBy = sortBy ?? '-isPinned';
+    sortBy = sortBy ?? 'isPinned';
 
     let initObj = {};
     try {
@@ -57,7 +58,6 @@ export const setInitData =
         groupList,
         defaultGroupId,
         tags,
-
         activeSection: {
           type: manageActiveSectionType.BOOKMARK,
           activeGroupId,
@@ -79,17 +79,18 @@ export const setInitData =
 export const setBaseUrl = (url) => ({ type: SET_BASE_URL, payload: url });
 
 export const setGroupListActive =
-  (token, groupId) => async (dispatch, getState) => {
+  (token, groupId, page = 1) =>
+  async (dispatch, getState) => {
     dispatch({ type: TOGGLE_LOADER });
     dispatch({ type: CLOSE_ALL });
 
     try {
       let { sortBy } = getState().manage.activeSection;
-      sortBy = sortBy ?? '-isPinned';
+      sortBy = sortBy ?? 'isPinned';
       const apiRes = await ManageService.getBookmarks(
         token,
         groupId,
-        1,
+        page,
         sortBy
       );
       const { groupList } = getState().manage;
@@ -97,6 +98,8 @@ export const setGroupListActive =
         (group) => group._id === groupId
       )[0].name;
       const mainSectionData = apiRes?.data?.records ?? [];
+      const totalPage = apiRes?.data?.totalPage ?? 1;
+
       dispatch({
         type: SET_ACTIVE_SECTION,
         payload: {
@@ -105,6 +108,7 @@ export const setGroupListActive =
           activeGroupName,
           mainSectionData,
           sortBy,
+          totalPage,
         },
       });
     } catch (err) {
@@ -235,29 +239,31 @@ export const toggleCardPin =
     }
   };
 
-export const getTagBookmarks = (token, tag) => async (dispatch) => {
-  dispatch({ type: TOGGLE_LOADER });
-  try {
-    const apiRes = await ManageService.getTagBookmarks(token, tag);
-    const mainSectionData = apiRes?.data.records ?? [];
-    const { currentPage, totalPage } = apiRes.data;
-
-    const activeSection = {
-      type: manageActiveSectionType.TAG_FILTER,
-      activeGroupId: null,
-      activeGroupName: null,
-      activeTag: tag,
-      mainSectionData,
-      currentPage,
-      totalPage,
-    };
-    dispatch({ type: SET_INIT_DATA, payload: { activeSection } });
-  } catch (err) {
-    console.log(err);
-  } finally {
+export const getTagBookmarks =
+  (token, tag, page = 1) =>
+  async (dispatch) => {
     dispatch({ type: TOGGLE_LOADER });
-  }
-};
+    try {
+      const apiRes = await ManageService.getTagBookmarks(token, tag, page);
+      const mainSectionData = apiRes?.data.records ?? [];
+      const { currentPage, totalPage } = apiRes.data;
+
+      const activeSection = {
+        type: manageActiveSectionType.TAG_FILTER,
+        activeGroupId: null,
+        activeGroupName: null,
+        activeTag: tag,
+        mainSectionData,
+        currentPage,
+        totalPage,
+      };
+      dispatch({ type: SET_INIT_DATA, payload: { activeSection } });
+    } catch (err) {
+      console.log(err);
+    } finally {
+      dispatch({ type: TOGGLE_LOADER });
+    }
+  };
 
 export const setGroupOrder = (dragIndex, hoverIndex) => ({
   type: SET_GROUP_ORDER,
@@ -321,8 +327,6 @@ export const setPortfolioActive = (token) => async (dispatch) => {
   }
 };
 
-export const setPortfolioCarImage = (token, cardId) => async (dispatch) => {};
-
 export const openShowCardModal = (token, cardId) => async (dispatch) => {
   dispatch({ type: CLOSE_ALL });
   dispatch({ type: TOGGLE_LOADER });
@@ -385,24 +389,78 @@ export const deleteScratch = (token, cardId) => async (dispatch) => {
   }
 };
 
-export const setSearchActive = (token, queryString) => async (dispatch) => {
-  dispatch({ type: TOGGLE_LOADER });
-  dispatch({ type: CLOSE_ALL });
-
-  try {
-    const apiRes = await ManageService.searchBookmark(token, queryString);
-    const mainSectionData = apiRes?.data?.records ?? [];
-    dispatch({
-      type: SET_ACTIVE_SECTION,
-      payload: {
-        type: manageActiveSectionType.SEARCH,
-        activesSearchQuery: queryString,
-        mainSectionData,
-      },
-    });
-  } catch (err) {
-    console.log(err);
-  } finally {
+export const setSearchActive =
+  (token, queryString, page = 1) =>
+  async (dispatch) => {
     dispatch({ type: TOGGLE_LOADER });
-  }
-};
+    dispatch({ type: CLOSE_ALL });
+
+    try {
+      const apiRes = await ManageService.searchBookmark(
+        token,
+        queryString,
+        page
+      );
+      const mainSectionData = apiRes?.data?.records ?? [];
+      const { currentPage, totalPage } = apiRes.data;
+      dispatch({
+        type: SET_ACTIVE_SECTION,
+        payload: {
+          type: manageActiveSectionType.SEARCH,
+          activesSearchQuery: queryString,
+          mainSectionData,
+          currentPage,
+          totalPage,
+        },
+      });
+    } catch (err) {
+      console.log(err);
+    } finally {
+      dispatch({ type: TOGGLE_LOADER });
+    }
+  };
+
+export const setManagePage =
+  (currentPage = 1) =>
+  async (dispatch, getState) => {
+    const { type, activeGroupId, activeTag, activesSearchQuery } =
+      getState().manage.activeSection;
+    const { token } = getState().loginStatus;
+
+    if (token) {
+      dispatch({ type: TOGGLE_LOADER });
+      dispatch({ type: CLOSE_ALL });
+      try {
+        switch (type) {
+          case manageActiveSectionType.TAG_FILTER:
+            dispatch(getTagBookmarks(token, activeTag, currentPage)).then(
+              () => {
+                dispatch({ type: SET_MANAGE_PAGE, payload: currentPage });
+              }
+            );
+            break;
+          case manageActiveSectionType.BOOKMARK:
+            dispatch(
+              setGroupListActive(token, activeGroupId, currentPage)
+            ).then(() => {
+              dispatch({ type: SET_MANAGE_PAGE, payload: currentPage });
+            });
+            break;
+          case manageActiveSectionType.SEARCH:
+            dispatch(
+              setSearchActive(token, activesSearchQuery, currentPage)
+            ).then(() => {
+              dispatch({ type: SET_MANAGE_PAGE, payload: currentPage });
+            });
+            break;
+
+          default:
+            break;
+        }
+      } catch (err) {
+        console.log(err);
+      } finally {
+        dispatch({ type: TOGGLE_LOADER });
+      }
+    }
+  };
