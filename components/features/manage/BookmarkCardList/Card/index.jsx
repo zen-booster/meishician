@@ -159,22 +159,14 @@ export default function Card({ cardData }) {
             </div>
 
             <div className="flex basis-1/4 items-center justify-end">
-              <div
-                style={{
-                  width: 56,
-                  height: 56,
-                }}
-                className="flex items-center justify-center rounded-full  p-1"
-              >
-                <Image
-                  src={avatar}
-                  width={56}
-                  height={56}
-                  style={{ objectFit: 'contain' }}
-                  className="h-[56px] w-[56px]"
-                  alt="card avatar"
-                />
-              </div>
+              <Image
+                src={avatar}
+                width={56}
+                height={56}
+                style={{ objectFit: 'contain' }}
+                className="h-[56px] w-[56px] rounded-full object-contain"
+                alt="card avatar"
+              />
             </div>
           </div>
         </div>
