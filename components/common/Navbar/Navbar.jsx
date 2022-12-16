@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
+import { motion, AnimatePresence } from 'framer-motion';
 import Drawer from './Drawer/Drawer';
 import { LOGOUT } from '../../../constants/constants';
 import useClickOutside from '../../../hooks/useClickOutside';
@@ -41,7 +42,7 @@ function Navbar() {
 
   return (
     <>
-      <div className="fixed z-30 flex w-full items-center justify-between bg-main-01 py-2 pl-8 pr-11 font-bold text-white shadow-01">
+      <div className="fixed z-30 flex w-full items-center justify-between bg-main-01 py-2 pl-8 pr-11 text-body font-bold text-white shadow-01">
         <div className="flex items-center gap-14 ">
           <Link href="/">
             <Image
@@ -65,7 +66,7 @@ function Navbar() {
               <li className="hidden laptop:block">
                 <Link href="/add-card">打造名片</Link>
               </li>
-              <li className="hidden laptop:block laptop:cursor-pointer laptop:px-6">
+              <li className="hidden laptop:block laptop:cursor-pointer">
                 <Link href="/manage">管理名片</Link>
               </li>
               <li className="cursor-pointer py-1">
@@ -107,22 +108,30 @@ function Navbar() {
                 />
               </li>
 
-              {showExtra && (
-                <ul className="absolute top-full right-0 hidden w-24 bg-white text-center laptop:block">
-                  <li
-                    className="cursor-pointer py-2 text-main-01"
-                    onClick={() => setShowEdit(true)}
+              <AnimatePresence>
+                {showExtra && (
+                  <motion.ul
+                    className="absolute top-full right-0 hidden w-48 bg-white text-center laptop:block"
+                    initial={{ x: '100%' }}
+                    animate={{ x: '0%' }}
+                    exit={{ x: '100%' }}
+                    transition={{ type: 'Inertia' }}
                   >
-                    上傳頭貼
-                  </li>
-                  <li
-                    className="cursor-pointer py-2 text-danger"
-                    onClick={logout}
-                  >
-                    登出
-                  </li>
-                </ul>
-              )}
+                    <li
+                      className="cursor-pointer border-main-01 py-6 text-main-01 hover:bg-main-03  hover:text-white"
+                      onClick={() => setShowEdit(true)}
+                    >
+                      上傳頭貼
+                    </li>
+                    <li
+                      className="cursor-pointer border-main-01 py-6 text-danger hover:bg-danger  hover:text-white"
+                      onClick={logout}
+                    >
+                      登出
+                    </li>
+                  </motion.ul>
+                )}
+              </AnimatePresence>
             </>
           )}
 

@@ -7,6 +7,7 @@ import loaderReducer from './loaderReducer';
 import homepageReducer from './homepageReducer';
 import cardInfoReducer from './cardInfoReducer';
 import manageReducer from './manageReducer';
+import messageReducer from './messageReducer';
 
 const combinedReducer = combineReducers({
   history: historyReducer,
@@ -16,6 +17,7 @@ const combinedReducer = combineReducers({
   homepage: homepageReducer,
   cardInfo: cardInfoReducer,
   manage: manageReducer,
+  messageStatus: messageReducer,
 });
 
 const reducer = (state, action) => {

@@ -20,7 +20,7 @@ function Canvas({ cardId }) {
   const [pressKey, setPressKey] = useState({});
   const { activeObject } = useSelector((state) => state.canvasObject);
   const { history } = useSelector((state) => state);
-  const { showInfoForm } = useSelector((state) => state).cardInfo;
+  const { showInfoForm } = useSelector((state) => state.cardInfo);
   const dispatch = useDispatch();
 
   function updateHistory() {

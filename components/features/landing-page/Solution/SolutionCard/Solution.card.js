@@ -12,7 +12,7 @@ function SolutionCard({ data }) {
 
   return (
     <div
-      className="mx-auto flex h-rwd-card-height w-64 flex-col justify-end rounded-xl bg-paper pt-4 shadow-02 laptop:h-card-height laptop:w-72"
+      className="mx-auto flex h-rwd-card-height w-72 flex-col justify-end rounded-xl bg-paper pt-12 shadow-02 laptop:h-card-height laptop:w-80"
       data-aos="zoom-in"
     >
       <div className="mb-4 h-full px-8">
@@ -28,7 +28,7 @@ function SolutionCard({ data }) {
         <p className="mb-3 text-main-02">{title[0]}</p>
         <p className="text-main-01">{title[1]}</p>
       </h3>
-      <p className="mb-2 pl-5 leading-7 text-black opacity-60 laptop:mb-6">
+      <p className="mb-2 pl-5 text-body leading-7 text-black opacity-60 laptop:mb-6">
         {info[0]}
         <br />
         {info[1]}

@@ -2,6 +2,7 @@ import { useForm, Controller } from 'react-hook-form';
 import Link from 'next/link';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
+import Space from '../../../common/Space/Space';
 import Button from '../../../common/Button/Button';
 import MemberInput from '../../../common/Input/MemberInput';
 import { TOGGLE_LOADER } from '../../../../constants/constants';
@@ -34,6 +35,7 @@ function ForgetPasswordForm() {
 
   return (
     <div className="min-h-screen bg-main-02 pt-20">
+      <Space />
       <form
         className="mx-auto flex w-89 flex-col rounded-xl bg-white px-5 py-7 shadow-02 laptop:w-96 laptop:px-10 laptop:py-24"
         onSubmit={handleSubmit(onSubmit)}

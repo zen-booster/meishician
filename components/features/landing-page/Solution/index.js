@@ -10,7 +10,7 @@ function Solution() {
         要放哪裡！
       </h2>
       <div className="mx-auto max-w-container">
-        <div className="flex flex-col justify-evenly gap-y-6 laptop:flex-row">
+        <div className="flex flex-col justify-evenly gap-y-8 laptop:flex-row">
           {solutionData.map((data) => (
             <SolutionCard key={data.title} data={data} />
           ))}
