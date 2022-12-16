@@ -138,16 +138,6 @@ const ManageService = {
     }).then((response) => response.data);
   },
 
-  deletePortfolio(token, cardId) {
-    const config = {
-      headers: { Authorization: token },
-    };
-
-    return axios
-      .delete(`${DOMAIN_URL}/api/portfolio/${cardId}`, config)
-      .then((response) => response.data);
-  },
-
   getPortfolio(token) {
     const config = {
       headers: { Authorization: token },
@@ -165,11 +155,21 @@ const ManageService = {
 
     const requestBody = {
       messageBody,
-      category: 'CHANGE',
+      category: 'DELETE',
     };
 
     return axios
       .post(`${DOMAIN_URL}/api/messages/${cardId}`, requestBody, config)
+      .then((response) => response.data);
+  },
+
+  deletePortfolio(token, cardId) {
+    const config = {
+      headers: { Authorization: token },
+    };
+
+    return axios
+      .delete(`${DOMAIN_URL}/api/portfolio/${cardId}`, config)
       .then((response) => response.data);
   },
 

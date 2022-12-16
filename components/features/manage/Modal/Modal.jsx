@@ -8,7 +8,7 @@ function Modal({ onCloseModal, children }) {
         }}
       />
       <div className="flex min-h-screen items-center">
-        <div className="relative mx-auto w-modal-width rounded-xl bg-main-02 px-10 py-8 shadow-lg">
+        <div className="relative mx-auto w-modal-width rounded-xl bg-main-02 px-2 py-8 shadow-lg laptop:px-10">
           {children}
         </div>
       </div>

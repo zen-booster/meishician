@@ -1,22 +1,18 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Card from './Card';
-import { manageActiveSectionType } from '../../../../store/reducers/manageReducer';
-import { setInitData } from '../../../../store/actions/manageActions';
 import PlaceholderPage from '../PlaceholderPage';
 
 export default function CardList() {
-  const dispatch = useDispatch();
-  const { token } = useSelector((state) => state.loginStatus);
   const { mainSectionData } = useSelector(
     (state) => state.manage.activeSection
   );
 
-  const {
-    type: activeType,
-    activeGroupName,
-    activeTag,
-    activeQuery,
-  } = useSelector((state) => state.manage.activeSection);
+  // const {
+  //   type: activeType,
+  //   activeGroupName,
+  //   activeTag,
+  //   activeQuery,
+  // } = useSelector((state) => state.manage.activeSection);
 
   function renderCard() {
     return (

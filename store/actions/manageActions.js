@@ -351,3 +351,37 @@ export const openShowCardModal = (token, cardId) => async (dispatch) => {
     dispatch({ type: TOGGLE_LOADER });
   }
 };
+
+export const deletePortfolio =
+  (token, cardId, messageBody) => async (dispatch) => {
+    dispatch({ type: CLOSE_ALL });
+    dispatch({ type: TOGGLE_LOADER });
+    try {
+      const sendRes = await ManageService.sendDeleteMessage(
+        token,
+        cardId,
+        messageBody
+      );
+      const deleteRes = await ManageService.deletePortfolio(token, cardId);
+
+      dispatch(setPortfolioActive(token));
+    } catch (err) {
+      console.log(err);
+    } finally {
+      dispatch({ type: TOGGLE_LOADER });
+    }
+  };
+
+export const deleteScratch = (token, cardId) => async (dispatch) => {
+  dispatch({ type: CLOSE_ALL });
+  dispatch({ type: TOGGLE_LOADER });
+  try {
+    const deleteRes = await ManageService.deletePortfolio(token, cardId);
+
+    dispatch(setPortfolioActive(token));
+  } catch (err) {
+    console.log(err);
+  } finally {
+    dispatch({ type: TOGGLE_LOADER });
+  }
+};

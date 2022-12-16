@@ -16,6 +16,8 @@ import DeleteGroupModal from '../../components/features/manage/Modal/DeleteGroup
 import RenameGroupModal from '../../components/features/manage/Modal/RenameGroupModal';
 import ShowCardModal from '../../components/features/manage/Modal/ShowCardModal';
 import QrCodeModal from '../../components/features/manage/Modal/QrCodeModal';
+import DeletePortfolioModal from '../../components/features/manage/Modal/DeletePortfolioModal';
+import DeleteScratchModal from '../../components/features/manage/Modal/DeleteScratchModal';
 
 import { useWindowWide } from '../../hooks/useWindowWide';
 import {
@@ -65,6 +67,14 @@ export default function Manage() {
         }
         case manageModalType.RENAME_GROUP: {
           return <RenameGroupModal />;
+        }
+
+        case manageModalType.DELETE_PORTFOLIO: {
+          return <DeletePortfolioModal />;
+        }
+
+        case manageModalType.DELETE_SCRATCH: {
+          return <DeleteScratchModal />;
         }
         case manageModalType.SHOW_CARD: {
           return <ShowCardModal />;

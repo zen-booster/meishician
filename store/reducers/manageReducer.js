@@ -67,10 +67,12 @@ const initState = {
     activeGroupId: null,
     activeGroupName: null,
     activeQrCodeLink: null,
-    isCustomMessage: false,
-    CustomMessageBody: null,
+
     activeCardImage: null,
     layoutDirection: null,
+    activeCompanyName: null,
+    activeJobTitle: null,
+    activeName: null,
   },
   dropdown: {
     type: null,
