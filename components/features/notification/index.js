@@ -43,6 +43,8 @@ function Notification() {
                 defaultValue="All"
               >
                 <option value="ALL">所有訊息</option>
+                <option value="NOT_READ">未讀訊息</option>
+                <option value="IS_READ">已讀訊息</option>
                 <option value="DELETE">名片刪除訊息</option>
                 <option value="CHANGE">職務異動訊息</option>
               </select>
@@ -63,6 +65,18 @@ function Notification() {
             {category === 'CHANGE' &&
               messages
                 .filter((item) => item.category === category)
+                .map((message) => (
+                  <Card key={message.messageId} message={message} />
+                ))}
+            {category === 'NOT_READ' &&
+              messages
+                .filter((item) => item.isRead === false)
+                .map((message) => (
+                  <Card key={message.messageId} message={message} />
+                ))}
+            {category === 'IS_READ' &&
+              messages
+                .filter((item) => item.isRead === true)
                 .map((message) => (
                   <Card key={message.messageId} message={message} />
                 ))}
