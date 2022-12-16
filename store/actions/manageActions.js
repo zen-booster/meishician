@@ -107,6 +107,7 @@ export const setGroupListActive =
           activeGroupId: groupId,
           activeGroupName,
           mainSectionData,
+          currentPage: page,
           sortBy,
           totalPage,
         },
@@ -334,7 +335,6 @@ export const openShowCardModal = (token, cardId) => async (dispatch) => {
     const apiRes = await ManageService.getPortfolioCard(token, cardId);
     const cardImage = apiRes?.data?.cardImageData;
     const layoutDirection = apiRes?.data?.layoutDirection;
-    console.log(layoutDirection);
     if (cardImage) {
       dispatch({
         type: OPEN_MODAL,

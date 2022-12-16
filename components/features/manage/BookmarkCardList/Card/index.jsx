@@ -153,7 +153,7 @@ export default function Card({ cardData }) {
           <div className="flex grow items-center justify-center rounded-b-xl bg-[#d5eadc] p-3">
             <div className="flex basis-3/4 flex-wrap gap-2">
               {tags.map((ele) => (
-                <SectionTag>{ele}</SectionTag>
+                <SectionTag key={ele}>{ele}</SectionTag>
               ))}
             </div>
 
@@ -162,7 +162,7 @@ export default function Card({ cardData }) {
                 src={avatar}
                 width={56}
                 height={56}
-                style={{ objectFit: 'contain' }}
+                style={{ objectFit: 'cover' }}
                 className="h-[56px] w-[56px] rounded-full object-contain"
                 alt="card avatar"
               />

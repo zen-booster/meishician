@@ -89,6 +89,7 @@ export default function CardList() {
   }
 
   function renderMainSectionData() {
+    if (!mainSectionData) return <div />;
     if (activeType !== manageActiveSectionType.SEARCH) {
       return mainSectionData.length > 0 ? renderCard() : <PlaceholderPage />;
     }

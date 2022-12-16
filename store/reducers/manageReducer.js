@@ -51,7 +51,7 @@ const initState = {
     activeTag: null,
     activesSearchQuery: null,
     sortBy: null,
-    mainSectionData: [],
+    mainSectionData: null,
     currentPage: null,
     totalPage: null,
   },

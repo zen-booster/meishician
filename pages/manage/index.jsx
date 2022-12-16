@@ -41,8 +41,6 @@ export default function Manage() {
 
   const dispatch = useDispatch();
 
-  const queryType = router.query.type;
-
   const { isModalOpen, modal, activeSection } = useSelector(
     (state) => state.manage
   );
@@ -103,16 +101,7 @@ export default function Manage() {
   useEffect(() => {
     if (getCookie('auth')) {
       const token = getCookie('auth');
-
-      switch (queryType) {
-        case 'portfolio':
-          dispatch(setPortfolioActive(token));
-          break;
-
-        default:
-          dispatch(setInitData(token));
-          break;
-      }
+      dispatch(setInitData(token));
 
       dispatch(setBaseUrl(baseUrl));
     } else {
@@ -155,3 +144,8 @@ export default function Manage() {
     </DndProvider>
   );
 }
+
+// export const getServerSideProps = async (context) => {
+//   const queryType = context.query.type;
+//   return { props: { queryType } };
+// };

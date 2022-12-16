@@ -80,7 +80,7 @@ export default function Sidebar() {
         <SidebarHeader>標籤</SidebarHeader>
 
         <ul className="flex flex-wrap gap-2  px-3 ">
-          {tags && tags.map((tag) => <SectionTag>{tag}</SectionTag>)}
+          {tags && tags.map((tag) => <SectionTag key={tag}>{tag}</SectionTag>)}
         </ul>
       </section>
     </>
