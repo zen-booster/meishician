@@ -55,7 +55,7 @@ function Card({ data, index }) {
           ) : (
             <Image
               src={cardImageData.front}
-              className="h-full"
+              className="h-full object-contain"
               width={146}
               height={224}
               alt="business-card"
