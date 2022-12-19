@@ -6,7 +6,7 @@ import ItemTypes from '../ItemTypes';
 import {
   setGroupOrder,
   updateGroupOrderApi,
-  setBookmarkGroup,
+  setDragBookmarkGroup,
 } from '../../../../store/actions/manageActions';
 
 function ListItemDnD({ id, children, index }) {
@@ -51,7 +51,7 @@ function ListItemDnD({ id, children, index }) {
       if (monitor.didDrop) {
         const groupId = id;
         const { cardId } = monitor.getItem();
-        dispatch(setBookmarkGroup(token, groupId, cardId));
+        dispatch(setDragBookmarkGroup(token, groupId, cardId));
       }
     },
     collect: (monitor) => ({

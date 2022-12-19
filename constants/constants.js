@@ -43,3 +43,5 @@ export const UPDATE_MODAL_DATA = 'UPDATE_MODAL_DATA';
 export const SET_MESSAGES = 'SET_MESSAGES';
 export const SET_MESSAGE_READ = 'SET_MESSAGE_READ';
 export const SET_MANAGE_PAGE = 'SET_MANAGE_PAGE';
+
+export const TOGGLE_ERROR = 'TOGGLE_ERROR';

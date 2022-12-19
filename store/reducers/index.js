@@ -8,6 +8,7 @@ import homepageReducer from './homepageReducer';
 import cardInfoReducer from './cardInfoReducer';
 import manageReducer from './manageReducer';
 import messageReducer from './messageReducer';
+import errorReducer from './errorReducer';
 
 const combinedReducer = combineReducers({
   history: historyReducer,
@@ -18,6 +19,7 @@ const combinedReducer = combineReducers({
   cardInfo: cardInfoReducer,
   manage: manageReducer,
   messageStatus: messageReducer,
+  errorStatus: errorReducer,
 });
 
 const reducer = (state, action) => {

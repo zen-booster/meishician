@@ -6,6 +6,7 @@ import {
   SAVE_BOOKMARK,
 } from '../../constants/constants';
 
+import { sendToast } from './errorActions';
 import HomepageService from '../../services/homepage.services';
 
 export const updateHomepageTitle =
@@ -15,10 +16,10 @@ export const updateHomepageTitle =
       .then((data) => {
         const homepageData = data?.data;
         dispatch({ type: SET_HOMEPAGE_INFO, payload: homepageData });
-        console.log(data);
       })
       .catch((error) => {
-        alert(`錯誤 ${error}`);
+        console.log(error);
+        dispatch(sendToast('更新失敗'));
       })
       .finally(() => dispatch({ type: TOGGLE_LOADER }));
   };
@@ -32,7 +33,8 @@ export const toggleJobInfoPublic =
         dispatch({ type: SET_HOMEPAGE_INFO, payload: homepageData });
       })
       .catch((error) => {
-        alert(`錯誤 ${error}`);
+        console.log(error);
+        dispatch(sendToast('更新失敗'));
       })
       .finally(() => dispatch({ type: TOGGLE_LOADER }));
   };
@@ -45,7 +47,8 @@ export const addNewLink = (cardId, token, newDataObj) => (dispatch) => {
       dispatch({ type: SET_HOMEPAGE_INFO, payload: homepageData });
     })
     .catch((error) => {
-      alert(`錯誤 ${error}`);
+      console.log(error);
+      dispatch(sendToast('新增失敗'));
     })
     .finally(() => dispatch({ type: TOGGLE_LOADER }));
 };
@@ -59,7 +62,8 @@ export const updateLinkInfo =
         dispatch({ type: SET_HOMEPAGE_INFO, payload: homepageData });
       })
       .catch((error) => {
-        alert(`錯誤 ${error}`);
+        console.log(error);
+        dispatch(sendToast('更新失敗'));
       })
       .finally(() => dispatch({ type: TOGGLE_LOADER }));
   };
@@ -72,7 +76,8 @@ export const deleteLink = (cardId, token, linkId) => (dispatch) => {
       dispatch({ type: SET_HOMEPAGE_INFO, payload: homepageData });
     })
     .catch((error) => {
-      alert(`錯誤 ${error}`);
+      console.log(error);
+      dispatch(sendToast('刪除失敗'));
     })
     .finally(() => {
       dispatch({ type: TOGGLE_LOADER });
@@ -108,7 +113,8 @@ export const updateLinkOrderApi =
         dispatch({ type: SET_HOMEPAGE_INFO, payload: homepageData });
       })
       .catch((error) => {
-        alert(`錯誤 ${error}`);
+        console.log(error);
+        dispatch(sendToast('更新失敗'));
       })
       .finally(() => dispatch({ type: TOGGLE_LOADER }));
   };
@@ -120,7 +126,8 @@ export const saveBookmark = (cardId, token) => (dispatch) => {
       dispatch({ type: SAVE_BOOKMARK });
     })
     .catch((error) => {
-      alert(`錯誤 ${error}`);
+      console.log(error);
+      dispatch(sendToast('收藏失敗'));
     })
     .finally(() => dispatch({ type: TOGGLE_LOADER }));
 };
