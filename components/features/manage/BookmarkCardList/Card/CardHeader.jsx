@@ -1,9 +1,10 @@
-import { useRef } from 'react';
+import { useState, useRef } from 'react';
 import { BiDotsHorizontalRounded } from 'react-icons/bi';
 import { FaStar, FaRegStar } from 'react-icons/fa';
 
 function CardHeader(props) {
   const { name, isPinned, onMenuActiveClick, onToggleCardPin } = props;
+  const [starHover, setStarHover] = useState(false);
   const closeRef = useRef();
 
   return (
@@ -12,9 +13,13 @@ function CardHeader(props) {
       <button
         className="mr-3 text-lg"
         type="button"
-        onClick={(e) => onToggleCardPin(e)}
+        onClick={(e) => {
+          onToggleCardPin(e);
+        }}
+        onMouseEnter={() => setStarHover(true)}
+        onMouseLeave={() => setStarHover(false)}
       >
-        {isPinned ? <FaStar /> : <FaRegStar />}
+        {starHover || isPinned ? <FaStar /> : <FaRegStar />}
       </button>
 
       <button

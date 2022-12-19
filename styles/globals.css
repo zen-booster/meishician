@@ -19,6 +19,10 @@
   }
 }
 
+.shadow-border {
+  box-shadow: 0 0 0 10px theme('colors.main-02');
+}
+
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }

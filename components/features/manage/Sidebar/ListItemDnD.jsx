@@ -73,9 +73,11 @@ function ListItemDnD({ id, children, index }) {
   return (
     <div
       ref={ref}
-      style={{ opacity }}
-      className={`mb-2 rounded-3xl border bg-slate-100 p-2 ${
-        isCardHover && 'bg-[#A8D8B9]'
+      style={{
+        opacity,
+      }}
+      className={`mb-4 rounded-3xl  bg-slate-100 ${
+        isCardHover && 'shadow-border'
       }`}
     >
       {children}

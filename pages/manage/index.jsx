@@ -4,10 +4,13 @@ import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
+// import { DndProvider } from 'react-dnd-multi-backend'
+// import { HTML5toTouch } from 'rdndmb-html5-to-touch'; // or any other pipeline
+
 import { getCookie } from 'cookies-next';
 import BookmarkCardList from '../../components/features/manage/BookmarkCardList';
 import PortfolioCardList from '../../components/features/manage/PortfolioCardList';
-
+import Space from '../../components/common/Space/Space';
 import Sidebar from '../../components/features/manage/Sidebar';
 import EditBookmarkModal from '../../components/features/manage/Modal/EditBookmarkModal';
 import DeleteBookmarkModal from '../../components/features/manage/Modal/DeleteBookmarkModal';
@@ -25,11 +28,7 @@ import {
   manageModalType,
 } from '../../store/reducers/manageReducer';
 
-import {
-  setInitData,
-  setBaseUrl,
-  setPortfolioActive,
-} from '../../store/actions/manageActions';
+import { setInitData, setBaseUrl } from '../../store/actions/manageActions';
 
 export default function Manage() {
   const router = useRouter();
@@ -49,6 +48,11 @@ export default function Manage() {
 
   const handleSidebarActiveClick = () => {
     if (wide < 996) setIsSidebarActive((prev) => !prev);
+  };
+
+  const handleSideClose = (e) => {
+    if (wide < 996) setIsSidebarActive(false);
+    console.log('trigger');
   };
 
   function renderModal() {
@@ -102,46 +106,70 @@ export default function Manage() {
     if (getCookie('auth')) {
       const token = getCookie('auth');
       dispatch(setInitData(token));
-
       dispatch(setBaseUrl(baseUrl));
     } else {
       router.push('/login');
     }
   }, []);
 
+  const [isSidebarMobileMode, setIsSidebarMobileMode] = useState(false);
+
   useEffect(() => {
     if (wide < 996) setIsSidebarActive(false);
     if (wide >= 996) setIsSidebarActive(true);
   }, [wide]);
 
+  useEffect(() => {
+    if (wide < 996 && isSidebarActive) {
+      setIsSidebarMobileMode(true);
+    } else {
+      setIsSidebarMobileMode(false);
+    }
+  }, [wide, isSidebarActive, isSidebarMobileMode]);
+
+  console.log(isSidebarMobileMode);
   return (
-    <DndProvider backend={HTML5Backend}>
-      <main className="relative flex min-h-screen">
-        {renderModal()}
-        <aside
-          className={`${isSidebarActive ? 'block' : 'hidden'} 
+    <>
+      <Space />
+      <DndProvider backend={HTML5Backend}>
+        <main className="relative flex h-full min-h-screen">
+          {renderModal()}
+          <aside
+            className={`${isSidebarActive ? 'block' : 'hidden'} 
         absolute z-20 
-        w-3/4
-        bg-white
-        p-5
+        w-full
         drop-shadow-xl
         laptop:static
         laptop:basis-2/5 xl:basis-1/4`}
-        >
-          <Sidebar />
-        </aside>
-        <section className=" basis-full bg-gray-200 p-10 laptop:basis-3/5 xl:basis-3/4">
-          {renderCardList()}
-        </section>
+          >
+            <Sidebar onChangeClose={handleSideClose} isSidebarMobileMode />
+
+            {isSidebarMobileMode && (
+              <div className="absolute top-0  h-screen w-full bg-black opacity-50" />
+            )}
+          </aside>
+
+          <section
+            className={`
+          basis-full bg-gray-200 p-10 laptop:basis-3/5 xl:basis-3/4
+          ${isSidebarMobileMode && 'pointer-events-none'}
+          `}
+          >
+            {renderCardList()}
+          </section>
+        </main>
+      </DndProvider>
+      {!isSidebarActive && (
         <button
           type="button"
-          onClick={() => handleSidebarActiveClick()}
+          data-content-type="OPEN_BUTTON"
+          onClick={(e) => handleSidebarActiveClick(e)}
           className="fixed bottom-3 right-3 flex h-14 w-14 items-center  justify-center rounded-full bg-white drop-shadow-xl laptop:hidden"
         >
           <FaFolderOpen />
         </button>
-      </main>
-    </DndProvider>
+      )}
+    </>
   );
 }
 

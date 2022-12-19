@@ -30,10 +30,10 @@ export const setInitData =
     try {
       let apiRes;
       apiRes = await ManageService.getGroupList(token);
-      const groupList = apiRes?.data?.records || [];
+      const groupList = apiRes?.data?.records ?? [];
 
       apiRes = await ManageService.getTagList(token);
-      const tags = apiRes?.data?.records || [];
+      const tags = apiRes?.data?.records ?? [];
 
       const defaultGroupId = groupList.filter(
         (el) => el.isDefaultGroup === true
@@ -145,11 +145,7 @@ export const editBookmarkNotes =
     dispatch({ type: TOGGLE_LOADER });
     try {
       // eslint-disable-next-line no-unused-vars
-      const apiRes = await ManageService.editBookmarkNotes(
-        token,
-        cardId,
-        newNotes
-      );
+      await ManageService.editBookmarkNotes(token, cardId, newNotes);
     } catch (err) {
       console.log(err);
     } finally {
@@ -162,7 +158,7 @@ export const deleteBookmark = (token, cardId) => async (dispatch) => {
   dispatch({ type: TOGGLE_LOADER });
   try {
     // eslint-disable-next-line no-unused-vars
-    const apiRes = await ManageService.deleteBookmark(token, cardId);
+    await ManageService.deleteBookmark(token, cardId);
   } catch (err) {
     console.log(err);
   } finally {
@@ -216,8 +212,7 @@ export const renameGroup =
 export const deleteGroup = (token, groupId) => async (dispatch) => {
   dispatch({ type: TOGGLE_LOADER });
   try {
-    // eslint-disable-next-line no-unused-vars
-    const apiRes = await ManageService.deleteGroup(token, groupId);
+    await ManageService.deleteGroup(token, groupId);
   } catch (err) {
     console.log(err);
   } finally {
@@ -231,8 +226,7 @@ export const toggleCardPin =
   async (dispatch) => {
     dispatch({ type: TOGGLE_LOADER });
     try {
-      // eslint-disable-next-line no-unused-vars
-      const apiRes = await ManageService.toggleCardPin(token, cardId, pin);
+      await ManageService.toggleCardPin(token, cardId, pin);
     } catch (err) {
       console.log(err);
     } finally {
@@ -360,12 +354,8 @@ export const deletePortfolio =
     dispatch({ type: CLOSE_ALL });
     dispatch({ type: TOGGLE_LOADER });
     try {
-      const sendRes = await ManageService.sendDeleteMessage(
-        token,
-        cardId,
-        messageBody
-      );
-      const deleteRes = await ManageService.deletePortfolio(token, cardId);
+      await ManageService.sendDeleteMessage(token, cardId, messageBody);
+      await ManageService.deletePortfolio(token, cardId);
 
       dispatch(setPortfolioActive(token));
     } catch (err) {
@@ -379,7 +369,7 @@ export const deleteScratch = (token, cardId) => async (dispatch) => {
   dispatch({ type: CLOSE_ALL });
   dispatch({ type: TOGGLE_LOADER });
   try {
-    const deleteRes = await ManageService.deletePortfolio(token, cardId);
+    await ManageService.deletePortfolio(token, cardId);
 
     dispatch(setPortfolioActive(token));
   } catch (err) {

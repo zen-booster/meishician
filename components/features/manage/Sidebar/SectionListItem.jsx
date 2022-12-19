@@ -28,10 +28,13 @@ export default function SectionListItem({ children, groupId, active }) {
   }
 
   const baseStyle =
-    'flex justify-between py-1 text-lg font-bold px-4 rounded-2xl relative ';
+    'flex justify-between py-1 text text-base laptop:text-lg font-bold px-4 rounded-3xl relative ';
   const statusStyle = active
     ? 'bg-main-01 text-white'
     : 'bg-white text-main-01';
+
+  const buttonStyle =
+    'hover:text-white hover:bg-main-01 active:bg-main-01-active';
 
   function handleGroupDropdown() {
     if (defaultGroupId !== groupId)
@@ -62,14 +65,12 @@ export default function SectionListItem({ children, groupId, active }) {
   }
 
   return (
-    <li className={`${baseStyle} ${statusStyle}`}>
-      <button
-        className="pr-3 text-left "
-        type="button"
-        onClick={() => handleSetActive()}
-      >
-        {children}
-      </button>
+    <button
+      type="button"
+      onClick={() => handleSetActive()}
+      className={`${baseStyle} ${statusStyle} ${buttonStyle}  w-full items-center pr-3 text-left`}
+    >
+      {children}
 
       <button
         className="flex items-center "
@@ -102,6 +103,6 @@ export default function SectionListItem({ children, groupId, active }) {
           </DropdownMenu>
         </div>
       )}
-    </li>
+    </button>
   );
 }
