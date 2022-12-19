@@ -4,20 +4,20 @@ import { useSelector, useDispatch } from 'react-redux';
 import dynamic from 'next/dynamic';
 import { useForm } from 'react-hook-form';
 // import CardDownload from '../../components/features/homepage/CardDownload';
-import ZhEnMap from '../../../data/homepageZhEn';
-import { TOGGLE_HOMEPAGE_EDITOR } from '../../../constants/constants';
+import ZhEnMap from '../../../../data/homepageZhEn';
+import { TOGGLE_HOMEPAGE_EDITOR } from '../../../../constants/constants';
 import EditorSectionTitle from './EditorSectionTitle';
 import EditorSection from './EditorSection';
 import LinkEditor from './LinkEditor';
-import Button from '../../common/Button/Button';
+import Button from '../../../common/Button/Button';
 import {
   updateHomepageTitle,
   toggleJobInfoPublic,
   setLinkEditorData,
-} from '../../../store/actions/homepageActions';
-import visibleIcon from '../../../public/icons/visible.svg';
-import invisibleIcon from '../../../public/icons/invisible.svg';
-import editIcon from '../../../public/icons/edit.svg';
+} from '../../../../store/actions/homepageActions';
+import visibleIcon from '../../../../public/icons/visible.svg';
+import invisibleIcon from '../../../../public/icons/invisible.svg';
+import editIcon from '../../../../public/icons/edit.svg';
 
 function HomepageEditor() {
   const [activeSection, setActiveSection] = useState();
@@ -75,9 +75,9 @@ function HomepageEditor() {
       const zhName = ZhEnMap[el];
       const value = jobInfo[el].content;
       return (
-        <div className={`mb-5 ${!isPublic && 'text-gray-300'}`}>
-          <h4 className="text-xl font-bold">{zhName}</h4>
-          <div className="mb-3 flex">
+        <div className={`mb-5 ${!isPublic && 'text-gray-300'}`} key={value}>
+          <h4 className="font-bold">{zhName}</h4>
+          <div className="mb-3 flex text-xl">
             <p className="mr-7 w-full border-b border-gray-500  px-3 py-1">
               {value}
             </p>
@@ -100,7 +100,7 @@ function HomepageEditor() {
         <EditorSectionTitle>頁面資訊設定</EditorSectionTitle>
         <EditorSection>
           <div className="mb-2 flex justify-between ">
-            <h3 className="text-2xl font-bold">頁面標題</h3>
+            <h3 className="font-bold">頁面標題</h3>
             <button
               className="flex hover:font-bold"
               type="button"
@@ -117,24 +117,24 @@ function HomepageEditor() {
 
           <form onSubmit={handleSubmit(onSubmit)}>
             <input
-              type="text"
-              className="w-full border border-black px-3 py-1"
+              type="text-lg"
+              className="w-full rounded border border-black px-3 py-1"
               defaultValue={homepageData.homepageTitle}
               disabled={activeSection === 'title' ? '' : 'disabled'}
               {...register('homepageTitle', { required: true })}
             />
 
             {activeSection === 'title' && (
-              <div className="mt-10 flex justify-between gap-3">
-                <Button submit className="w-1/2 laptop:w-[200px]">
-                  確認
-                </Button>
+              <div className="mt-10 flex justify-between gap-5">
                 <Button
-                  className="w-1/2 laptop:w-[200px]"
+                  className="w-1/2"
                   variant="outlined"
                   onClick={() => handleActiveSection(null)}
                 >
                   取消
+                </Button>
+                <Button submit className="w-1/2">
+                  確認
                 </Button>
               </div>
             )}

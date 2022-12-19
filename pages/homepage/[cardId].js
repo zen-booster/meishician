@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+
 import { getCookie } from 'cookies-next';
 import { saveAs } from 'file-saver';
 import { motion } from 'framer-motion';
@@ -15,13 +16,18 @@ import { saveBookmark } from '../../store/actions/homepageActions';
 
 import Space from '../../components/common/Space/Space';
 import Loader from '../../components/common/Loader/Loader';
-import HomepageEditor from '../../components/features/homepage-editor';
+import HomepageEditor from '../../components/features/homepage/HomepageEditor';
 import Button from '../../components/common/Button/Button';
+
+import JobInfoRow from '../../components/features/homepage/HomepageMain/JobInfoTable/JobInfoRow';
+import JobInfoTable from '../../components/features/homepage/HomepageMain/JobInfoTable';
+
+import HomepageSectionHeader from '../../components/features/homepage/HomepageMain/HomepageSectionHeader';
+import SectionHeaderWrapper from '../../components/features/homepage/HomepageMain/HomepageSectionHeader/SectionHeaderWrapper';
 
 import ZhEnMap from '../../data/homepageZhEn';
 import linkTypeIconMap from '../../data/linkTypeIconMap';
 import editIcon from '../../public/icons/edit.svg';
-
 import { b64toBlob } from '../../utils/b64toBlob';
 
 function Homepage() {
@@ -75,26 +81,25 @@ function Homepage() {
   }
 
   function renderJobInfo() {
-    return [
-      'name',
-      'companyName',
-      'jobTitle',
-      'phoneNumber',
-      'city',
-      'domain',
-    ].map((el) => {
-      const isPublic = !!jobInfo?.[el]?.content;
-      const zhName = ZhEnMap[el];
-      const value = jobInfo?.[el]?.content;
-      return (
-        isPublic && (
-          <tr key={value}>
-            <td className="font-bold laptop:p-2">{zhName}:</td>
-            <td className="pl-3">{value}</td>
-          </tr>
-        )
-      );
-    });
+    return (
+      <JobInfoTable>
+        {[
+          'name',
+          'companyName',
+          'jobTitle',
+          'phoneNumber',
+          'city',
+          'domain',
+        ].map((el) => {
+          const isPublic = !!jobInfo?.[el]?.content;
+          const zhName = ZhEnMap[el];
+          const value = jobInfo?.[el]?.content;
+          return (
+            isPublic && <JobInfoRow key={value} label={zhName} value={value} />
+          );
+        })}
+      </JobInfoTable>
+    );
   }
 
   function renderHomepageLink() {
@@ -185,6 +190,7 @@ function Homepage() {
         <h1 className=" bg-main-02 py-5 text-center text-h4 font-bold text-main-01 laptop:py-11 laptop:text-h3">
           {isEditorOpen ? '個人頁面編輯' : homepageTitle || '名片資訊頁面'}
         </h1>
+
         <div className="mx-auto  max-w-container bg-gray-100 py-14 px-5 laptop:px-32 xl:px-52">
           {isEditorOpen ? (
             <HomepageEditor />
@@ -230,35 +236,32 @@ function Homepage() {
                 </div>
               </div>
 
-              <div className="mx-auto flex  items-center bg-main-02 px-4 py-2 laptop:rounded-xl">
-                <h2 className="mr-auto text-h4 font-bold text-main-01">
-                  個人資訊Info
-                </h2>
-                {role === 'author' && (
-                  <button
-                    className="flex hover:font-bold"
-                    type="button"
-                    onClick={handleOpenEditor}
-                  >
-                    <p className="mr-3">修改資訊</p>
-                    <Image src={editIcon} alt="edit homepage info" />
-                  </button>
-                )}
-              </div>
               {jobInfo && (
-                <div className="py-10 px-5">
-                  <table className="laptop:text-xl">
-                    <tbody>{renderJobInfo()}</tbody>
-                  </table>
-                </div>
+                <>
+                  <SectionHeaderWrapper>
+                    <HomepageSectionHeader>個人資訊Info</HomepageSectionHeader>
+                    {role === 'author' && (
+                      <button
+                        className="flex hover:font-bold"
+                        type="button"
+                        onClick={handleOpenEditor}
+                      >
+                        <p className="mr-3">修改資訊</p>
+                        <Image src={editIcon} alt="edit homepage info" />
+                      </button>
+                    )}
+                  </SectionHeaderWrapper>
+                  {renderJobInfo()}
+                </>
               )}
+
               {homepageLink && (
                 <>
-                  <div className="mx-auto flex  items-center bg-main-02 px-4 py-2 laptop:rounded-xl">
-                    <h2 className="mr-auto text-h4 font-bold text-main-01">
+                  <SectionHeaderWrapper>
+                    <HomepageSectionHeader className="mr-auto text-h4 font-bold text-main-01">
                       個人連結
-                    </h2>
-                  </div>
+                    </HomepageSectionHeader>
+                  </SectionHeaderWrapper>
 
                   <ul className="flex flex-col py-10 ">
                     {renderHomepageLink()}
@@ -279,7 +282,6 @@ export const getServerSideProps = wrapper.getServerSideProps(
     const { cardId } = context.params;
 
     const token = getCookie('auth', { req, res });
-    // token = JSON.parse(JSON.stringify(token));
 
     try {
       const apiResponse = await HomepageService.getHomepageInfo(cardId, token);

@@ -1,11 +1,11 @@
 import { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { useSelector, useDispatch } from 'react-redux';
-import ItemTypes from './ItemTypes';
+import ItemTypes from '../../ItemTypes';
 import {
   setLinkOrder,
   updateLinkOrderApi,
-} from '../../../store/actions/homepageActions';
+} from '../../../../../store/actions/homepageActions';
 
 function LinkDnDContainer({ linkId, index, children, cardId, token }) {
   const ref = useRef(null);
