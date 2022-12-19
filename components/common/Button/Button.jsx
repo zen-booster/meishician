@@ -30,14 +30,23 @@ function Button({
       'main-01': 'text-main-01',
       danger: 'text-danger',
     },
+    bgActive: {
+      'main-01': 'active:bg-main-01-active',
+    },
+    textActive: {
+      'main-01': 'active:text-main-01-active',
+    },
+    borderActive: {
+      'main-01': 'active:border-main-01-active',
+    },
   };
 
   const generateStyle = () => {
     const baseStyles = `py-3 px-5 rounded-xl text-center font-bold text-xl`;
 
     const specificStyles = {
-      outlined: `border ${colorMap.border[color]} ${colorMap.text[color]}`,
-      contained: `${colorMap.bg[color]} text-white`,
+      outlined: `border-2 ${colorMap.border[color]} ${colorMap.text[color]} ${colorMap.textActive[color]} ${colorMap.borderActive[color]} `,
+      contained: `${colorMap.bg[color]}  ${colorMap.bgActive[color]} text-white `,
     };
 
     const customClassName = className;
