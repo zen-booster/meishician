@@ -19,7 +19,7 @@ const initCanvas = (dispatch) => {
     const object = e.target;
     const objectCenter = object.getCenterPoint();
     const transform = this._currentTransform;
-    const lineMargin = 4;
+    const lineMargin = 2;
 
     const widthCenter = this.width / 2;
     const heightCenter = this.height / 2;

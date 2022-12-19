@@ -16,20 +16,13 @@ function Navbar() {
   const [showExtra, setShowExtra] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const avatarRef = useRef();
-  const drawerRef = useRef();
   const router = useRouter();
-
-  const toggleDrawer = (e) => {
-    if (!e) return setIsOpen(false);
-    return setIsOpen(!isOpen);
-  };
 
   const toggleExtra = (e) => {
     if (!e) return setShowExtra(false);
     return setShowExtra(!showExtra);
   };
 
-  useClickOutside(drawerRef, toggleDrawer);
   useClickOutside(avatarRef, toggleExtra);
 
   const logout = () => {
@@ -44,7 +37,7 @@ function Navbar() {
     <>
       <div className="fixed z-30 flex w-full items-center justify-between bg-main-01 py-2 pl-8 pr-11 text-body font-bold text-white shadow-01">
         <div className="flex items-center gap-14 ">
-          <Link href="/">
+          <Link href="/" onClick={() => setIsOpen(false)}>
             <Image
               src="/logo-dark.svg"
               alt="logo"
@@ -58,7 +51,9 @@ function Navbar() {
 
         <ul className="flex items-center gap-12">
           <li className="hidden laptop:block laptop:h-full">
-            <Link href="/card-wall">名片牆</Link>
+            <Link href="/card-wall" onClick={() => setIsOpen(false)}>
+              名片牆
+            </Link>
           </li>
 
           {isLogin && (
@@ -66,11 +61,11 @@ function Navbar() {
               <li className="hidden laptop:block">
                 <Link href="/add-card">打造名片</Link>
               </li>
-              <li className="hidden laptop:block laptop:cursor-pointer">
+              <li className="hidden laptop:block">
                 <Link href="/manage">管理名片</Link>
               </li>
               <li className="cursor-pointer py-1">
-                <Link href="/notification">
+                <Link href="/notification" onClick={() => setIsOpen(false)}>
                   <Image
                     className="cursor-pointer"
                     src="/business-card.svg"
@@ -82,8 +77,7 @@ function Navbar() {
               </li>
               <li
                 className="cursor-pointer py-1 laptop:hidden"
-                onClick={toggleDrawer}
-                ref={drawerRef}
+                onClick={() => setIsOpen(!isOpen)}
               >
                 <Image
                   src="/hamburger-bar.svg"
@@ -159,8 +153,7 @@ function Navbar() {
               </li>
               <li
                 className="cursor-pointer py-1 laptop:hidden"
-                onClick={toggleDrawer}
-                ref={drawerRef}
+                onClick={() => setIsOpen(!isOpen)}
               >
                 <Image
                   src="/hamburger-bar.svg"
@@ -172,17 +165,17 @@ function Navbar() {
             </>
           )}
         </ul>
-
-        {isOpen && (
-          <Drawer
-            isLogin={isLogin}
-            logout={logout}
-            setShowEdit={setShowEdit}
-            avatar={avatar}
-          />
-        )}
       </div>
 
+      <AnimatePresence>
+        {isOpen && (
+          <Drawer
+            logout={logout}
+            setIsOpen={setIsOpen}
+            setShowEdit={setShowEdit}
+          />
+        )}
+      </AnimatePresence>
       {showEdit && <UploadModal setShowEdit={setShowEdit} />}
     </>
   );

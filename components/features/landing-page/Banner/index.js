@@ -4,9 +4,9 @@ import Space from '../../../common/Space/Space';
 
 function Banner() {
   return (
-    <div className="relative flex h-screen flex-col items-center bg-main-02 bg-cover font-bold text-main-01 laptop:bg-[url(/banner-background2.svg),_url(/banner-background.svg)]">
-      <Space />
-      <div className="mx-auto flex h-full w-full max-w-204 flex-col items-center pt-9 laptop:items-start laptop:pt-32">
+    <div className="relative flex flex-col items-center bg-main-02 bg-cover font-bold text-main-01 laptop:bg-banner laptop:bg-cover laptop:bg-center">
+      <div className="mx-auto flex min-h-screen  w-full max-w-[63.125rem] flex-col items-center pt-9 laptop:items-start laptop:pt-32">
+        <Space />
         <Image
           src="/logo-dark.svg"
           width={161}
@@ -26,7 +26,7 @@ function Banner() {
         <Link href="/add-card">
           <button
             type="button"
-            className="mb-1 w-52 rounded-xl bg-main-01 py-5 text-center text-white"
+            className="mb-1 w-52 rounded-xl bg-main-01 py-5 text-center text-white duration-200 hover:bg-main-03"
           >
             立即試試
           </button>
@@ -37,7 +37,7 @@ function Banner() {
           priority
           width={375}
           height={358}
-          className="mt-auto laptop:absolute laptop:bottom-0 laptop:left-1/2 laptop:-translate-x-1/2"
+          className="mt-auto w-[29.125rem] laptop:absolute laptop:bottom-0 laptop:left-1/2 laptop:-translate-x-1/2"
         />
       </div>
     </div>

@@ -5,7 +5,7 @@ function aligningGuidelines(canvas) {
   const ctx = canvas.getSelectionContext();
 
   const aligningLineOffset = 5;
-  const aligningLineMargin = 4;
+  const aligningLineMargin = 2;
 
   let viewportTransform;
   let zoom = canvas.getZoom();

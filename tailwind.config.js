@@ -15,8 +15,8 @@ module.exports = {
         laptop: '996px',
       },
       maxWidth: {
-        204: '51rem', // old container
-        container: '76rem', // new container
+        204: '51rem',
+        container: '76rem',
       },
       colors: {
         'main-01': '#2B5F75',

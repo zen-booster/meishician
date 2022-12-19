@@ -4,7 +4,7 @@ import Button from '../../../common/Button/Button';
 
 function Guide() {
   return (
-    <div className="flex flex-col items-center bg-main-02 pt-11 pb-12 font-bold laptop:pt-12 laptop:pb-16">
+    <div className="flex flex-col items-center bg-main-02 px-5 pt-11 pb-12 font-bold laptop:pt-12 laptop:pb-16">
       <Image
         src="/logo-light.svg"
         width={480}
@@ -18,7 +18,10 @@ function Guide() {
         幫你的名片施加魔法
       </h3>
       <Link href="/add-card">
-        <Button variant="contained" className="w-52 bg-main-04">
+        <Button
+          variant="contained"
+          className="w-52 bg-main-04 duration-200 hover:bg-danger"
+        >
           立即使用
         </Button>
       </Link>

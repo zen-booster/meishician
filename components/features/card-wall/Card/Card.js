@@ -47,15 +47,17 @@ function Card({ data, index }) {
           {layoutDirection === 'horizontal' ? (
             <Image
               src={cardImageData.front}
-              className="w-full"
-              width={9}
-              height={5}
+              className="mt-6 w-full"
+              width={262}
+              height={146}
               alt="business-card"
             />
           ) : (
-            <img
+            <Image
               src={cardImageData.front}
               className="h-full"
+              width={146}
+              height={224}
               alt="business-card"
             />
           )}
@@ -75,7 +77,7 @@ function Card({ data, index }) {
           </div>
           <div className="ml-4 w-full">
             <div className="flex items-center">
-              <h4 className="text-fs-6 font-bold">{name}</h4>
+              <h4 className="text-h5 font-bold">{name}</h4>
               <p className="mx-auto text-center">{jobTitle}</p>
             </div>
             <p className="mb-1 text-rwd-body">{companyName}</p>
@@ -83,7 +85,7 @@ function Card({ data, index }) {
               <Image
                 src="/pin-map.svg"
                 width={16}
-                height={19}
+                height={24}
                 alt="pin-map"
                 className="mr-2"
               />
