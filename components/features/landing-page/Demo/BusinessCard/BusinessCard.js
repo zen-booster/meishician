@@ -5,7 +5,7 @@ function BusinessCard({ data }) {
   if (mode === 'horizon') {
     return (
       <Image
-        className="mx-12 shadow-02"
+        className="mx-12 w-96 shadow-02 laptop:w-[30rem]"
         src={src}
         alt="business-card"
         width={648}
@@ -15,7 +15,7 @@ function BusinessCard({ data }) {
   }
   return (
     <Image
-      className="mx-12"
+      className="mx-12 h-96 w-auto shadow-02 laptop:h-[30rem]"
       src={data.src}
       alt="business-card"
       width={360}

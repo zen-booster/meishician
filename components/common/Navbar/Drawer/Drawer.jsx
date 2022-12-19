@@ -1,56 +1,121 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { useSelector } from 'react-redux';
+import { motion } from 'framer-motion';
+import Space from '../../Space/Space';
 
-function Drawer({ isLogin, logout, setShowEdit, avatar }) {
+function Drawer({ logout, setIsOpen, setShowEdit }) {
+  const { isLogin, avatar } = useSelector((state) => state.loginStatus);
+
+  const closeNavbar = () => setIsOpen(false);
+
   return (
-    <div className="absolute left-0 right-0 top-full bg-gray-300 laptop:hidden">
-      <ul className="flex flex-col items-center">
-        {isLogin && (
-          <li
-            className="flex cursor-pointer flex-col items-center py-3"
-            onClick={() => {
-              setShowEdit(true);
-            }}
-          >
-            <Image
-              src={avatar || '/avatar.svg'}
-              className={`${avatar && 'rounded-full'} h-8 w-8`}
-              width={32}
-              height={32}
-              alt="avatar"
-            />
-            <span type="button" className="text-xs">
-              上傳照片
-            </span>
-          </li>
-        )}
-        <li className="py-3">
-          <Link href="card-wall">名片牆</Link>
-        </li>
-        {isLogin ? (
-          <>
-            <li className="py-3">
-              <Link href="/add-card">打造名片</Link>
-            </li>
-            <li className="py-3">
-              <Link href="/management">管理名片</Link>
-            </li>
-            <li className="cursor-pointer py-3" onClick={logout}>
-              登出
-            </li>
-          </>
-        ) : (
-          <>
-            <li className="py-3">
-              <Link href="/login">Login</Link>
-            </li>
+    <div className="fixed inset-0 z-10 laptop:hidden">
+      <div
+        className="fixed inset-0 -z-10 bg-black opacity-40"
+        onClick={closeNavbar}
+      />
+      <Space />
+      <motion.div
+        className="ml-auto h-full w-72 bg-white text-fs-6 font-bold text-main-01"
+        initial={{ x: '100%' }}
+        animate={{ x: '0%' }}
+        exit={{ x: '100%' }}
+        transition={{ type: 'Inertia' }}
+      >
+        <ul className="flex flex-col items-center gap-3 py-8 text-center">
+          {isLogin && (
+            <>
+              <li
+                className="mb-3 flex cursor-pointer flex-col items-center gap-2"
+                onClick={() => {
+                  setShowEdit(true);
+                }}
+              >
+                <Image
+                  src={avatar || '/avatar.svg'}
+                  className={`${avatar && 'rounded-full'} h-8 w-8`}
+                  width={32}
+                  height={32}
+                  alt="avatar"
+                />
+                <span type="button" className="text-body">
+                  上傳照片
+                </span>
+              </li>
+              <li className="w-full px-12">
+                <Link
+                  href="/card-wall"
+                  className="block h-full w-full py-2 active:bg-slate-100"
+                  onClick={closeNavbar}
+                >
+                  名片牆
+                </Link>
+              </li>
+              <li className="w-full px-12">
+                <Link
+                  href="/add-card"
+                  className="block h-full w-full py-2 active:bg-slate-100"
+                  onClick={closeNavbar}
+                >
+                  打造名片
+                </Link>
+              </li>
+              <li className="w-full px-12">
+                <Link
+                  href="/manage"
+                  className="block h-full w-full py-2 active:bg-slate-100"
+                  onClick={closeNavbar}
+                >
+                  管理名片
+                </Link>
+              </li>
+              <li className="w-full px-12 text-danger" onClick={logout}>
+                <button
+                  type="button"
+                  className="w-full py-2 active:bg-slate-100"
+                  onClick={closeNavbar}
+                >
+                  登出
+                </button>
+              </li>
+            </>
+          )}
 
-            <li className="py-3">
-              <Link href="/sign-up">Sign Up</Link>
-            </li>
-          </>
-        )}
-      </ul>
+          {!isLogin && (
+            <>
+              <li className="w-full px-12">
+                <Link
+                  href="card-wall"
+                  className="block h-full w-full py-2 hover:bg-slate-100"
+                  onClick={closeNavbar}
+                >
+                  名片牆
+                </Link>
+              </li>
+              <li className="w-full px-12">
+                <Link
+                  href="/login"
+                  className="block h-full w-full py-2 hover:bg-slate-100"
+                  onClick={closeNavbar}
+                >
+                  Login
+                </Link>
+              </li>
+
+              <li className="w-full px-12">
+                <Link
+                  href="/sign-up"
+                  className="block h-full w-full py-2 active:bg-slate-100"
+                  onClick={closeNavbar}
+                >
+                  Sign Up
+                </Link>
+              </li>
+            </>
+          )}
+        </ul>
+      </motion.div>
     </div>
   );
 }

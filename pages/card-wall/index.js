@@ -8,9 +8,11 @@ export async function getServerSideProps(context) {
   const city = context.query.city || '';
   const name = context.query.name || '';
   const defaultUrl = [`${DOMAIN_URL}/api/card-wall?page=${page}`];
+
   if (domain && domain !== 'all') defaultUrl.push(`&domain=${domain}`);
   if (city && city !== 'all') defaultUrl.push(`&city=${city}`);
   if (name) defaultUrl.push(`&name=${name}`);
+
   const apiUrl = defaultUrl.reduce((acc, cur) => acc + cur);
   const cardData = await axios.get(apiUrl);
   const { currentPage, totalPage, records } = cardData.data.data;

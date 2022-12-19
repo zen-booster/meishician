@@ -1,6 +1,6 @@
 const introductionData = [
   {
-    src: '/editor.svg',
+    src: '/introduction/editor.svg',
     title: ['專為名片設計而生的編輯器'],
     infos: [
       '數十種好用模版，快速上手名片製作',
@@ -9,7 +9,7 @@ const introductionData = [
     ],
   },
   {
-    src: 'https://fakeimg.pl/600x500/ccc/',
+    src: '/introduction/scan.svg',
     title: ['QR Code 掃描快速交換', '個人名片頁面導流好方便'],
     infos: [
       '拿出手機，名片數量不再是問題',
@@ -18,7 +18,7 @@ const introductionData = [
     ],
   },
   {
-    src: 'https://fakeimg.pl/600x500/ccc/',
+    src: '/introduction/manage.svg',
     title: ['群組化管理名片', '人脈掌握一指運籌帷幄'],
     infos: [
       '管理名片，清楚顯示人脈資源',
