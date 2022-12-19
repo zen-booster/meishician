@@ -23,18 +23,18 @@ export default function SectionListItem({ children, groupId, active }) {
     dropdown.activeGroupId === groupId &&
     dropdown.type === manageDropdownType.GROUP;
 
-  function handleSetActive() {
+  function handleSetActive(e) {
+    console.log(e.target);
     if (token) dispatch(setGroupListActive(token, groupId));
   }
 
   const baseStyle =
-    'flex justify-between py-1 text text-base laptop:text-lg font-bold px-4 rounded-3xl relative ';
+    'flex justify-between py-1 text-lg font-bold px-4 rounded-2xl relative ';
   const statusStyle = active
     ? 'bg-main-01 text-white'
     : 'bg-white text-main-01';
 
-  const buttonStyle =
-    'hover:text-white hover:bg-main-01 active:bg-main-01-active';
+  const buttonStyle = 'active:bg-main-01-active active:text-white';
 
   function handleGroupDropdown() {
     if (defaultGroupId !== groupId)
@@ -63,14 +63,25 @@ export default function SectionListItem({ children, groupId, active }) {
       })
     );
   }
+  const handleMenuRightClick = (e) => {
+    e.preventDefault();
+    if (e.type === 'contextmenu') {
+      handleGroupDropdown(e);
+    }
+  };
 
   return (
-    <button
-      type="button"
-      onClick={() => handleSetActive()}
-      className={`${baseStyle} ${statusStyle} ${buttonStyle}  w-full items-center pr-3 text-left`}
+    <li
+      className={`${baseStyle} ${statusStyle} ${buttonStyle}`}
+      onContextMenu={handleMenuRightClick}
     >
-      {children}
+      <button
+        className="w-full pr-3 text-left"
+        type="button"
+        onClick={(e) => handleSetActive(e)}
+      >
+        {children}
+      </button>
 
       <button
         className="flex items-center "
@@ -81,6 +92,7 @@ export default function SectionListItem({ children, groupId, active }) {
           <BiDotsHorizontalRounded className="h-[30px] w-[30px]" />
         )}
       </button>
+
       {isCurrentDropdown && (
         <div className="absolute top-14 right-3 z-10 text-base font-normal">
           <DropdownMenu>
@@ -103,6 +115,6 @@ export default function SectionListItem({ children, groupId, active }) {
           </DropdownMenu>
         </div>
       )}
-    </button>
+    </li>
   );
 }

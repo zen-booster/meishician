@@ -84,10 +84,21 @@ export default function Card({ cardData }) {
     );
   }
 
+  const handleMenuRightClick = (e) => {
+    e.preventDefault();
+    if (e.type === 'contextmenu') {
+      handleDropdown(e);
+    }
+  };
   const createDate = format(parseISO(createdAt), 'yyyy/MM/dd HH:mm:ss');
 
   return (
-    <div className="relative basis-full p-3 xl:basis-1/3">
+    <div
+      className="relative basis-full p-3 xl:basis-1/3"
+      onContextMenu={(e) => {
+        handleMenuRightClick(e);
+      }}
+    >
       <div className="flex h-full flex-col rounded-xl border  border-gray-300 bg-white shadow-01 ">
         <div className="px-5 pt-5">
           <CardHeader

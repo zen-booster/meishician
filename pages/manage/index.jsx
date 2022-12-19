@@ -50,9 +50,8 @@ export default function Manage() {
     if (wide < 996) setIsSidebarActive((prev) => !prev);
   };
 
-  const handleSideClose = (e) => {
+  const handleSideClose = () => {
     if (wide < 996) setIsSidebarActive(false);
-    console.log('trigger');
   };
 
   function renderModal() {

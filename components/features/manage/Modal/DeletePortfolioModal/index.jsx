@@ -44,10 +44,10 @@ function DeletePortfolioModal() {
           刪除後將會發送訊息給追蹤此名片的用戶
         </p>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} className="w-full">
           <textarea
             type="text"
-            className="w-[350px] p-1"
+            className="w-full min-w-[300px] rounded-lg p-2"
             rows={3}
             style={{ resize: 'none' }}
             defaultValue={`${activeCompanyName} ${activeJobTitle} - ${activeName} 已刪除名片，珍重再見`}

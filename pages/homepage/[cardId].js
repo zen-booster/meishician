@@ -1,36 +1,33 @@
-import Image from 'next/image';
-import { getCookie } from 'cookies-next';
-
-import { saveAs } from 'file-saver';
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
-
+import Image from 'next/image';
+import { getCookie } from 'cookies-next';
+import { saveAs } from 'file-saver';
 import { motion } from 'framer-motion';
+import { wrapper } from '../../store/store';
 import {
   SET_HOMEPAGE_INFO,
   TOGGLE_HOMEPAGE_EDITOR,
 } from '../../constants/constants';
 import HomepageService from '../../services/homepage.services';
+import { saveBookmark } from '../../store/actions/homepageActions';
 
+import Space from '../../components/common/Space/Space';
+import Loader from '../../components/common/Loader/Loader';
 import HomepageEditor from '../../components/features/homepage-editor';
 import Button from '../../components/common/Button/Button';
 
-import { b64toBlob } from '../../utils/b64toBlob';
-
-import { wrapper } from '../../store/store';
 import ZhEnMap from '../../data/homepageZhEn';
 import linkTypeIconMap from '../../data/linkTypeIconMap';
-import Loader from '../../components/common/Loader/Loader';
 import editIcon from '../../public/icons/edit.svg';
 
-import { saveBookmark } from '../../store/actions/homepageActions';
+import { b64toBlob } from '../../utils/b64toBlob';
 
 function Homepage() {
   const router = useRouter();
   const { isEditorOpen } = useSelector((state) => state.homepage);
   const { token } = useSelector((state) => state.loginStatus);
-  console.log(token);
 
   const { isLoading } = useSelector((state) => state.loaderStatus);
 
@@ -183,6 +180,7 @@ function Homepage() {
     <>
       {isLoading && <Loader />}
       <div>
+        <Space />
         <h1 className=" bg-main-02 py-11 text-center text-h3 font-bold text-main-01">
           {isEditorOpen ? '個人頁面編輯' : homepageTitle || '名片資訊頁面'}
         </h1>

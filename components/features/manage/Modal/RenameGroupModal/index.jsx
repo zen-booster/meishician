@@ -37,7 +37,7 @@ function RenameGroupModal() {
       <ModalHeader>群組更名</ModalHeader>
       <form onSubmit={handleSubmit(onSubmit)}>
         <label htmlFor="groupName">
-          <h3 className="mb-1 text-lg font-bold">群組名稱</h3>
+          <h3 className="mb-1 ">群組名稱</h3>
 
           <Controller
             control={control}
@@ -51,15 +51,15 @@ function RenameGroupModal() {
           />
         </label>
         <div className="mt-10 flex gap-5">
-          <Button className="w-full" submit>
-            確定
-          </Button>
           <Button
             variant="outlined"
             className="w-full bg-white"
             onClick={() => handleCloseOpen()}
           >
             取消
+          </Button>
+          <Button className="w-full" submit>
+            確定
           </Button>
         </div>
       </form>

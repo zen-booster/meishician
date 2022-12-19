@@ -38,10 +38,8 @@ function EditBookmarkModal() {
       note,
       followerGroupId: groupId,
     };
-    const editRes = await dispatch(
-      editBookmarkNotes(token, activeCardId, newNotes)
-    );
-    const setRes = await dispatch(setInitData(token, groupId));
+    await dispatch(editBookmarkNotes(token, activeCardId, newNotes));
+    await dispatch(setInitData(token, groupId));
   };
 
   // const onSubmit = (data) => {
@@ -56,7 +54,7 @@ function EditBookmarkModal() {
       <ModalHeader>編輯名片註記</ModalHeader>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
         <label htmlFor="tags">
-          <h3 className="mb-1 text-lg font-bold">
+          <h3 className="mb-1">
             標籤
             <span className="font-normal text-gray-500">{`(請以","分隔)`}</span>
           </h3>
@@ -74,11 +72,11 @@ function EditBookmarkModal() {
         </label>
 
         <label htmlFor="groupId">
-          <h3 className="mb-1 text-lg font-bold">群組</h3>
+          <h3 className="mb-1 ">群組</h3>
           <select
             name="groupId"
             id="groupId"
-            className="h-[38px] w-full border border-b-black py-1 px-2 text-lg"
+            className="h-[38px] w-full rounded-lg py-1 px-2 text-lg"
             {...register('groupId')}
           >
             {groupList.map((group) => (
@@ -94,7 +92,7 @@ function EditBookmarkModal() {
         </label>
 
         <label htmlFor="note">
-          <h3 className="mb-1 text-lg font-bold">註記</h3>
+          <h3 className="mb-1 ">註記</h3>
 
           <Controller
             control={control}
@@ -109,15 +107,15 @@ function EditBookmarkModal() {
         </label>
 
         <div className="mt-10 flex gap-5">
-          <Button className="w-full" submit>
-            確定
-          </Button>
           <Button
             variant="outlined"
             className="w-full bg-white"
             onClick={() => handleCloseOpen()}
           >
             取消
+          </Button>
+          <Button className="w-full" submit>
+            確定
           </Button>
         </div>
       </form>
