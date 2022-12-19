@@ -164,7 +164,7 @@ function HomepageEditor() {
 
       <Button
         type="button"
-        className="mt-10 text-2xl hover:font-bold"
+        className="mx-auto mt-10 block text-2xl hover:font-bold"
         onClick={() => handleOpenEditor()}
       >
         回到資訊頁面
