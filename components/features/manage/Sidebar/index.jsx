@@ -64,7 +64,7 @@ export default function Sidebar({ onChangeClose, isSidebarMobileMode }) {
 
   return (
     <div
-      className="absolute z-30 max-h-[500px] w-9/12 overflow-auto rounded-xl rounded-tl-none bg-white p-5 laptop:static laptop:h-full laptop:max-h-full laptop:w-full"
+      className="absolute z-30  w-9/12 rounded-xl rounded-tl-none bg-white p-5 laptop:static laptop:h-full laptop:max-h-full laptop:w-full"
       ref={ref}
     >
       <SearchBar />
@@ -80,16 +80,16 @@ export default function Sidebar({ onChangeClose, isSidebarMobileMode }) {
       <section className="mb-8">
         <SidebarHeader>收藏的名片</SidebarHeader>
 
-        <ul className=" pl-4 pr-6">
+        <ul className=" max-h-[300px] overflow-auto  pl-4 pr-6 laptop:max-h-[500px]">
           {renderGroupList()}
-          <button
-            type="button"
-            className=" py-3 pl-1 text-xl	 text-gray-400 hover:font-bold"
-            onClick={() => handleOpenAddNewGroupModal()}
-          >
-            + 新增群組
-          </button>
         </ul>
+        <button
+          type="button"
+          className="  pl-4 pr-6 text-xl	 text-gray-400 hover:font-bold"
+          onClick={() => handleOpenAddNewGroupModal()}
+        >
+          + 新增群組
+        </button>
       </section>
 
       <section>

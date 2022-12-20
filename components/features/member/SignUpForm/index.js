@@ -1,14 +1,12 @@
 import { useForm, Controller } from 'react-hook-form';
 import Link from 'next/link';
-import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import Space from '../../../common/Space/Space';
 import Input from '../../../common/Input/Input';
 import Button from '../../../common/Button/Button';
 import Info from '../Info';
-import { LOGIN, TOGGLE_LOADER } from '../../../../constants/constants';
-import { DOMAIN_URL } from '../../../../configs';
+import { signUp } from '../../../../store/actions';
 
 function SignUpForm() {
   const {
@@ -20,22 +18,8 @@ function SignUpForm() {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const onSubmit = (data) => {
-    dispatch({ type: TOGGLE_LOADER });
-    axios
-      .post(`${DOMAIN_URL}/api/users/sign-up`, data)
-      .then((res) => {
-        localStorage.setItem('auth', `Bearer ${res.data.token}`);
-        dispatch({ type: LOGIN });
-        router.push('/');
-      })
-      .catch((err) => {
-        alert(`這個 Email 有人用了啦`);
-        console.log(err);
-      })
-      .finally(() => {
-        dispatch({ type: TOGGLE_LOADER });
-      });
+  const onSubmit = async (data) => {
+    await dispatch(signUp(data, router));
   };
 
   return (
