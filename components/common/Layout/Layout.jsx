@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import Navbar from '../Navbar/Navbar';
 import Loader from '../Loader/Loader';
+import Footer from '../Footer/Footer';
 
 function Layout({ children }) {
   const router = useRouter();
