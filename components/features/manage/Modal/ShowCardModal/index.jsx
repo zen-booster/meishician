@@ -29,12 +29,12 @@ function ShowCardModal() {
 
   function sizeCalculate() {
     if (layoutDirection === 'vertical') {
-      return [(height * 1) / 2, height, 250, 500];
+      return [(height * 1) / 2, height, 500, 1000];
     }
     if (ifRotate && layoutDirection === 'horizontal') {
       return [height * 0.7, (height * 1) / 2];
     }
-    return [wide, (wide * 1) / 1.8, 800, 400];
+    return [wide, (wide * 1) / 1.8, 1000, 500];
   }
 
   const [cardWidth, cardHeight, maxWidth, maxHeight] = sizeCalculate();
