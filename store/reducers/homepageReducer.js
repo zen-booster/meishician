@@ -24,7 +24,11 @@ export default function (state = initState, action) {
   switch (action.type) {
     case SET_HOMEPAGE_INFO:
       return produce(state, (draftState) => {
-        draftState.homepageData = action.payload;
+        if (!state.homepageData) {
+          draftState.homepageData = action.payload;
+        } else {
+          Object.assign(draftState.homepageData, action.payload);
+        }
       });
     case SAVE_BOOKMARK:
       return produce(state, (draftState) => {

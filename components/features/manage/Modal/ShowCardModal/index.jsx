@@ -1,59 +1,79 @@
 import { useDispatch, useSelector } from 'react-redux';
-// import Image from 'next/image';
 import { useEffect, useState } from 'react';
-
 import { useWindowWide } from '../../../../../hooks/useWindowWide';
-
+import { useWindowHeight } from '../../../../../hooks/useWindowHeight';
 import { closeAll } from '../../../../../store/actions/manageActions';
 
 function ShowCardModal() {
   const wide = useWindowWide();
+  const height = useWindowHeight();
   const dispatch = useDispatch();
   const { activeCardImage, layoutDirection } = useSelector(
     (state) => state.manage.modal
   );
 
   const [ifRotate, setIfRotate] = useState(false);
+  const [isCardFront, setIsCardFront] = useState(true);
+
+  const cardImageSrc = isCardFront
+    ? activeCardImage.front
+    : activeCardImage.back;
+
+  function handleSwitchCard() {
+    if (!activeCardImage.back) return;
+    setIsCardFront((prev) => !prev);
+  }
   function handleCloseOpen() {
     dispatch(closeAll());
   }
-  console.log('layout', layoutDirection);
+
+  function sizeCalculate() {
+    if (layoutDirection === 'vertical') {
+      return [(height * 1) / 2, height, 250, 500];
+    }
+    if (ifRotate && layoutDirection === 'horizontal') {
+      return [height * 0.7, (height * 1) / 2];
+    }
+    return [wide, (wide * 1) / 1.8, 800, 400];
+  }
+
+  const [cardWidth, cardHeight, maxWidth, maxHeight] = sizeCalculate();
 
   useEffect(() => {
     setIfRotate(!!(layoutDirection === 'horizontal' && wide <= 996));
   }, [wide]);
 
   return (
-    <div className="fixed inset-0 z-30 overflow-y-auto">
+    <div className="fixed inset-0 z-30 ">
       <div
-        className="fixed inset-0 h-full w-full bg-black opacity-40"
+        className="fixed inset-0 h-full w-full bg-black opacity-80"
         onClick={() => {
           handleCloseOpen();
         }}
       />
-      <div className="flex min-h-screen items-center">
-        <div className="relative mx-auto rounded-xl bg-main-02 px-10 py-8 shadow-lg">
+      <div className="flex min-h-screen items-center justify-center">
+        <div
+          className="flex items-center justify-center"
+          style={{
+            height: cardHeight,
+            width: cardWidth,
+          }}
+        >
           {activeCardImage && (
             <div
               style={{
-                height: 700,
-                width: 350,
+                height: cardHeight,
+                width: cardWidth,
+                maxWidth,
+                maxHeight,
                 backgroundRepeat: 'no-repeat',
                 backgroundSize: 'contain',
                 backgroundPosition: 'center',
-                backgroundImage: `url(${activeCardImage.front})`,
-                transform: `${ifRotate ? 'rotate(90deg)' : 'rotate(0deg)'}`,
+                backgroundImage: `url(${cardImageSrc})`,
+                transform: `${ifRotate ? 'rotate(90deg) ' : 'rotate(0deg)'}`,
               }}
+              onClick={handleSwitchCard}
             />
-            // <Image
-            //   src={activeCardImage.front}
-            //   width="200"
-            //   height="100"
-            //   className="min-w-[300px]"
-            //   style={{
-            //     transform: `${ifRotate ? 'rotate(90deg)' : 'rotate(0deg)'}`,
-            //   }}
-            // />
           )}
         </div>
       </div>

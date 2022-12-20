@@ -1,36 +1,39 @@
-import Image from 'next/image';
-import { getCookie } from 'cookies-next';
-
-import { saveAs } from 'file-saver';
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 
+import { getCookie } from 'cookies-next';
+import { saveAs } from 'file-saver';
 import { motion } from 'framer-motion';
+import { wrapper } from '../../store/store';
 import {
   SET_HOMEPAGE_INFO,
   TOGGLE_HOMEPAGE_EDITOR,
 } from '../../constants/constants';
 import HomepageService from '../../services/homepage.services';
+import { saveBookmark } from '../../store/actions/homepageActions';
 
-import HomepageEditor from '../../components/features/homepage-editor';
+import Space from '../../components/common/Space/Space';
+import Loader from '../../components/common/Loader/Loader';
+import HomepageEditor from '../../components/features/homepage/HomepageEditor';
 import Button from '../../components/common/Button/Button';
 
-import { b64toBlob } from '../../utils/b64toBlob';
+import JobInfoRow from '../../components/features/homepage/HomepageMain/JobInfoTable/JobInfoRow';
+import JobInfoTable from '../../components/features/homepage/HomepageMain/JobInfoTable';
 
-import { wrapper } from '../../store/store';
+import HomepageSectionHeader from '../../components/features/homepage/HomepageMain/HomepageSectionHeader';
+import SectionHeaderWrapper from '../../components/features/homepage/HomepageMain/HomepageSectionHeader/SectionHeaderWrapper';
+
 import ZhEnMap from '../../data/homepageZhEn';
 import linkTypeIconMap from '../../data/linkTypeIconMap';
-import Loader from '../../components/common/Loader/Loader';
 import editIcon from '../../public/icons/edit.svg';
-
-import { saveBookmark } from '../../store/actions/homepageActions';
+import { b64toBlob } from '../../utils/b64toBlob';
 
 function Homepage() {
   const router = useRouter();
   const { isEditorOpen } = useSelector((state) => state.homepage);
   const { token } = useSelector((state) => state.loginStatus);
-  console.log(token);
 
   const { isLoading } = useSelector((state) => state.loaderStatus);
 
@@ -78,26 +81,25 @@ function Homepage() {
   }
 
   function renderJobInfo() {
-    return [
-      'name',
-      'companyName',
-      'jobTitle',
-      'phoneNumber',
-      'city',
-      'domain',
-    ].map((el) => {
-      const isPublic = !!jobInfo?.[el]?.content;
-      const zhName = ZhEnMap[el];
-      const value = jobInfo?.[el]?.content;
-      return (
-        isPublic && (
-          <tr key={value}>
-            <td className="font-bold laptop:p-2">{zhName}:</td>
-            <td className="pl-3">{value}</td>
-          </tr>
-        )
-      );
-    });
+    return (
+      <JobInfoTable>
+        {[
+          'name',
+          'companyName',
+          'jobTitle',
+          'phoneNumber',
+          'city',
+          'domain',
+        ].map((el) => {
+          const isPublic = !!jobInfo?.[el]?.content;
+          const zhName = ZhEnMap[el];
+          const value = jobInfo?.[el]?.content;
+          return (
+            isPublic && <JobInfoRow key={value} label={zhName} value={value} />
+          );
+        })}
+      </JobInfoTable>
+    );
   }
 
   function renderHomepageLink() {
@@ -108,7 +110,7 @@ function Homepage() {
       return (
         <a
           key={linkId}
-          className="mb-6 flex items-center bg-main-02 py-2 px-5 last:mb-0 laptop:rounded-xl"
+          className="border-b-1 mb-6 flex  items-center border-b border-gray-700 px-3 pb-1 last:mb-0 laptop:w-full "
           href={type === 'EMAIL' ? `mailto:${link}` : link}
         >
           <div className="mr-3">
@@ -124,10 +126,11 @@ function Homepage() {
             />
           </div>
           <div className="flex flex-col justify-center">
-            <h3 className="font-bold text-main-01">
+            <h3 className="text-xl font-bold text-main-01">
               {title && <p> {el.title}</p>}
             </h3>
-            {subTitle && <h4 className=" text-white">{subTitle}</h4>}
+
+            {subTitle && <h4 className=" text-gray-500">{subTitle}</h4>}
           </div>
         </a>
       );
@@ -183,9 +186,11 @@ function Homepage() {
     <>
       {isLoading && <Loader />}
       <div>
-        <h1 className=" bg-main-02 py-11 text-center text-h3 font-bold text-main-01">
+        <Space />
+        <h1 className=" bg-main-02 py-5 text-center text-h4 font-bold text-main-01 laptop:py-11 laptop:text-h3">
           {isEditorOpen ? '個人頁面編輯' : homepageTitle || '名片資訊頁面'}
         </h1>
+
         <div className="mx-auto  max-w-container bg-gray-100 py-14 px-5 laptop:px-32 xl:px-52">
           {isEditorOpen ? (
             <HomepageEditor />
@@ -231,29 +236,38 @@ function Homepage() {
                 </div>
               </div>
 
-              <div className="mx-auto flex  items-center bg-main-02 px-4 py-2 laptop:rounded-xl">
-                <h2 className="mr-auto text-h4 font-bold text-main-01">
-                  個人資訊Info
-                </h2>
-                {role === 'author' && (
-                  <button
-                    className="flex hover:font-bold"
-                    type="button"
-                    onClick={handleOpenEditor}
-                  >
-                    <p className="mr-3">修改資訊</p>
-                    <Image src={editIcon} alt="edit homepage info" />
-                  </button>
-                )}
-              </div>
               {jobInfo && (
-                <div className="py-10 px-5">
-                  <table className="laptop:text-xl">
-                    <tbody>{renderJobInfo()}</tbody>
-                  </table>
-                </div>
+                <>
+                  <SectionHeaderWrapper>
+                    <HomepageSectionHeader>個人資訊Info</HomepageSectionHeader>
+                    {role === 'author' && (
+                      <button
+                        className="flex hover:font-bold"
+                        type="button"
+                        onClick={handleOpenEditor}
+                      >
+                        <p className="mr-3">修改資訊</p>
+                        <Image src={editIcon} alt="edit homepage info" />
+                      </button>
+                    )}
+                  </SectionHeaderWrapper>
+                  {renderJobInfo()}
+                </>
               )}
-              {homepageLink && <ul>{renderHomepageLink()}</ul>}
+
+              {homepageLink && (
+                <>
+                  <SectionHeaderWrapper>
+                    <HomepageSectionHeader className="mr-auto text-h4 font-bold text-main-01">
+                      個人連結
+                    </HomepageSectionHeader>
+                  </SectionHeaderWrapper>
+
+                  <ul className="flex flex-col py-10 ">
+                    {renderHomepageLink()}
+                  </ul>
+                </>
+              )}
             </>
           )}
         </div>
@@ -268,7 +282,6 @@ export const getServerSideProps = wrapper.getServerSideProps(
     const { cardId } = context.params;
 
     const token = getCookie('auth', { req, res });
-    // token = JSON.parse(JSON.stringify(token));
 
     try {
       const apiResponse = await HomepageService.getHomepageInfo(cardId, token);

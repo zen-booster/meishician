@@ -1,12 +1,11 @@
-import { format, parseISO } from 'date-fns';
-// import Image from 'next/image';
-import { useDispatch, useSelector } from 'react-redux';
-import Link from 'next/link';
 import { useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { useDrag, DragPreviewImage } from 'react-dnd';
 import Image from 'next/image';
-import { boxImage } from './dnd-preview-img';
+import Link from 'next/link';
+
+import { format, parseISO } from 'date-fns';
 
 import SectionTag from '../../SectionTag';
 import CardHeader from './CardHeader';
@@ -14,6 +13,9 @@ import CardJobInfo from './CardJobInfo';
 import DropdownMenu from '../../DropdownMenu';
 import DropdownMenuItem from '../../DropdownMenu/DropdownMenuItem';
 import ItemTypes from '../../ItemTypes';
+
+import { boxImage as cardDnDImage } from './dnd-preview-img';
+
 import {
   toggleDropdown,
   openModal,
@@ -31,7 +33,6 @@ function CardDnd({ children, id }) {
   const [{ isCardDragging }, cardDrag, preview] = useDrag({
     type: ItemTypes.CARD,
     item: { id, cardId: id },
-    // canDrag: () => !isLinkEditorActive,
     collect: (monitor) => ({
       isCardDragging: !!monitor.isDragging(),
       canDrag: !!monitor.canDrag(),
@@ -43,7 +44,7 @@ function CardDnd({ children, id }) {
 
   return (
     <>
-      <DragPreviewImage connect={preview} src={boxImage} />
+      <DragPreviewImage connect={preview} src={cardDnDImage} />
       <div
         className="h-full"
         ref={ref}
@@ -73,7 +74,6 @@ export default function Card({ cardData }) {
     note,
     followerGroupId: groupId,
   } = cardData;
-
   const isCurrentDropdown =
     isDropdownOpen &&
     dropdown.activeCardId === cardId &&
@@ -89,10 +89,11 @@ export default function Card({ cardData }) {
       })
     );
   }
-
-  // function handleCloseAll() {
-  //   if (isDropdownOpen === true) dispatch(closeAll());
-  // }
+  const handleMenuRightClick = (e) => {
+    if (e.type === 'contextmenu') {
+      handleDropdown(e);
+    }
+  };
 
   function handleOpenEditBookmarkNotesModal() {
     dispatch(
@@ -129,9 +130,16 @@ export default function Card({ cardData }) {
   const createDate = format(parseISO(createdAt), 'yyyy/MM/dd HH:mm:ss');
 
   return (
-    <div className="relative basis-full p-3 xl:basis-1/3">
+    <div
+      className="relative basis-full p-3 xl:basis-1/3"
+      onContextMenu={handleMenuRightClick}
+    >
       <CardDnd id={cardId}>
-        <div className="flex h-full flex-col rounded-t-xl rounded-b-2xl border  border-gray-300 bg-white shadow-01 ">
+        <div
+          className="flex h-full flex-col rounded-t-xl rounded-b-2xl border  border-gray-300 bg-white shadow-01 "
+          id={cardId}
+          data-tooltip-content="hello world"
+        >
           <div className="px-5 pt-5">
             <CardHeader
               name={name}
@@ -154,27 +162,19 @@ export default function Card({ cardData }) {
           <div className="flex grow items-center justify-center rounded-b-xl bg-[#d5eadc] p-3">
             <div className="flex basis-3/4 flex-wrap gap-2">
               {tags.map((ele) => (
-                <SectionTag>{ele}</SectionTag>
+                <SectionTag key={ele}>{ele}</SectionTag>
               ))}
             </div>
 
             <div className="flex basis-1/4 items-center justify-end">
-              <div
-                style={{
-                  width: 56,
-                  height: 56,
-                }}
-                className="flex items-center justify-center rounded-full  p-1"
-              >
-                <Image
-                  src={avatar}
-                  width={56}
-                  height={56}
-                  style={{ objectFit: 'contain' }}
-                  className="h-[56px] w-[56px]"
-                  alt="card avatar"
-                />
-              </div>
+              <Image
+                src={avatar}
+                width={56}
+                height={56}
+                style={{ objectFit: 'cover' }}
+                className="h-[56px] w-[56px] rounded-full object-contain"
+                alt="card avatar"
+              />
             </div>
           </div>
         </div>

@@ -14,7 +14,11 @@ export async function getServerSideProps(context) {
   if (name) defaultUrl.push(`&name=${name}`);
 
   const apiUrl = defaultUrl.reduce((acc, cur) => acc + cur);
-  const cardData = await axios.get(apiUrl);
+  const cardData = await axios.get(apiUrl, {
+    headers: {
+      'Accept-Encoding': 'application/json',
+    },
+  });
   const { currentPage, totalPage, records } = cardData.data.data;
 
   return {

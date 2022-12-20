@@ -10,6 +10,7 @@ import {
   UPDATE_ACTIVE_SECTION,
   SET_BASE_URL,
   UPDATE_MODAL_DATA,
+  SET_MANAGE_PAGE,
 } from '../../constants/constants';
 
 export const manageModalType = {
@@ -50,7 +51,7 @@ const initState = {
     activeTag: null,
     activesSearchQuery: null,
     sortBy: null,
-    mainSectionData: [],
+    mainSectionData: null,
     currentPage: null,
     totalPage: null,
   },
@@ -66,11 +67,12 @@ const initState = {
     activeCardId: null,
     activeGroupId: null,
     activeGroupName: null,
-    activeQrCodeLink: null,
-    isCustomMessage: false,
-    CustomMessageBody: null,
+
     activeCardImage: null,
     layoutDirection: null,
+    activeCompanyName: null,
+    activeJobTitle: null,
+    activeName: null,
   },
   dropdown: {
     type: null,
@@ -115,26 +117,8 @@ export default function (state = initState, action) {
       return produce(state, (draftState) => {
         draftState.isModalOpen = false;
         draftState.isDropdownOpen = false;
-        draftState.modal = {
-          type: null,
-          activeBookmarkNote: {
-            tags: [],
-            groupId: null,
-            note: null,
-          },
-          activeCardId: null,
-          activeGroupId: null,
-          activeGroupName: null,
-          newGroupName: null,
-          activeQrCodeLink: null,
-          isCustomMessage: false,
-          CustomMessageBody: null,
-        };
-        draftState.dropdown = {
-          type: null,
-          activeGroupId: null,
-          activeCardId: null,
-        };
+        draftState.modal = initState.modal;
+        draftState.dropdown = initState.dropdown;
       });
 
     case SET_ACTIVE_SECTION:
@@ -155,6 +139,13 @@ export default function (state = initState, action) {
         draftState.groupList.splice(dragIndex, 1);
         draftState.groupList.splice(hoverIndex, 0, dragListItem);
       });
+
+    case SET_MANAGE_PAGE:
+      return produce(state, (draftState) => {
+        console.log('trigger', action.payload);
+        draftState.activeSection.currentPage = action.payload;
+      });
+
     default:
       return state;
   }

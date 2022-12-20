@@ -20,6 +20,7 @@ module.exports = {
       },
       colors: {
         'main-01': '#2B5F75',
+        'main-01-active': '#1A3B48',
         'main-02': '#A8D8B9',
         'main-03': '#268785',
         'main-04': '#F4A7B9',

@@ -1,1 +1,1 @@
-export const DOMAIN_URL = 'http://localhost:3001';
+export const DOMAIN_URL = 'https://meshician-api.fly.dev';

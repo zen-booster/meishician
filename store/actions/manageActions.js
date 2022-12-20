@@ -9,6 +9,7 @@ import {
   UPDATE_ACTIVE_SECTION,
   SET_BASE_URL,
   UPDATE_MODAL_DATA,
+  SET_MANAGE_PAGE,
 } from '../../constants/constants';
 
 import ManageService from '../../services/manage.service';
@@ -17,22 +18,23 @@ import {
   manageActiveSectionType,
   // manageDropdownType,
 } from '../reducers/manageReducer';
+import { sendToast } from './errorActions';
 
 export const setInitData =
   (token, groupId, page, sortBy) => async (dispatch) => {
     dispatch({ type: TOGGLE_LOADER });
     dispatch({ type: CLOSE_ALL });
     page = page ?? 1;
-    sortBy = sortBy ?? '-isPinned';
+    sortBy = sortBy ?? 'isPinned';
 
     let initObj = {};
     try {
       let apiRes;
       apiRes = await ManageService.getGroupList(token);
-      const groupList = apiRes?.data?.records || [];
+      const groupList = apiRes?.data?.records ?? [];
 
       apiRes = await ManageService.getTagList(token);
-      const tags = apiRes?.data?.records || [];
+      const tags = apiRes?.data?.records ?? [];
 
       const defaultGroupId = groupList.filter(
         (el) => el.isDefaultGroup === true
@@ -57,7 +59,6 @@ export const setInitData =
         groupList,
         defaultGroupId,
         tags,
-
         activeSection: {
           type: manageActiveSectionType.BOOKMARK,
           activeGroupId,
@@ -69,9 +70,10 @@ export const setInitData =
         },
       };
       dispatch({ type: SET_INIT_DATA, payload: initObj });
-      dispatch({ type: TOGGLE_LOADER });
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
+      dispatch(sendToast('獲取資料失敗'));
+    } finally {
       dispatch({ type: TOGGLE_LOADER });
     }
   };
@@ -79,17 +81,18 @@ export const setInitData =
 export const setBaseUrl = (url) => ({ type: SET_BASE_URL, payload: url });
 
 export const setGroupListActive =
-  (token, groupId) => async (dispatch, getState) => {
+  (token, groupId, page = 1) =>
+  async (dispatch, getState) => {
     dispatch({ type: TOGGLE_LOADER });
     dispatch({ type: CLOSE_ALL });
 
     try {
       let { sortBy } = getState().manage.activeSection;
-      sortBy = sortBy ?? '-isPinned';
+      sortBy = sortBy ?? 'isPinned';
       const apiRes = await ManageService.getBookmarks(
         token,
         groupId,
-        1,
+        page,
         sortBy
       );
       const { groupList } = getState().manage;
@@ -97,6 +100,8 @@ export const setGroupListActive =
         (group) => group._id === groupId
       )[0].name;
       const mainSectionData = apiRes?.data?.records ?? [];
+      const totalPage = apiRes?.data?.totalPage ?? 1;
+
       dispatch({
         type: SET_ACTIVE_SECTION,
         payload: {
@@ -104,11 +109,14 @@ export const setGroupListActive =
           activeGroupId: groupId,
           activeGroupName,
           mainSectionData,
+          currentPage: page,
           sortBy,
+          totalPage,
         },
       });
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
+      dispatch(sendToast('獲取資料失敗'));
     } finally {
       dispatch({ type: TOGGLE_LOADER });
     }
@@ -140,13 +148,10 @@ export const editBookmarkNotes =
     dispatch({ type: TOGGLE_LOADER });
     try {
       // eslint-disable-next-line no-unused-vars
-      const apiRes = await ManageService.editBookmarkNotes(
-        token,
-        cardId,
-        newNotes
-      );
-    } catch (err) {
-      console.log(err);
+      await ManageService.editBookmarkNotes(token, cardId, newNotes);
+    } catch (error) {
+      console.log(error);
+      dispatch(sendToast('更新失敗'));
     } finally {
       dispatch({ type: TOGGLE_LOADER });
       dispatch({ type: CLOSE_ALL });
@@ -157,9 +162,10 @@ export const deleteBookmark = (token, cardId) => async (dispatch) => {
   dispatch({ type: TOGGLE_LOADER });
   try {
     // eslint-disable-next-line no-unused-vars
-    const apiRes = await ManageService.deleteBookmark(token, cardId);
-  } catch (err) {
-    console.log(err);
+    await ManageService.deleteBookmark(token, cardId);
+  } catch (error) {
+    console.log(error);
+    dispatch(sendToast('刪除失敗'));
   } finally {
     dispatch({ type: TOGGLE_LOADER });
     dispatch({ type: CLOSE_ALL });
@@ -172,8 +178,9 @@ export const addNewGroup = (token, groupName) => async (dispatch) => {
     const apiRes = await ManageService.addNewGroup(token, groupName);
     const groupList = apiRes.data.records;
     dispatch({ type: SET_INIT_DATA, payload: { groupList } });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
+    dispatch(sendToast('新增失敗'));
   } finally {
     dispatch({ type: TOGGLE_LOADER });
     dispatch({ type: CLOSE_ALL });
@@ -200,8 +207,9 @@ export const renameGroup =
         });
       }
       dispatch({ type: SET_INIT_DATA, payload: { groupList } });
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
+      dispatch(sendToast('更新失敗'));
     } finally {
       dispatch({ type: TOGGLE_LOADER });
       dispatch({ type: CLOSE_ALL });
@@ -211,10 +219,10 @@ export const renameGroup =
 export const deleteGroup = (token, groupId) => async (dispatch) => {
   dispatch({ type: TOGGLE_LOADER });
   try {
-    // eslint-disable-next-line no-unused-vars
-    const apiRes = await ManageService.deleteGroup(token, groupId);
-  } catch (err) {
-    console.log(err);
+    await ManageService.deleteGroup(token, groupId);
+  } catch (error) {
+    console.log(error);
+    dispatch(sendToast('刪除失敗'));
   } finally {
     dispatch({ type: TOGGLE_LOADER });
     dispatch({ type: CLOSE_ALL });
@@ -226,38 +234,41 @@ export const toggleCardPin =
   async (dispatch) => {
     dispatch({ type: TOGGLE_LOADER });
     try {
-      // eslint-disable-next-line no-unused-vars
-      const apiRes = await ManageService.toggleCardPin(token, cardId, pin);
-    } catch (err) {
-      console.log(err);
+      await ManageService.toggleCardPin(token, cardId, pin);
+    } catch (error) {
+      console.log(error);
+      dispatch(sendToast('更新失敗'));
     } finally {
       dispatch({ type: TOGGLE_LOADER });
     }
   };
 
-export const getTagBookmarks = (token, tag) => async (dispatch) => {
-  dispatch({ type: TOGGLE_LOADER });
-  try {
-    const apiRes = await ManageService.getTagBookmarks(token, tag);
-    const mainSectionData = apiRes?.data.records ?? [];
-    const { currentPage, totalPage } = apiRes.data;
-
-    const activeSection = {
-      type: manageActiveSectionType.TAG_FILTER,
-      activeGroupId: null,
-      activeGroupName: null,
-      activeTag: tag,
-      mainSectionData,
-      currentPage,
-      totalPage,
-    };
-    dispatch({ type: SET_INIT_DATA, payload: { activeSection } });
-  } catch (err) {
-    console.log(err);
-  } finally {
+export const getTagBookmarks =
+  (token, tag, page = 1) =>
+  async (dispatch) => {
     dispatch({ type: TOGGLE_LOADER });
-  }
-};
+    try {
+      const apiRes = await ManageService.getTagBookmarks(token, tag, page);
+      const mainSectionData = apiRes?.data.records ?? [];
+      const { currentPage, totalPage } = apiRes.data;
+
+      const activeSection = {
+        type: manageActiveSectionType.TAG_FILTER,
+        activeGroupId: null,
+        activeGroupName: null,
+        activeTag: tag,
+        mainSectionData,
+        currentPage,
+        totalPage,
+      };
+      dispatch({ type: SET_INIT_DATA, payload: { activeSection } });
+    } catch (error) {
+      console.log(error);
+      dispatch(sendToast('獲取資料失敗'));
+    } finally {
+      dispatch({ type: TOGGLE_LOADER });
+    }
+  };
 
 export const setGroupOrder = (dragIndex, hoverIndex) => ({
   type: SET_GROUP_ORDER,
@@ -269,33 +280,29 @@ export const updateGroupOrderApi = (token, groupId, newIndex) => (dispatch) => {
   ManageService.updateGroupOrder(token, groupId, newIndex)
     .then((data) => {
       const groupList = data?.data?.records ?? [];
-      console.log(groupList);
       return groupList;
     })
     .then((groupList) => {
       dispatch({ type: SET_INIT_DATA, payload: { groupList } });
-      dispatch({ type: TOGGLE_LOADER });
     })
     .catch((error) => {
-      alert(`錯誤 ${error}`);
-      dispatch({ type: TOGGLE_LOADER });
-    });
+      console.log(error);
+      dispatch(sendToast('更新失敗'));
+    })
+    .finally(() => dispatch({ type: TOGGLE_LOADER }));
 };
 
-export const setBookmarkGroup = (token, groupId, cardId) => (dispatch) => {
+export const setDragBookmarkGroup = (token, groupId, cardId) => (dispatch) => {
   dispatch({ type: TOGGLE_LOADER });
-  console.log('trigger');
   ManageService.editBookmarkNotes(token, cardId, { followerGroupId: groupId })
     .then(() => {
-      console.log(groupId);
       dispatch(setInitData(token, groupId));
-      dispatch({ type: TOGGLE_LOADER });
     })
-
     .catch((error) => {
-      alert(`錯誤 ${error}`);
-      dispatch({ type: TOGGLE_LOADER });
-    });
+      console.log(error);
+      dispatch(sendToast('更新失敗'));
+    })
+    .finally(() => dispatch({ type: TOGGLE_LOADER }));
 };
 
 export const setPortfolioActive = (token) => async (dispatch) => {
@@ -311,18 +318,16 @@ export const setPortfolioActive = (token) => async (dispatch) => {
         type: manageActiveSectionType.PORTFOLIO,
         activeGroupId: null,
         activeGroupName: null,
-        isPublish: true,
         mainSectionData,
       },
     });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
+    dispatch(sendToast('獲取資料失敗'));
   } finally {
     dispatch({ type: TOGGLE_LOADER });
   }
 };
-
-export const setPortfolioCarImage = (token, cardId) => async (dispatch) => {};
 
 export const openShowCardModal = (token, cardId) => async (dispatch) => {
   dispatch({ type: CLOSE_ALL });
@@ -331,7 +336,6 @@ export const openShowCardModal = (token, cardId) => async (dispatch) => {
     const apiRes = await ManageService.getPortfolioCard(token, cardId);
     const cardImage = apiRes?.data?.cardImageData;
     const layoutDirection = apiRes?.data?.layoutDirection;
-    console.log(layoutDirection);
     if (cardImage) {
       dispatch({
         type: OPEN_MODAL,
@@ -345,9 +349,115 @@ export const openShowCardModal = (token, cardId) => async (dispatch) => {
         payload: { activeCardImage: cardImage, layoutDirection },
       });
     }
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    dispatch(sendToast('獲取資料失敗'));
   } finally {
     dispatch({ type: TOGGLE_LOADER });
   }
 };
+
+export const deletePortfolio =
+  (token, cardId, messageBody) => async (dispatch) => {
+    dispatch({ type: CLOSE_ALL });
+    dispatch({ type: TOGGLE_LOADER });
+    try {
+      await ManageService.sendDeleteMessage(token, cardId, messageBody);
+      await ManageService.deletePortfolio(token, cardId);
+
+      dispatch(setPortfolioActive(token));
+    } catch (error) {
+      dispatch(sendToast('刪除失敗'));
+    } finally {
+      dispatch({ type: TOGGLE_LOADER });
+    }
+  };
+
+export const deleteScratch = (token, cardId) => async (dispatch) => {
+  dispatch({ type: CLOSE_ALL });
+  dispatch({ type: TOGGLE_LOADER });
+  try {
+    await ManageService.deletePortfolio(token, cardId);
+
+    dispatch(setPortfolioActive(token));
+  } catch (error) {
+    dispatch(sendToast('刪除失敗'));
+  } finally {
+    dispatch({ type: TOGGLE_LOADER });
+  }
+};
+
+export const setSearchActive =
+  (token, queryString, page = 1) =>
+  async (dispatch) => {
+    dispatch({ type: TOGGLE_LOADER });
+    dispatch({ type: CLOSE_ALL });
+
+    try {
+      const apiRes = await ManageService.searchBookmark(
+        token,
+        queryString,
+        page
+      );
+      const mainSectionData = apiRes?.data?.records ?? [];
+      const { currentPage, totalPage } = apiRes.data;
+      dispatch({
+        type: SET_ACTIVE_SECTION,
+        payload: {
+          type: manageActiveSectionType.SEARCH,
+          activesSearchQuery: queryString,
+          mainSectionData,
+          currentPage,
+          totalPage,
+        },
+      });
+    } catch (error) {
+      dispatch(sendToast('獲取資料失敗'));
+    } finally {
+      dispatch({ type: TOGGLE_LOADER });
+    }
+  };
+
+export const setManagePage =
+  (currentPage = 1) =>
+  async (dispatch, getState) => {
+    const { type, activeGroupId, activeTag, activesSearchQuery } =
+      getState().manage.activeSection;
+    const { token } = getState().loginStatus;
+
+    if (token) {
+      dispatch({ type: TOGGLE_LOADER });
+      dispatch({ type: CLOSE_ALL });
+      try {
+        switch (type) {
+          case manageActiveSectionType.TAG_FILTER:
+            dispatch(getTagBookmarks(token, activeTag, currentPage)).then(
+              () => {
+                dispatch({ type: SET_MANAGE_PAGE, payload: currentPage });
+              }
+            );
+            break;
+          case manageActiveSectionType.BOOKMARK:
+            dispatch(
+              setGroupListActive(token, activeGroupId, currentPage)
+            ).then(() => {
+              dispatch({ type: SET_MANAGE_PAGE, payload: currentPage });
+            });
+            break;
+          case manageActiveSectionType.SEARCH:
+            dispatch(
+              setSearchActive(token, activesSearchQuery, currentPage)
+            ).then(() => {
+              dispatch({ type: SET_MANAGE_PAGE, payload: currentPage });
+            });
+            break;
+
+          default:
+            break;
+        }
+      } catch (error) {
+        dispatch(sendToast('獲取資料失敗'));
+      } finally {
+        dispatch({ type: TOGGLE_LOADER });
+      }
+    }
+  };

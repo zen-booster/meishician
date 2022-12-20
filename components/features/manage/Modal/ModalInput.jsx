@@ -15,7 +15,7 @@ function ModalInput({
       placeholder={placeholder}
       defaultValue={defaultValue}
       value={value}
-      className={`w-full border border-b-black py-1 px-2 text-lg ${
+      className={`w-full rounded-lg  border py-1 px-2 text-lg ${
         className ?? ''
       }`}
     />

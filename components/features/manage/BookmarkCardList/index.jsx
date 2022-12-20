@@ -1,21 +1,24 @@
 import { useDispatch, useSelector } from 'react-redux';
 import Card from './Card';
 import { manageActiveSectionType } from '../../../../store/reducers/manageReducer';
-import { setInitData } from '../../../../store/actions/manageActions';
+import {
+  setInitData,
+  setManagePage,
+} from '../../../../store/actions/manageActions';
 import PlaceholderPage from '../PlaceholderPage';
+import Pagination from '../Pagination';
 
 export default function CardList() {
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.loginStatus);
-  const { activeGroupId, mainSectionData, sortBy } = useSelector(
-    (state) => state.manage.activeSection
-  );
+  const { activeGroupId, mainSectionData, sortBy, totalPage, currentPage } =
+    useSelector((state) => state.manage.activeSection);
 
   const {
     type: activeType,
     activeGroupName,
     activeTag,
-    activeQuery,
+    activesSearchQuery,
   } = useSelector((state) => state.manage.activeSection);
 
   function handleSortBy(e) {
@@ -32,7 +35,7 @@ export default function CardList() {
         return '我的名片';
       }
       case manageActiveSectionType.SEARCH: {
-        return `${activeQuery}的搜尋結果`;
+        return `${activesSearchQuery}的搜尋結果`;
       }
       case manageActiveSectionType.TAG_FILTER: {
         return `#${activeTag} 篩選結果`;
@@ -42,6 +45,9 @@ export default function CardList() {
         return '';
       }
     }
+  }
+  function handleSetPage(page) {
+    dispatch(setManagePage(page));
   }
 
   function renderCard() {
@@ -60,19 +66,37 @@ export default function CardList() {
                 value={sortBy}
                 className="w-24 p-1 pl-2 font-bold text-main-01"
               >
-                <option value="-isPinned">置頂</option>
-                <option value="-createdAt">最新</option>
+                <option value="isPinned">置頂</option>
+                <option value="createdAt">最新</option>
               </select>
             </label>
           </div>
         )}
 
-        <ul className="-mx-3 mt-8 flex flex-wrap">
+        <ul className="-mx-3 mt-8 mb-20 flex flex-wrap">
           {mainSectionData.map((ele) => (
             <Card key={ele.cardId} cardData={ele} />
           ))}
         </ul>
+        <Pagination
+          currentPage={currentPage}
+          totalPage={totalPage}
+          // eslint-disable-next-line react/jsx-no-bind
+          onChange={handleSetPage}
+        />
       </>
+    );
+  }
+
+  function renderMainSectionData() {
+    if (!mainSectionData) return <div />;
+    if (activeType !== manageActiveSectionType.SEARCH) {
+      return mainSectionData.length > 0 ? renderCard() : <PlaceholderPage />;
+    }
+    return mainSectionData.length > 0 ? (
+      renderCard()
+    ) : (
+      <PlaceholderPage searchPlaceholder />
     );
   }
 
@@ -82,7 +106,7 @@ export default function CardList() {
       <h3 className="text-3xl font-bold text-main-01">
         {renderMainSectionHeader()}
       </h3>
-      {mainSectionData.length > 0 ? renderCard() : <PlaceholderPage />}
+      {renderMainSectionData()}
     </>
   );
 }

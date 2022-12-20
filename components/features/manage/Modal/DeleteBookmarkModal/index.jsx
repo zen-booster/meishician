@@ -41,18 +41,18 @@ function DeleteBookmarkModal() {
 
       <div className="mt-10 flex gap-5">
         <Button
-          color="danger"
-          className="w-full"
-          onClick={() => handleDelete()}
-        >
-          刪除
-        </Button>
-        <Button
           variant="outlined"
           className="w-full bg-white"
           onClick={() => handleCloseOpen()}
         >
           取消
+        </Button>
+        <Button
+          color="danger"
+          className="w-full"
+          onClick={() => handleDelete()}
+        >
+          刪除
         </Button>
       </div>
     </Modal>
