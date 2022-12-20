@@ -1,11 +1,16 @@
 import { useContext, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { BsBorderWidth } from 'react-icons/bs';
-import { SketchPicker } from 'react-color';
+// import { SketchPicker } from 'react-color';
+import dynamic from 'next/dynamic';
 import { fabricContext } from '../../Canvas';
 import useClickOutside from '../../../../../hooks/useClickOutside';
 import ShapeBorderModal from '../Modal/ShapeBorderModal';
 import updateHistory from '../../service/updateHistory';
+
+const SketchPicker = dynamic(() => import('react-color'), {
+  ssr: false,
+});
 
 function ShapeSetting() {
   const canvasRef = useContext(fabricContext);

@@ -2,7 +2,8 @@ import { useContext, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { SketchPicker } from 'react-color';
+import dynamic from 'next/dynamic';
+
 import { fabricContext } from '../Canvas';
 import removeObject from '../service/removeObject';
 import changeColor from '../service/changeColor';
@@ -19,6 +20,10 @@ import saveCanvas from '../service/saveCanvas';
 import useClickOutside from '../../../../hooks/useClickOutside';
 import { SHOW_INFO_FROM } from '../../../../constants/constants';
 import updateHistory from '../service/updateHistory';
+// import { SketchPicker } from 'react-color';
+const SketchPicker = dynamic(() => import('react-color'), {
+  ssr: false,
+});
 
 function TopBar() {
   const router = useRouter();
