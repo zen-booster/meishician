@@ -15,9 +15,9 @@ function WarnModal({ setShowWarn }) {
   const { history } = useSelector((state) => state);
   const dispatch = useDispatch();
 
-  const publish = () => {
-    saveCanvas(cardId, canvasRef, history, dispatch);
-    dispatch(publishCanvas(cardId));
+  const publish = async () => {
+    await saveCanvas(cardId, canvasRef, history, dispatch);
+    await dispatch(publishCanvas(cardId));
     setShowWarn(false);
     router.push('/manage');
   };
