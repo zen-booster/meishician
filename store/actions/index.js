@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { getCookies, getCookie, setCookie, deleteCookie } from 'cookies-next';
-
+import { getCookie, setCookie, deleteCookie } from 'cookies-next';
+import { sendToast } from './errorActions';
 import {
   LOGIN,
   LOGOUT,
@@ -19,60 +19,51 @@ import CanvasService from '../../services/canvas.service';
 import getBackground from '../../components/features/Canvas/service/getBackground';
 import resizeCanvas from '../../components/features/Canvas/service/resizeCanvas';
 import setLoadData from '../../components/features/Canvas/service/setLoadData';
+import { DOMAIN_URL } from '../../configs';
 
-export const verify = () => (dispatch, getState) => {
-  const token = localStorage.getItem('auth');
-  const avatar = localStorage.getItem('avatar');
-  // if (token) {
-  //   AuthService.verify(token)
-  //     .then(() => {
-  //       console.log('action log');
-  //       dispatch({ type: LOGIN });
+export const signUp = (signUpObj, router) => (dispatch) => {
+  dispatch({ type: TOGGLE_LOADER });
+  axios
+    .post(`${DOMAIN_URL}/api/users/sign-up`, signUpObj)
+    .then((res) => {
+      const apiRes = res.data;
+      const { token } = apiRes;
+      const avatar = apiRes?.data?.user?.avatar;
 
-  //       console.log('action set token');
+      localStorage.setItem('auth', `Bearer ${token}`);
+      setCookie('auth', `Bearer ${token}`, {
+        expires: new Date(Date.now() + 30 * 86400 * 1000),
+      });
 
-  //       if (avatar) dispatch({ type: SET_AVATAR, payload: avatar });
+      if (avatar) {
+        localStorage.setItem('avatar', avatar);
+        setCookie('avatar', avatar, {
+          expires: new Date(Date.now() + 30 * 86400 * 1000),
+        });
+      }
 
-  //       if (!getState().loginStatus.token)
-  //         dispatch({ type: SET_TOKEN, payload: token });
-  //     })
-  //     .catch(() => {
-  //       dispatch({ type: LOGOUT });
-  //     });
-  // }
-  if (token) {
-    if (avatar) dispatch({ type: SET_AVATAR, payload: avatar });
-    if (!getState().loginStatus.token) {
-      dispatch({ type: SET_TOKEN, payload: token });
+      dispatch({ type: SET_TOKEN, payload: `Bearer ${token}` });
+      if (avatar) dispatch({ type: SET_AVATAR, payload: avatar });
+
+      localStorage.setItem('auth', `Bearer ${res.data.token}`);
       dispatch({ type: LOGIN });
-    }
-    if (!getState().loginStatus.isLogin) {
-      dispatch({ type: LOGIN });
-    }
-  }
-
-  if (!token) {
-    dispatch({ type: LOGOUT });
-  }
+      router.push('/');
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch(sendToast('註冊失敗'));
+    })
+    .finally(() => {
+      dispatch({ type: TOGGLE_LOADER });
+    });
 };
 
-export const verifyCookies = (token, avatar) => (dispatch) => {
-  if (token) {
-    AuthService.verify(token)
-      .then(() => {
-        dispatch({ type: LOGIN });
-        if (avatar) dispatch({ type: SET_AVATAR, payload: avatar });
-        dispatch({ type: SET_TOKEN, payload: token });
-      })
-      .catch(() => {
-        dispatch({ type: LOGOUT });
-      });
-    dispatch({ type: LOGIN });
-  }
-
-  if (!token) {
-    dispatch({ type: LOGOUT });
-  }
+export const logout = (dispatch) => {
+  localStorage.removeItem('auth');
+  localStorage.removeItem('avatar');
+  deleteCookie('auth');
+  deleteCookie('avatar');
+  dispatch({ type: LOGOUT });
 };
 
 export const login = (email, password) => (dispatch) => {
@@ -101,6 +92,25 @@ export const login = (email, password) => (dispatch) => {
       dispatch({ type: LOGIN_FAILED });
     })
     .finally(() => dispatch({ type: TOGGLE_LOADER }));
+};
+
+export const verify = () => (dispatch, getState) => {
+  const token = localStorage.getItem('auth') || getCookie('auth');
+  const avatar = localStorage.getItem('avatar') || getCookie('avatar');
+  if (token) {
+    if (avatar) dispatch({ type: SET_AVATAR, payload: avatar });
+    if (!getState().loginStatus.token) {
+      dispatch({ type: SET_TOKEN, payload: token });
+      dispatch({ type: LOGIN });
+    }
+    if (!getState().loginStatus.isLogin) {
+      dispatch({ type: LOGIN });
+    }
+  }
+
+  if (!token) {
+    dispatch(logout());
+  }
 };
 
 export const getAvatar = () => (dispatch) => {
