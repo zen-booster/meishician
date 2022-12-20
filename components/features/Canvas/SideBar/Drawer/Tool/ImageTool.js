@@ -2,7 +2,7 @@ import { useState, useContext } from 'react';
 import { fabric } from 'fabric';
 import { TiDelete } from 'react-icons/ti';
 import { useDispatch } from 'react-redux';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { fabricContext } from '../../../Canvas';
 import { SET_ACTIVE } from '../../../../../../constants/constants';
 import loadLocalImage from '../../../service/loadLocalImage';
@@ -27,7 +27,7 @@ function ImageTool() {
     return true;
   };
 
-  function saveLocalImage(e) {
+  const saveLocalImage = (e) => {
     const file = e.target.files[0];
     if (file === undefined) return;
     if (!validImage(file)) return;
@@ -52,9 +52,9 @@ function ImageTool() {
     };
     reader.readAsDataURL(file);
     e.target.value = null;
-  }
+  };
 
-  function renderImage(e) {
+  const renderImage = (e) => {
     const src = e.target.getAttribute('src');
     fabric.Image.fromURL(src, (img) => {
       img.set('originX', 'center');
@@ -65,32 +65,19 @@ function ImageTool() {
       canvasRef.current.renderAll();
       dispatch({ type: SET_ACTIVE, payload: img });
     });
-  }
+  };
 
-  function deleteLocalImage(e) {
+  const deleteLocalImage = (e) => {
     const targetIndex = e.target.getAttribute('data-index');
     const images = JSON.parse(localStorage.getItem('images'));
     images.splice(targetIndex, 1);
     setImagesArray(images);
     const imagesJson = JSON.stringify(images);
     localStorage.setItem('images', imagesJson);
-  }
+  };
 
   return (
     <div className="w-full">
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
-
       <label className="mb-7 flex w-full cursor-pointer items-center justify-center rounded-xl border border-black bg-gray-02 py-1 text-body text-black">
         上傳圖片＋
         <input type="file" onChange={saveLocalImage} className="hidden" />

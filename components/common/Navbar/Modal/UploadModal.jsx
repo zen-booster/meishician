@@ -2,12 +2,13 @@ import axios from 'axios';
 import Image from 'next/image';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Modal from '../../Modal/Modal';
 import Button from '../../Button/Button';
 import { TOGGLE_LOADER, SET_AVATAR } from '../../../../constants/constants';
 import { DOMAIN_URL } from '../../../../configs';
+import { uploadAvatar } from '../../../../store/actions';
 
 export default function UploadModal({ setShowEdit }) {
   const dispatch = useDispatch();
@@ -17,29 +18,11 @@ export default function UploadModal({ setShowEdit }) {
     const fileType = file.type;
     const validType = ['image/jpeg', 'image/png'];
     if (!validType.includes(fileType)) {
-      toast.error('圖片格式不符', {
-        position: 'top-center',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'light',
-      });
+      toast.error('圖片格式不符');
       return false;
     }
     if (file.size > 2 * 1024 * 1024) {
-      toast.error('圖片太大', {
-        position: 'top-center',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'light',
-      });
+      toast.error('圖片太大');
       return false;
     }
     return true;
@@ -58,44 +41,10 @@ export default function UploadModal({ setShowEdit }) {
     reader.readAsDataURL(file);
   };
 
-  const uploadImage = () => {
-    const auth = localStorage.getItem('auth');
-    axios.defaults.headers.common.Authorization = auth;
-    dispatch({ type: TOGGLE_LOADER });
-    axios
-      .post(`${DOMAIN_URL}/api/upload/image`, file.data)
-      .then((res) => {
-        dispatch({ type: SET_AVATAR, payload: res.data.imgUrl });
-        localStorage.setItem('avatar', res.data.imgUrl);
-        axios.patch(`${DOMAIN_URL}/api/users/profile`, {
-          avatar: res.data.imgUrl,
-        });
-      })
-      .catch((err) => {
-        alert('圖片上傳失敗');
-        console.log(err);
-      })
-      .finally(() => {
-        dispatch({ type: TOGGLE_LOADER });
-        setShowEdit(false);
-      });
-  };
+  const uploadImage = () => dispatch(uploadAvatar(file, setShowEdit));
 
   return (
     <Modal show={setShowEdit}>
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
-
       <div className="flex flex-col items-center font-bold text-main-01">
         <h4 className="mb-8 text-h4">上傳圖片</h4>
         {file ? (

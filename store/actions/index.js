@@ -15,6 +15,7 @@ import {
   SET_CARD_INFO,
 } from '../../constants/constants';
 import AuthService from '../../services/auth.service';
+import UploadService from '../../services/upload.service';
 import CanvasService from '../../services/canvas.service';
 import getBackground from '../../components/features/Canvas/service/getBackground';
 import resizeCanvas from '../../components/features/Canvas/service/resizeCanvas';
@@ -88,9 +89,7 @@ export const login = (email, password) => (dispatch) => {
       dispatch({ type: SET_TOKEN, payload: `Bearer ${token}` });
       if (avatar) dispatch({ type: SET_AVATAR, payload: avatar });
     })
-    .catch(() => {
-      dispatch({ type: LOGIN_FAILED });
-    })
+    .catch(() => dispatch({ type: LOGIN_FAILED }))
     .finally(() => dispatch({ type: TOGGLE_LOADER }));
 };
 
@@ -119,6 +118,21 @@ export const getAvatar = () => (dispatch) => {
     .catch((err) => {
       alert(`拿取 Avatar失敗`);
       console.log(err);
+    });
+};
+
+export const uploadAvatar = (file, setShowEdit) => (dispatch) => {
+  dispatch({ type: TOGGLE_LOADER });
+  UploadService.uploadImage(file)
+    .then((res) => {
+      dispatch({ type: SET_AVATAR, payload: res.data.imgUrl });
+      localStorage.setItem('avatar', res.data.imgUrl);
+      AuthService.saveAvatar(res.data.imgUrl);
+    })
+    .catch((err) => console.log(err))
+    .finally(() => {
+      dispatch({ type: TOGGLE_LOADER });
+      setShowEdit(false);
     });
 };
 
@@ -152,9 +166,12 @@ export const saveToStorage = (cardId, saveData) => (dispatch) => {
     .finally(() => dispatch({ type: TOGGLE_LOADER }));
 };
 
-export const publishCanvas = (cardId) => (dispatch) => {
-  CanvasService.publishCanvas(cardId)
-    .then(() => dispatch({ type: TOGGLE_LOADER }))
+export const publishCanvas = (cardId, saveData, router) => (dispatch) => {
+  const saveCanvasData = CanvasService.saveCanvasData(cardId, saveData);
+  const setPublished = CanvasService.publishCanvas(cardId);
+  axios
+    .all([saveCanvasData, setPublished])
+    .then(axios.spread(() => router.push('/manage')))
     .catch((err) => console.log(err))
     .finally(() => dispatch({ type: TOGGLE_LOADER }));
 };

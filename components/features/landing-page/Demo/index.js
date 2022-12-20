@@ -14,7 +14,7 @@ function Demo() {
           創意與價值兼具
         </h3>
 
-        <Marquee speed={100} gradient={false}>
+        <Marquee speed={50} gradient={false}>
           <div className="mb-20 flex laptop:mb-24">
             {horizonCards.map((data) => (
               <BusinessCard key={data.src} data={data} />
@@ -22,10 +22,10 @@ function Demo() {
           </div>
         </Marquee>
 
-        <Marquee speed={100} gradient={false} direction="right">
+        <Marquee speed={50} gradient={false} direction="right">
           <div className="mb-4 flex gap-12">
             {verticalCards.map((data) => (
-              <BusinessCard key={data.id} data={data} />
+              <BusinessCard key={data.src} data={data} />
             ))}
           </div>
         </Marquee>

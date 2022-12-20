@@ -127,7 +127,7 @@ function TemplateTool() {
           onClick={() => setTemplate(template8)}
         >
           <Image
-            src="/template/template7.png"
+            src="/template/template8.png"
             width={540}
             height={972}
             className="mx-auto h-44 w-auto"
@@ -139,7 +139,7 @@ function TemplateTool() {
           onClick={() => setTemplate(template9)}
         >
           <Image
-            src="/template/template7.png"
+            src="/template/template9.png"
             width={540}
             height={972}
             className="mx-auto h-44 w-auto"

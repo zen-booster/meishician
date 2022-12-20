@@ -6,7 +6,8 @@ import Modal from '../../../../common/Modal/Modal';
 import Button from '../../../../common/Button/Button';
 import { publishCanvas } from '../../../../../store/actions';
 import { fabricContext } from '../../Canvas';
-import saveCanvas from '../../service/saveCanvas';
+import setSaveData from '../../service/setSaveData';
+import { TOGGLE_LOADER } from '../../../../../constants/constants';
 
 function WarnModal({ setShowWarn }) {
   const canvasRef = useContext(fabricContext);
@@ -16,10 +17,9 @@ function WarnModal({ setShowWarn }) {
   const dispatch = useDispatch();
 
   const publish = async () => {
-    await saveCanvas(cardId, canvasRef, history, dispatch);
-    await dispatch(publishCanvas(cardId));
-    setShowWarn(false);
-    router.push('/manage');
+    dispatch({ type: TOGGLE_LOADER });
+    const saveData = await setSaveData(canvasRef, history, dispatch);
+    dispatch(publishCanvas(cardId, saveData, router));
   };
 
   return (
@@ -32,18 +32,17 @@ function WarnModal({ setShowWarn }) {
           alt="warning"
           className="mb-9"
         />
-        <p className="mb-6 text-h4">準備發布名片了嗎？</p>
-        <p className="mb-10 text-fs-6">畫布內容將會重製</p>
+        <p className="mb-16 text-h4">準備發布名片了嗎？</p>
         <div className="flex gap-12 text-fs-6">
-          <Button className="w-36 bg-main-01" onClick={publish}>
-            確定發布
-          </Button>
           <Button
             variant="outlined"
             className="w-36 bg-white"
             onClick={() => setShowWarn(false)}
           >
             取消
+          </Button>
+          <Button className="w-36 bg-main-01" onClick={publish}>
+            確定發布
           </Button>
         </div>
       </div>

@@ -14,7 +14,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['cdn-icons-png.flaticon.com', 'fakeimg.pl', 'i.imgur.com'],
+    domains: ['cdn-icons-png.flaticon.com', 'i.imgur.com'],
   },
 };
 

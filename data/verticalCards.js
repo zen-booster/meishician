@@ -1,27 +1,18 @@
 const verticalCards = [
   {
-    id: Math.random(),
-    src: 'https://fakeimg.pl/300x520/ccc/',
+    src: '/template/template6.png',
     mode: 'vertical',
   },
   {
-    id: Math.random(),
-    src: 'https://fakeimg.pl/300x520/ccc/',
+    src: '/template/template7.png',
     mode: 'vertical',
   },
   {
-    id: Math.random(),
-    src: 'https://fakeimg.pl/300x520/ccc/',
+    src: '/template/template8.png',
     mode: 'vertical',
   },
   {
-    id: Math.random(),
-    src: 'https://fakeimg.pl/300x520/ccc/',
-    mode: 'vertical',
-  },
-  {
-    id: Math.random(),
-    src: 'https://fakeimg.pl/300x520/ccc/',
+    src: '/template/template9.png',
     mode: 'vertical',
   },
 ];
