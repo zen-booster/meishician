@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "./setup.sh && next build",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "vercel-build": "yum install libuuid-devel libmount-devel && cp /lib64/{libuuid,libmount,libblkid}.so.1 node_modules/canvas/build/Release/ && next build"
@@ -20,8 +20,7 @@
     "cookies-next": "^2.1.1",
     "date-fns": "^2.29.3",
     "eslint-config-next": "13.0.3",
-    "canvas": "=2.6.1",
-    "fabric": "^4.0.0",
+    "fabric": "^5.2.4",
     "file-saver": "^2.0.5",
     "framer-motion": "^7.6.12",
     "immer": "^9.0.16",
