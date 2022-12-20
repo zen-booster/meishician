@@ -1,7 +1,8 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { SketchPicker } from 'react-color';
 import { fabricContext } from '../Canvas';
 import removeObject from '../service/removeObject';
 import changeColor from '../service/changeColor';
@@ -11,15 +12,20 @@ import setForward from '../service/setForward';
 import lockObject from '../service/lockObject';
 import undo from '../service/undo';
 import redo from '../service/redo';
-import preview from '../service/preview';
 import WarnModal from './Modal/WarnModal';
-import TextSetting from './TextSetting/TextSetting';
+import TextSetting from './Setting/TextSetting';
+import ShapeSetting from './Setting/ShapeSetting';
 import saveCanvas from '../service/saveCanvas';
+import useClickOutside from '../../../../hooks/useClickOutside';
 import { SHOW_INFO_FROM } from '../../../../constants/constants';
+import updateHistory from '../service/updateHistory';
 
 function TopBar() {
   const router = useRouter();
   const canvasRef = useContext(fabricContext);
+  const colorRef = useRef(null);
+  const [openPalette, setOpenPalette] = useState(false);
+  const [objColor, setObjColor] = useState('#ffffff');
   const { activeObject } = useSelector((state) => state.canvasObject);
   const { history } = useSelector((state) => state);
   const { isPublished } = useSelector((state) => state.cardInfo);
@@ -27,32 +33,55 @@ function TopBar() {
   const dispatch = useDispatch();
   const { cardId } = router.query;
 
+  const togglePalette = (e) => {
+    if (!e) return setOpenPalette(false);
+    if (e.target.nodeName === 'DIV') return undefined;
+    if (e.target.nodeName === 'INPUT') return undefined;
+    return setOpenPalette(!openPalette);
+  };
+
+  const setDefaultColor = () => {
+    if (activeObject.isType('line')) {
+      setObjColor(activeObject.stroke);
+    } else {
+      setObjColor(activeObject.fill);
+    }
+  };
+
+  useClickOutside(colorRef, togglePalette);
+
   return (
     <>
       <div className="z-10 flex w-full items-center gap-4 bg-gray-02 py-1.5 pl-7 pr-10 text-rwd-body text-main-01 shadow-01">
         <div className="flex h-full gap-6">
-          <label className="relative flex h-full cursor-pointer flex-col items-center">
+          <button
+            type="button"
+            className="relative flex h-full cursor-pointer flex-col items-center"
+            ref={colorRef}
+            onClick={(e) => {
+              togglePalette(e);
+              setDefaultColor();
+            }}
+          >
             <Image
               src="/palette.svg"
               width={32}
               height={32}
               alt="palette"
-              className="my-auto"
+              className="pointer-events-none my-auto"
             />
-            <span>顏色</span>
-            <input
-              className="invisible absolute bottom-0"
-              type="color"
-              value={
-                activeObject.isType('line')
-                  ? activeObject.stroke
-                  : activeObject.fill
+            <span className="pointer-events-none">顏色</span>
+            <SketchPicker
+              className={`absolute top-full left-0 ${!openPalette && 'hidden'}`}
+              color={objColor}
+              onChange={(color) =>
+                changeColor(color, canvasRef.current, activeObject, setObjColor)
               }
-              onChange={(e) =>
-                changeColor(e, canvasRef.current, activeObject, dispatch)
+              onChangeComplete={() =>
+                updateHistory(canvasRef.current, dispatch)
               }
             />
-          </label>
+          </button>
 
           <button
             className="flex h-full flex-col items-center"
@@ -169,11 +198,12 @@ function TopBar() {
         </div>
 
         {activeObject.get('type') === 'textbox' && <TextSetting />}
+        {activeObject.get('type') === 'circle' && <ShapeSetting />}
+        {activeObject.get('type') === 'rect' &&
+          activeObject.id !== 'background' && <ShapeSetting />}
+        {activeObject.get('type') === 'triangle' && <ShapeSetting />}
 
         <div className="ml-auto flex gap-7">
-          <button type="button" onClick={() => preview(canvasRef.current)}>
-            預覽
-          </button>
           <button
             type="button"
             onClick={() => {
@@ -186,9 +216,7 @@ function TopBar() {
             <button
               type="button"
               className="w-[7.5rem] rounded-xl bg-main-02 px-5 py-2 text-rwd-h5 font-bold"
-              onClick={() => {
-                dispatch({ type: SHOW_INFO_FROM });
-              }}
+              onClick={() => dispatch({ type: SHOW_INFO_FROM })}
             >
               修改資訊
             </button>

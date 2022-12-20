@@ -6,6 +6,7 @@ import Space from '../../../common/Space/Space';
 import Button from '../../../common/Button/Button';
 import MemberInput from '../../../common/Input/MemberInput';
 import { TOGGLE_LOADER } from '../../../../constants/constants';
+import { DOMAIN_URL } from '../../../../configs';
 
 function ForgetPasswordForm() {
   const {
@@ -14,23 +15,16 @@ function ForgetPasswordForm() {
     formState: { errors },
   } = useForm();
   const dispatch = useDispatch();
-  // const router = useRouter();
 
   const onSubmit = (data) => {
-    console.log(data);
     dispatch({ type: TOGGLE_LOADER });
     axios
-      .post('http://localhost:3001/api/users/send-reset-mail', data)
-      .then((res) => {
-        console.log(res);
-      })
+      .post(`${DOMAIN_URL}/api/users/send-reset-mail`, data)
       .catch((err) => {
         console.log(err);
         alert(`沒這個帳號啦 ${err}`);
       })
-      .finally(() => {
-        dispatch({ type: TOGGLE_LOADER });
-      });
+      .finally(() => dispatch({ type: TOGGLE_LOADER }));
   };
 
   return (

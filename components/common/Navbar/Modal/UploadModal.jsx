@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Modal from '../../Modal/Modal';
 import Button from '../../Button/Button';
 import { TOGGLE_LOADER, SET_AVATAR } from '../../../../constants/constants';
+import { DOMAIN_URL } from '../../../../configs';
 
 export default function UploadModal({ setShowEdit }) {
   const dispatch = useDispatch();
@@ -62,11 +63,11 @@ export default function UploadModal({ setShowEdit }) {
     axios.defaults.headers.common.Authorization = auth;
     dispatch({ type: TOGGLE_LOADER });
     axios
-      .post('http://localhost:3001/api/upload/image', file.data)
+      .post(`${DOMAIN_URL}/api/upload/image`, file.data)
       .then((res) => {
         dispatch({ type: SET_AVATAR, payload: res.data.imgUrl });
         localStorage.setItem('avatar', res.data.imgUrl);
-        axios.patch('http://localhost:3001/api/users/profile', {
+        axios.patch(`${DOMAIN_URL}/api/users/profile`, {
           avatar: res.data.imgUrl,
         });
       })

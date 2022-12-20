@@ -29,7 +29,7 @@ const CanvasService = {
     const auth = localStorage.getItem('auth');
     axios.defaults.headers.common.Authorization = auth;
     return axios
-      .patch(`http://localhost:3001/api/portfolio/${cardId}/canvas`, saveData)
+      .patch(`${DOMAIN_URL}/api/portfolio/${cardId}/canvas`, saveData)
       .catch(() => alert('存檔出錯'));
   },
   publishCanvas(cardId) {

@@ -17,29 +17,11 @@ function ImageTool() {
     const fileType = file.type;
     const validType = ['image/jpeg', 'image/png', 'image/svg+xml'];
     if (!validType.includes(fileType)) {
-      toast.error('圖片格式不符', {
-        position: 'top-center',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'light',
-      });
+      toast.error('非符合格式圖片');
       return false;
     }
     if (file.size > 2 * 1024 * 1024) {
-      toast.error('圖片太大', {
-        position: 'top-center',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'light',
-      });
+      toast.error('尺寸過大，無法存入');
       return false;
     }
     return true;
@@ -58,6 +40,8 @@ function ImageTool() {
         const images = JSON.stringify([base64]);
         setImagesArray([base64]);
         localStorage.setItem('images', images);
+      } else if (JSON.parse(currentData).length > 4) {
+        toast.error('超出圖片保存上限');
       } else {
         const images = JSON.parse(currentData);
         images.unshift(base64);
@@ -111,7 +95,7 @@ function ImageTool() {
         上傳圖片＋
         <input type="file" onChange={saveLocalImage} className="hidden" />
       </label>
-      <p className="mb-2 text-white">圖片上限：5張</p>
+      <p className="mb-2 text-white">保存圖片上限：5張</p>
       <div className="mb-6 h-0.5 w-full bg-gray-01" />
       <div className="scrollbar-hide max-h-[70vh] overflow-auto">
         {imagesArray &&

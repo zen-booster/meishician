@@ -11,6 +11,7 @@ import initJobInfo from '../../../utils/initJobInfo';
 import { TOGGLE_LOADER } from '../../../constants/constants';
 import Space from '../../common/Space/Space';
 import Button from '../../common/Button/Button';
+import { DOMAIN_URL } from '../../../configs';
 
 function AddCardForm() {
   const dispatch = useDispatch();
@@ -29,7 +30,7 @@ function AddCardForm() {
     const auth = localStorage.getItem('auth');
     axios.defaults.headers.common.Authorization = auth;
     axios
-      .post('http://localhost:3001/api/portfolio', { jobInfo })
+      .post(`${DOMAIN_URL}/api/portfolio`, { jobInfo })
       .then((res) => {
         const { cardId } = res.data.data;
         router.push(`/canvas-editor/${cardId}`);
@@ -38,9 +39,7 @@ function AddCardForm() {
         alert('錯了啦！');
         console.log(err);
       })
-      .finally(() => {
-        dispatch({ type: TOGGLE_LOADER });
-      });
+      .finally(() => dispatch({ type: TOGGLE_LOADER }));
   };
 
   return (

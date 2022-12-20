@@ -8,6 +8,7 @@ import Input from '../../../common/Input/Input';
 import Button from '../../../common/Button/Button';
 import Info from '../Info';
 import { LOGIN, TOGGLE_LOADER } from '../../../../constants/constants';
+import { DOMAIN_URL } from '../../../../configs';
 
 function SignUpForm() {
   const {
@@ -22,7 +23,7 @@ function SignUpForm() {
   const onSubmit = (data) => {
     dispatch({ type: TOGGLE_LOADER });
     axios
-      .post('http://localhost:3001/api/users/sign-up', data)
+      .post(`${DOMAIN_URL}/api/users/sign-up`, data)
       .then((res) => {
         localStorage.setItem('auth', `Bearer ${res.data.token}`);
         dispatch({ type: LOGIN });
