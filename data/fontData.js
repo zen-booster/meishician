@@ -12,6 +12,11 @@ const fonts = [
   'Dancing Script',
   'gensen',
   'Great Vibes',
+  'cubic',
+  'genkaimincho',
+  'genwanmin',
+  'seto',
+  'Mamelon',
 ];
 
 export default fonts;
