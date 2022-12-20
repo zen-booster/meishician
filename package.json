@@ -20,7 +20,6 @@
     "cookies-next": "^2.1.1",
     "date-fns": "^2.29.3",
     "eslint-config-next": "13.0.3",
-    //"fabric": "^5.2.4",
     "canvas": "=2.6.1",
     "fabric": "^4.0.0",
     "file-saver": "^2.0.5",
