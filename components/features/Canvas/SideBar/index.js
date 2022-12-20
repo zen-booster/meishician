@@ -66,7 +66,7 @@ function SideBar() {
           >
             <button
               type="button"
-              className={`flex h-full w-full cursor-pointer flex-col items-center justify-center ${
+              className={`flex h-full w-full cursor-pointer flex-col items-center justify-center hover:bg-hover-01 ${
                 buttonName === category.buttonName && 'bg-hover-01'
               }`}
               name={category.buttonName}

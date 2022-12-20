@@ -8,6 +8,7 @@ import Input from '../../../common/Input/Input';
 import Button from '../../../common/Button/Button';
 import Info from '../Info';
 import Loader from '../../../common/Loader/Loader';
+import { DOMAIN_URL } from '../../../../configs';
 
 function ResetForm() {
   const {
@@ -25,7 +26,7 @@ function ResetForm() {
     axios.defaults.headers.common.Authorization = auth;
     setLoading(true);
     axios
-      .put('http://localhost:3001/api/users/reset-password', data)
+      .put(`${DOMAIN_URL}/api/users/reset-password`, data)
       .then((res) => {
         localStorage.setItem('auth', `Bearer ${res.data.token}`);
         router.push('/');

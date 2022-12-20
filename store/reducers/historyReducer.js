@@ -37,6 +37,7 @@ export default function (state = historyState, action) {
       switch (state.state.position) {
         case 'front':
           return produce(state, (draftState) => {
+            if (draftState.undoBox.length > 50) draftState.undoBox.shift();
             draftState.undoBox.push(state.state);
             draftState.state.front = action.payload.newState;
             draftState.redoBox = [];

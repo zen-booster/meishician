@@ -29,6 +29,8 @@ export const CIRCLE = {
   originX: 'center',
   originY: 'center',
   strokeWidth: 0,
+  stroke: '#000000',
+  strokeUniform: true,
 };
 
 export const RECTANGLE = {
@@ -39,6 +41,8 @@ export const RECTANGLE = {
   originX: 'center',
   originY: 'center',
   strokeWidth: 0,
+  stroke: '#000000',
+  strokeUniform: true,
 };
 
 export const TRIANGLE = {
@@ -49,6 +53,8 @@ export const TRIANGLE = {
   originX: 'center',
   originY: 'center',
   strokeWidth: 0,
+  stroke: '#000000',
+  strokeUniform: true,
 };
 
 export const LINE = {
