@@ -13,6 +13,37 @@
   font-weight: bold;
 }
 
+@font-face {
+  font-family: 'cubic';
+  src: url('../public/fonts/Cubic-R.ttf');
+}
+
+@font-face {
+  font-family: 'genkaimincho';
+  src: url('../public/fonts/Genkaimincho-R.ttf');
+}
+
+@font-face {
+  font-family: 'genwanmin';
+  src: url('../public/fonts/GenWanMin-R.ttc');
+}
+
+@font-face {
+  font-family: 'genwanmin';
+  src: url('../public/fonts/GenWanMin-SB.ttc');
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: 'seto';
+  src: url('../public/fonts/Seto-R.ttf');
+}
+
+@font-face {
+  font-family: 'Mamelon';
+  src: url('../public/fonts/Mamelon.otf');
+}
+
 @layer base {
   body {
     font-family: 'gensen', sans-serif;
