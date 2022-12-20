@@ -58,7 +58,7 @@ export const signUp = (signUpObj, router) => (dispatch) => {
     });
 };
 
-export const logout = (dispatch) => {
+export const logout = () => (dispatch) => {
   localStorage.removeItem('auth');
   localStorage.removeItem('avatar');
   deleteCookie('auth');
