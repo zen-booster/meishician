@@ -1,4 +1,4 @@
-const classic = {
+const template5 = {
   front: {
     version: '5.2.4',
     clipPath: {
@@ -696,4 +696,4 @@ const classic = {
   },
 };
 
-export default classic;
+export default template5;

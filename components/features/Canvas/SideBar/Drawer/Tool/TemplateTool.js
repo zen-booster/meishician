@@ -9,12 +9,13 @@ import {
   INITIALIZE,
   SET_ACTIVE,
 } from '../../../../../../constants/constants';
-import hexTemplate from '../../../template/hexTemplate';
 import template1 from '../../../template/template1';
 import template2 from '../../../template/template2';
 import template3 from '../../../template/template3';
 import template4 from '../../../template/template4';
-import classic from '../../../template/classic';
+import template5 from '../../../template/template5';
+import template6 from '../../../template/template6';
+import template7 from '../../../template/template7';
 import { fabricContext } from '../../../Canvas';
 import updateHistory from '../../../service/updateHistory';
 
@@ -39,12 +40,6 @@ function TemplateTool() {
 
   return (
     <ul className="flex flex-col items-center gap-6">
-      <li
-        className="w-44 cursor-pointer duration-200 ease-in hover:scale-110"
-        onClick={() => setTemplate(hexTemplate)}
-      >
-        <Image src="/hex.png" width={972} height={540} alt="template" />
-      </li>
       <li
         className="w-44 cursor-pointer duration-200 ease-in hover:scale-110"
         onClick={() => setTemplate(template1)}
@@ -91,12 +86,34 @@ function TemplateTool() {
       </li>
       <li
         className="w-44 cursor-pointer duration-200 ease-in hover:scale-110"
-        onClick={() => setTemplate(classic)}
+        onClick={() => setTemplate(template5)}
       >
         <Image
           src="/template/classic.png"
           width={972}
           height={540}
+          alt="template"
+        />
+      </li>
+      <li
+        className="w-44 cursor-pointer duration-200 ease-in hover:scale-110"
+        onClick={() => setTemplate(template6)}
+      >
+        <Image
+          src="/template/template6.png"
+          width={540}
+          height={972}
+          alt="template"
+        />
+      </li>
+      <li
+        className="w-44 cursor-pointer duration-200 ease-in hover:scale-110"
+        onClick={() => setTemplate(template7)}
+      >
+        <Image
+          src="/template/template7.png"
+          width={540}
+          height={972}
           alt="template"
         />
       </li>
