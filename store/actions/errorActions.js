@@ -1,4 +1,4 @@
-import { ToastifyService } from '../../services/Toastify.service';
+import { ToastifyService } from '../../services/toastify.service';
 import { TOGGLE_ERROR } from '../../constants/constants';
 
 export const sendToast = (text) => (dispatch) => {

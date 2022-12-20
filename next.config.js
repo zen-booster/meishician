@@ -12,7 +12,7 @@
 // }
 
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false,
   images: {
     domains: ['cdn-icons-png.flaticon.com', 'fakeimg.pl', 'i.imgur.com'],
   },

@@ -7,7 +7,7 @@ import {
 } from '../../constants/constants';
 
 import { sendToast } from './errorActions';
-import HomepageService from '../../services/homepage.services';
+import HomepageService from '../../services/homepage.service';
 
 export const updateHomepageTitle =
   (cardId, token, newHomepageTitle) => (dispatch) => {

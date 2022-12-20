@@ -10,6 +10,7 @@ import {
   SET_BASE_URL,
   UPDATE_MODAL_DATA,
   SET_MANAGE_PAGE,
+  RESET_MANAGE,
 } from '../../constants/constants';
 
 import ManageService from '../../services/manage.service';
@@ -20,10 +21,11 @@ import {
 } from '../reducers/manageReducer';
 import { sendToast } from './errorActions';
 
+export const resetManage = () => ({ type: RESET_MANAGE });
 export const setInitData =
   (token, groupId, page, sortBy) => async (dispatch) => {
     dispatch({ type: TOGGLE_LOADER });
-    dispatch({ type: CLOSE_ALL });
+    // dispatch({ type: RESET_MANAGE });
     page = page ?? 1;
     sortBy = sortBy ?? 'isPinned';
 

@@ -2,11 +2,13 @@ import axios from 'axios';
 import Image from 'next/image';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import Overlay from '../Overlay/Overlay';
+import Button from '../Button/Button';
 import { TOGGLE_LOADER } from '../../../constants/constants';
 import { DOMAIN_URL } from '../../../configs';
+import Modal from '../Modal/Modal';
+import { sendToast } from '../../../store/actions/errorActions';
 
-export default function Modal({ setShowEdit, setImgUrl }) {
+export default function UploadImageModal({ setShowEdit, setImgUrl }) {
   const dispatch = useDispatch();
   const [file, setFile] = useState(null);
 
@@ -24,13 +26,15 @@ export default function Modal({ setShowEdit, setImgUrl }) {
 
   const uploadImage = () => {
     dispatch({ type: TOGGLE_LOADER });
+    const auth = localStorage.getItem('auth');
+    axios.defaults.headers.common.Authorization = auth;
     axios
       .post(`${DOMAIN_URL}/api/upload/image`, file.data)
       .then((res) => {
         setImgUrl(res.data.imgUrl);
       })
       .catch((err) => {
-        alert('error');
+        dispatch(sendToast('上傳失敗'));
         console.log(err);
       })
       .finally(() => {
@@ -40,68 +44,53 @@ export default function Modal({ setShowEdit, setImgUrl }) {
   };
 
   return (
-    <div className="fixed inset-0 z-30 overflow-y-auto">
-      <Overlay show={setShowEdit} />
-      <div className="flex min-h-screen items-center">
-        <div className="relative mx-auto w-full max-w-md rounded-md bg-white px-6 py-8 shadow-lg">
-          <div className="flex flex-col items-center">
-            <h4 className="mb-8 text-2xl font-medium text-gray-800">
-              上傳圖片
-            </h4>
-            {file ? (
-              <Image
-                src={file.src}
-                className="max-auto mb-6 h-52 w-52 rounded-xl border-2 border-main-01 p-4"
-                width={208}
-                height={208}
-                alt="avatar"
-              />
-            ) : (
-              <Image
-                src="/avatar.svg"
-                className="max-auto mb-6 rounded-xl bg-main-01 p-12"
-                width={208}
-                height={208}
-                alt="avatar"
-              />
-            )}
+    <Modal show={setShowEdit}>
+      <div className="flex flex-col items-center font-bold text-main-01">
+        <h4 className="mb-8 text-h4">上傳圖片</h4>
+        {file ? (
+          <Image
+            src={file.src}
+            className="max-auto mb-6 h-52 w-52 rounded-xl border-2 border-main-01 p-4"
+            width={208}
+            height={208}
+            alt="avatar"
+          />
+        ) : (
+          <Image
+            src="/avatar.svg"
+            className="max-auto mb-6 rounded-xl bg-main-01 p-12"
+            width={208}
+            height={208}
+            alt="avatar"
+          />
+        )}
 
-            <p className="mb-8 text-center text-lg leading-relaxed text-gray-500">
-              最大：2MB（PNG, JPG, JPEG） <br />
-              建議比例 1：1（超過將進行壓縮）
-            </p>
+        <p className="mb-8 text-center text-fs-6">
+          最大：2MB（PNG, JPG, JPEG） <br />
+          建議比例 1：1（超過會壓縮圖片）
+        </p>
 
-            <div className="w-full items-center gap-2 sm:flex">
-              {file ? (
-                <button
-                  className="w-full flex-1 cursor-pointer rounded-md bg-main-01 p-2.5 text-center text-white outline-none ring-main-01 ring-offset-2 focus:ring-2"
-                  type="button"
-                  onClick={uploadImage}
-                >
-                  上傳檔案
-                </button>
-              ) : (
-                <label className="block w-full flex-1 cursor-pointer rounded-md bg-main-01 p-2.5 text-center text-white outline-none ring-main-01 ring-offset-2 focus:ring-2">
-                  選擇檔案
-                  <input
-                    type="file"
-                    className="hidden"
-                    onChange={selectImage}
-                  />
-                </label>
-              )}
+        <div className="flex gap-12">
+          <Button
+            variant="outlined"
+            className="w-36 bg-white"
+            onClick={() => setShowEdit(false)}
+          >
+            取消上傳
+          </Button>
 
-              <button
-                className="w-full flex-1 rounded-md border p-2.5 text-gray-800 outline-none ring-black ring-offset-2 focus:ring-2"
-                onClick={() => setShowEdit(false)}
-                type="button"
-              >
-                取消上傳
-              </button>
-            </div>
-          </div>
+          {file ? (
+            <Button className="w-36 bg-main-01" onClick={uploadImage}>
+              上傳檔案
+            </Button>
+          ) : (
+            <label className="flex w-36 cursor-pointer items-center justify-center rounded-xl bg-main-01 text-fs-6 text-white">
+              選擇檔案
+              <input type="file" className="hidden" onChange={selectImage} />
+            </label>
+          )}
         </div>
       </div>
-    </div>
+    </Modal>
   );
 }

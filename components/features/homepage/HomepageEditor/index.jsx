@@ -75,7 +75,7 @@ function HomepageEditor() {
       const zhName = ZhEnMap[el];
       const value = jobInfo[el].content;
       return (
-        <div className={`mb-5 ${!isPublic && 'text-gray-300'}`} key={value}>
+        <div className={`mb-5 ${!isPublic && 'text-gray-300'}`} key={el}>
           <h4 className="font-bold">{zhName}</h4>
           <div className="mb-3 flex text-xl">
             <p className="mr-7 w-full border-b border-gray-500  px-3 py-1">

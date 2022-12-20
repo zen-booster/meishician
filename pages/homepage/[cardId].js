@@ -11,7 +11,7 @@ import {
   SET_HOMEPAGE_INFO,
   TOGGLE_HOMEPAGE_EDITOR,
 } from '../../constants/constants';
-import HomepageService from '../../services/homepage.services';
+import HomepageService from '../../services/homepage.service';
 import { saveBookmark } from '../../store/actions/homepageActions';
 
 import Space from '../../components/common/Space/Space';
@@ -95,7 +95,7 @@ function Homepage() {
           const zhName = ZhEnMap[el];
           const value = jobInfo?.[el]?.content;
           return (
-            isPublic && <JobInfoRow key={value} label={zhName} value={value} />
+            isPublic && <JobInfoRow key={el} label={zhName} value={value} />
           );
         })}
       </JobInfoTable>

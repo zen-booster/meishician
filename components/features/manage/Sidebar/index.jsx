@@ -24,7 +24,6 @@ export default function Sidebar({ onChangeClose, isSidebarMobileMode }) {
 
   useOnClickOutside(ref, (e) => {
     const type = e?.target.attributes?.getNamedItem('data-content-type')?.value;
-    console.log(e.target);
     if (type === 'OPEN_BUTTON') return;
     if (isSidebarMobileMode) {
       e.stopPropagation();

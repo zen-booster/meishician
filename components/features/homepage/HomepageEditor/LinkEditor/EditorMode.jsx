@@ -100,7 +100,9 @@ export default function EditorMode({ idData, linkData, isNewLink }) {
           className="mr-auto block  w-1/2 border py-2 px-1 laptop:w-1/3"
         >
           {Object.keys(linkTypeIconMap).map((linkType) => (
-            <option value={linkType}>{linkType}</option>
+            <option value={linkType} key={linkType}>
+              {linkType}
+            </option>
           ))}
         </select>
 
@@ -191,9 +193,6 @@ export default function EditorMode({ idData, linkData, isNewLink }) {
             />
           </label>
           <div className="flex justify-between gap-3">
-            <Button className="w-1/2  py-2" submit>
-              確認
-            </Button>
             <Button
               className="w-1/2   py-2"
               variant="outlined"
@@ -209,6 +208,9 @@ export default function EditorMode({ idData, linkData, isNewLink }) {
               }
             >
               取消
+            </Button>
+            <Button className="w-1/2  py-2" submit>
+              確認
             </Button>
           </div>
         </div>
