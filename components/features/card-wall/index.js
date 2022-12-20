@@ -2,7 +2,6 @@ import SearchForm from './SearchForm/SearchForm';
 import Card from './Card/Card';
 import Space from '../../common/Space/Space';
 import Pagination from '../../common/Pagination/Pagination';
-import Footer from '../../common/Footer/Footer';
 
 // eslint-disable-next-line no-unused-vars
 function CardWall({ currentPage, totalPage, records }) {
@@ -38,7 +37,6 @@ function CardWall({ currentPage, totalPage, records }) {
       <div className="mx-auto mb-10 max-w-204">
         <Pagination totalPage={totalPage} currentPage={currentPage} />
       </div>
-      <Footer />
     </>
   );
 }
