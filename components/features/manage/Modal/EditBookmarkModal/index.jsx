@@ -42,10 +42,6 @@ function EditBookmarkModal() {
     await dispatch(setInitData(token, groupId));
   };
 
-  // const onSubmit = (data) => {
-  //   console.log(data);
-  // };
-
   function handleCloseOpen() {
     dispatch(closeAll());
   }

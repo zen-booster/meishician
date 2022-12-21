@@ -6,7 +6,6 @@ const ManageService = {
     const config = {
       headers: { Authorization: token },
     };
-    console.log('config', config);
     return axios
       .get(`${DOMAIN_URL}/api/bookmark-list/groups`, config)
       .then((response) => response.data);

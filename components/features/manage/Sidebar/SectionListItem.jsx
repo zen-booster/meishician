@@ -23,8 +23,7 @@ export default function SectionListItem({ children, groupId, active }) {
     dropdown.activeGroupId === groupId &&
     dropdown.type === manageDropdownType.GROUP;
 
-  function handleSetActive(e) {
-    console.log(e.target);
+  function handleSetActive() {
     if (token) dispatch(setGroupListActive(token, groupId));
   }
 

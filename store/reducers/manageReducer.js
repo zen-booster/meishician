@@ -11,6 +11,7 @@ import {
   SET_BASE_URL,
   UPDATE_MODAL_DATA,
   SET_MANAGE_PAGE,
+  RESET_MANAGE,
 } from '../../constants/constants';
 
 export const manageModalType = {
@@ -54,6 +55,7 @@ const initState = {
     mainSectionData: null,
     currentPage: null,
     totalPage: null,
+    initDone: false,
   },
 
   isModalOpen: false,
@@ -85,6 +87,7 @@ export default function (state = initState, action) {
   switch (action.type) {
     case SET_INIT_DATA:
       return { ...state, ...action.payload };
+
     case SET_BASE_URL:
       return produce(state, (draftState) => {
         draftState.baseUrl = action.payload;
@@ -142,7 +145,6 @@ export default function (state = initState, action) {
 
     case SET_MANAGE_PAGE:
       return produce(state, (draftState) => {
-        console.log('trigger', action.payload);
         draftState.activeSection.currentPage = action.payload;
       });
 

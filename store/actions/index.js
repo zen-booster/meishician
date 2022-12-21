@@ -14,7 +14,7 @@ import {
   NEED_UPDATE,
   SET_CARD_INFO,
 } from '../../constants/constants';
-import AuthService from '../../services/auth.services';
+import AuthService from '../../services/auth.service';
 import CanvasService from '../../services/canvas.service';
 import getBackground from '../../components/features/Canvas/service/getBackground';
 import resizeCanvas from '../../components/features/Canvas/service/resizeCanvas';
