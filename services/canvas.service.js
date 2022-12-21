@@ -22,8 +22,7 @@ const CanvasService = {
         const front = JSON.parse(res.data.data.canvasData.front);
         const back = JSON.parse(res.data.data.canvasData.back);
         return { front, back, cardInfo };
-      })
-      .catch(() => alert('初始化出錯'));
+      });
   },
   saveCanvasData(cardId, saveData) {
     const auth = localStorage.getItem('auth');

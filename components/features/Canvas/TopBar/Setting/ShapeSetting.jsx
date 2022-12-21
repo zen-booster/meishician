@@ -1,12 +1,13 @@
 import { useContext, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { BsBorderWidth } from 'react-icons/bs';
-// import { SketchPicker } from 'react-color';
 import dynamic from 'next/dynamic';
+import Tippy from '@tippyjs/react';
 import { fabricContext } from '../../Canvas';
 import useClickOutside from '../../../../../hooks/useClickOutside';
 import ShapeBorderModal from '../Modal/ShapeBorderModal';
 import updateHistory from '../../service/updateHistory';
+import 'tippy.js/dist/tippy.css';
 
 const SketchPicker = dynamic(() => import('react-color'), {
   ssr: false,
@@ -52,36 +53,42 @@ function ShapeSetting() {
   return (
     <div className="flex items-center gap-6">
       <div className="relative flex items-center" ref={borderRef}>
-        <button type="button" onClick={toggleModal} className="h-full w-full">
-          <BsBorderWidth className="h-8 w-8 cursor-pointer" />
-        </button>
+        <Tippy content="邊框" placement="bottom">
+          <button type="button" onClick={toggleModal} className="h-full w-full">
+            <BsBorderWidth className="h-8 w-8 cursor-pointer" />
+          </button>
+        </Tippy>
         {showModal && <ShapeBorderModal />}
       </div>
 
       {activeObject.strokeWidth > 0 && (
-        <button
-          type="button"
-          className="relative flex h-full cursor-pointer flex-col items-center"
-          ref={colorRef}
-          onClick={(e) => {
-            togglePalette(e);
-            setDefaultColor();
-          }}
-        >
-          <div
-            className="pointer-events-none h-8 w-8 border-4"
-            style={{
-              backgroundColor: activeObject.fill,
-              borderColor: activeObject.stroke,
+        <Tippy content="邊框色" placement="bottom">
+          <button
+            type="button"
+            className="relative flex h-full cursor-pointer flex-col items-center"
+            ref={colorRef}
+            onClick={(e) => {
+              togglePalette(e);
+              setDefaultColor();
             }}
-          />
-          <SketchPicker
-            className={`absolute top-full left-0 ${!openPalette && 'hidden'}`}
-            color={objColor}
-            onChange={setStrokeColor}
-            onChangeComplete={() => updateHistory(canvasRef.current, dispatch)}
-          />
-        </button>
+          >
+            <div
+              className="pointer-events-none h-8 w-8 border-4"
+              style={{
+                backgroundColor: activeObject.fill,
+                borderColor: activeObject.stroke,
+              }}
+            />
+            <SketchPicker
+              className={`absolute top-full left-0 ${!openPalette && 'hidden'}`}
+              color={objColor}
+              onChange={setStrokeColor}
+              onChangeComplete={() =>
+                updateHistory(canvasRef.current, dispatch)
+              }
+            />
+          </button>
+        </Tippy>
       )}
     </div>
   );

@@ -50,10 +50,7 @@ export const signUp = (signUpObj, router) => (dispatch) => {
       dispatch({ type: LOGIN });
       router.push('/');
     })
-    .catch((err) => {
-      console.log(err);
-      dispatch(sendToast('註冊失敗'));
-    })
+    .catch(() => dispatch(sendToast('註冊失敗')))
     .finally(() => {
       dispatch({ type: TOGGLE_LOADER });
     });
@@ -136,29 +133,30 @@ export const uploadAvatar = (file, setShowEdit) => (dispatch) => {
     });
 };
 
-export const fetchCanvas = (cardId, canvasRef, outerRef) => (dispatch) => {
-  dispatch({ type: TOGGLE_LOADER });
-  CanvasService.getCanvasData(cardId)
-    .then(({ front, back, cardInfo }) => {
-      dispatch({ type: SET_CARD_INFO, payload: cardInfo });
-      const loadData = setLoadData(canvasRef.current, front);
-      return new Promise((resolve) => {
-        dispatch({ type: NO_UPDATE });
-        canvasRef.current.loadFromJSON(loadData, () => {
-          dispatch({ type: NEED_UPDATE });
-          dispatch({ type: INITIALIZE, payload: { front, back } });
-          const background = getBackground(canvasRef.current);
-          canvasRef.current.clipPath = background;
-          canvasRef.current.renderAll();
-          dispatch({ type: SET_ACTIVE, payload: background });
-          resizeCanvas(outerRef.current, canvasRef.current);
-          resolve();
+export const fetchCanvas =
+  (cardId, canvasRef, outerRef, setInitFailed) => (dispatch) => {
+    dispatch({ type: TOGGLE_LOADER });
+    CanvasService.getCanvasData(cardId)
+      .then(({ front, back, cardInfo }) => {
+        dispatch({ type: SET_CARD_INFO, payload: cardInfo });
+        const loadData = setLoadData(canvasRef.current, front);
+        return new Promise((resolve) => {
+          dispatch({ type: NO_UPDATE });
+          canvasRef.current.loadFromJSON(loadData, () => {
+            dispatch({ type: NEED_UPDATE });
+            dispatch({ type: INITIALIZE, payload: { front, back } });
+            const background = getBackground(canvasRef.current);
+            canvasRef.current.clipPath = background;
+            canvasRef.current.renderAll();
+            dispatch({ type: SET_ACTIVE, payload: background });
+            resizeCanvas(outerRef.current, canvasRef.current);
+            resolve();
+          });
         });
-      });
-    })
-    .catch((err) => console.log(err))
-    .finally(() => dispatch({ type: TOGGLE_LOADER }));
-};
+      })
+      .catch(() => setInitFailed(true))
+      .finally(() => dispatch({ type: TOGGLE_LOADER }));
+  };
 
 export const saveToStorage = (cardId, saveData) => (dispatch) => {
   CanvasService.saveCanvasData(cardId, saveData)

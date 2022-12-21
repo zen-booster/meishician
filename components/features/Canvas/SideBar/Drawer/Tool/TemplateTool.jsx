@@ -92,7 +92,7 @@ function TemplateTool() {
           onClick={() => setTemplate(template5)}
         >
           <Image
-            src="/template/classic.png"
+            src="/template/template5.png"
             width={972}
             height={540}
             alt="template"
