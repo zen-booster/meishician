@@ -59,7 +59,7 @@ function TopBar() {
   return (
     <>
       <div className="z-10 flex w-full items-center gap-4 bg-gray-02 py-1.5 pl-7 pr-10 text-rwd-body text-main-01 shadow-01">
-        <div className="flex h-full gap-6">
+        <div className="flex h-full shrink-0 gap-6">
           <Tippy content="顏色" placement="bottom">
             <button
               type="button"
