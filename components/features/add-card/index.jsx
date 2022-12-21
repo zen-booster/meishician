@@ -1,17 +1,16 @@
 import { useForm, Controller } from 'react-hook-form';
-import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
 import Image from 'next/image';
+import { useEffect } from 'react';
 import InfoInput from '../../common/Input/InfoInput';
 import Select from '../../common/Select/Select';
 import { allDomain } from '../../../data/domainData';
 import { allArea } from '../../../data/areaData';
 import initJobInfo from '../../../utils/initJobInfo';
-import { TOGGLE_LOADER } from '../../../constants/constants';
 import Space from '../../common/Space/Space';
 import Button from '../../common/Button/Button';
-import { DOMAIN_URL } from '../../../configs';
+import { addCardInfo } from '../../../store/actions';
 
 function AddCardForm() {
   const dispatch = useDispatch();
@@ -24,23 +23,14 @@ function AddCardForm() {
   } = useForm();
 
   const onSubmit = (data) => {
-    dispatch({ type: TOGGLE_LOADER });
     const jobInfo = initJobInfo(data);
-
-    const auth = localStorage.getItem('auth');
-    axios.defaults.headers.common.Authorization = auth;
-    axios
-      .post(`${DOMAIN_URL}/api/portfolio`, { jobInfo })
-      .then((res) => {
-        const { cardId } = res.data.data;
-        router.push(`/canvas-editor/${cardId}`);
-      })
-      .catch((err) => {
-        alert('錯了啦！');
-        console.log(err);
-      })
-      .finally(() => dispatch({ type: TOGGLE_LOADER }));
+    dispatch(addCardInfo(jobInfo, router));
   };
+
+  useEffect(() => {
+    const loginStatus = localStorage.getItem('auth');
+    if (!loginStatus?.startsWith('Bear')) router.push('/login');
+  }, []);
 
   return (
     <div className="min-h-screen">

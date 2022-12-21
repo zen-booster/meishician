@@ -55,6 +55,11 @@ const CanvasService = {
       })
       .catch(() => alert('傳送訊息出錯'));
   },
+  addCardInfo(jobInfo) {
+    const auth = localStorage.getItem('auth');
+    axios.defaults.headers.common.Authorization = auth;
+    return axios.post(`${DOMAIN_URL}/api/portfolio`, { jobInfo });
+  },
 };
 
 export default CanvasService;
