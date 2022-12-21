@@ -105,15 +105,26 @@ export default function Card({ cardData }) {
             name={name}
             onMenuActiveClick={(e) => handleDropdown(e)}
           />
-          <Link href={`/homepage/${cardId}`}>
-            <CardJobInfo
-              jobTitle={jobTitle}
-              companyName={companyName}
-              phoneNumber={phoneNumber}
-            />
 
-            <p className="mb-3 text-slate-300">加入時間 {createDate}</p>
-          </Link>
+          {isPublished ? (
+            <Link href={`/homepage/${cardId}`}>
+              <CardJobInfo
+                jobTitle={jobTitle}
+                companyName={companyName}
+                phoneNumber={phoneNumber}
+              />
+              <p className="mb-3 text-slate-300">加入時間 {createDate}</p>
+            </Link>
+          ) : (
+            <div>
+              <CardJobInfo
+                jobTitle={jobTitle}
+                companyName={companyName}
+                phoneNumber={phoneNumber}
+              />
+              <p className="mb-3 text-slate-300">加入時間 {createDate}</p>
+            </div>
+          )}
         </div>
 
         {isPublished ? (

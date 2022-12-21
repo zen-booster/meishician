@@ -85,16 +85,9 @@ const initState = {
 
 export default function (state = initState, action) {
   switch (action.type) {
-    case RESET_MANAGE:
-      return produce(state, (draftState) => {
-        // eslint-disable-next-line no-unused-vars
-        draftState = initState;
-      });
     case SET_INIT_DATA:
-      return produce(state, (draftState) => {
-        // eslint-disable-next-line no-unused-vars
-        draftState = action.payload;
-      });
+      return { ...state, ...action.payload };
+
     case SET_BASE_URL:
       return produce(state, (draftState) => {
         draftState.baseUrl = action.payload;
