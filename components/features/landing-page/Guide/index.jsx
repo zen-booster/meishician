@@ -13,9 +13,9 @@ function Guide() {
         className="mb-4 w-64 laptop:mb-7"
       />
       <h3 className="mb-7 text-center text-2xl">
-        MEISHIcian
+        <span style={{ color: '#E6684F' }}>MEISHI</span>cian
         <br className="laptop:hidden" />
-        幫你的名片施加魔法
+        幫你的名片施加魔法🪄
       </h3>
       <Link href="/add-card">
         <Button
