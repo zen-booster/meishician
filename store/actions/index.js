@@ -185,3 +185,14 @@ export const updateCard =
       .catch((err) => console.log(err))
       .finally(() => dispatch({ type: TOGGLE_LOADER }));
   };
+
+export const addCardInfo = (jobInfo, router) => (dispatch) => {
+  dispatch({ type: TOGGLE_LOADER });
+  CanvasService.addCardInfo(jobInfo)
+    .then((res) => {
+      const { cardId } = res.data.data;
+      router.push(`/canvas-editor/${cardId}`);
+    })
+    .catch(() => dispatch(sendToast('創建資料失敗')))
+    .finally(() => dispatch({ type: TOGGLE_LOADER }));
+};

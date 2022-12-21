@@ -1,8 +1,16 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import Space from '../../../common/Space/Space';
 
 function Banner() {
+  const [isLogin, setIsLogin] = useState(false);
+
+  useEffect(() => {
+    const loginStatus = localStorage.getItem('auth');
+    if (loginStatus?.startsWith('Bear')) setIsLogin(true);
+  }, []);
+
   return (
     <div className="relative flex flex-col items-center bg-main-02 bg-cover font-bold text-main-01 laptop:bg-banner laptop:bg-cover laptop:bg-center">
       <div className="mx-auto flex min-h-screen  w-full max-w-[63.125rem] flex-col items-center pt-9 laptop:items-start laptop:pt-32">
@@ -23,7 +31,7 @@ function Banner() {
           電子名片製作、交換、管理一手搞定
         </p>
 
-        <Link href="/add-card">
+        <Link href={isLogin ? '/add-card' : '/login'}>
           <button
             type="button"
             className="mb-1 w-52 rounded-xl bg-main-01 py-5 text-center text-white duration-200 hover:bg-main-03"
