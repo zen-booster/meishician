@@ -2,12 +2,15 @@ import { useContext, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { BsBorderWidth } from 'react-icons/bs';
 import dynamic from 'next/dynamic';
-import Tippy from '@tippyjs/react';
 import { fabricContext } from '../../Canvas';
 import useClickOutside from '../../../../../hooks/useClickOutside';
 import ShapeBorderModal from '../Modal/ShapeBorderModal';
 import updateHistory from '../../service/updateHistory';
 import 'tippy.js/dist/tippy.css';
+// import Tippy from '@tippyjs/react';
+const Tippy = dynamic(() => import('@tippyjs/react'), {
+  ssr: false,
+});
 
 const SketchPicker = dynamic(() => import('react-color'), {
   ssr: false,

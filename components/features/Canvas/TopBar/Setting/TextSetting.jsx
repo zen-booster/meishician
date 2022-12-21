@@ -6,10 +6,10 @@ import {
   FaAlignCenter,
   FaAlignRight,
 } from 'react-icons/fa';
+import dynamic from 'next/dynamic';
 import { MdOutlineFormatLineSpacing } from 'react-icons/md';
 import { useContext, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Tippy from '@tippyjs/react';
 import fonts from '../../../../../data/fontData';
 import selectFont from '../../service/selectFont';
 import setFontSize from '../../service/setFontSize';
@@ -21,6 +21,10 @@ import { fabricContext } from '../../Canvas';
 import FontSpaceModal from '../Modal/FontSpaceModal';
 import useClickOutside from '../../../../../hooks/useClickOutside';
 import 'tippy.js/dist/tippy.css';
+// import Tippy from '@tippyjs/react';
+const Tippy = dynamic(() => import('@tippyjs/react'), {
+  ssr: false,
+});
 
 function TextSetting() {
   const canvasRef = useContext(fabricContext);

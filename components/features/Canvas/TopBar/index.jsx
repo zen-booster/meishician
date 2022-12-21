@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
-import Tippy from '@tippyjs/react';
+
 import { fabricContext } from '../Canvas';
 import removeObject from '../service/removeObject';
 import changeColor from '../service/changeColor';
@@ -21,6 +21,10 @@ import useClickOutside from '../../../../hooks/useClickOutside';
 import { SHOW_INFO_FROM } from '../../../../constants/constants';
 import updateHistory from '../service/updateHistory';
 import 'tippy.js/dist/tippy.css';
+// import Tippy from '@tippyjs/react';
+const Tippy = dynamic(() => import('@tippyjs/react'), {
+  ssr: false,
+});
 
 const SketchPicker = dynamic(() => import('react-color'), {
   ssr: false,

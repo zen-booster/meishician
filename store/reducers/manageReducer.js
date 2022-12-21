@@ -11,7 +11,6 @@ import {
   SET_BASE_URL,
   UPDATE_MODAL_DATA,
   SET_MANAGE_PAGE,
-  RESET_MANAGE,
 } from '../../constants/constants';
 
 export const manageModalType = {

@@ -1,4 +1,3 @@
-import axios from 'axios';
 import Image from 'next/image';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -6,8 +5,6 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Modal from '../../Modal/Modal';
 import Button from '../../Button/Button';
-import { TOGGLE_LOADER, SET_AVATAR } from '../../../../constants/constants';
-import { DOMAIN_URL } from '../../../../configs';
 import { uploadAvatar } from '../../../../store/actions';
 
 export default function UploadModal({ setShowEdit }) {
