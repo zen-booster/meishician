@@ -4,8 +4,6 @@ import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
-// import { DndProvider } from 'react-dnd-multi-backend'
-// import { HTML5toTouch } from 'rdndmb-html5-to-touch'; // or any other pipeline
 
 import { getCookie } from 'cookies-next';
 import BookmarkCardList from '../../components/features/manage/BookmarkCardList';
