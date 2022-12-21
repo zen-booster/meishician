@@ -185,15 +185,17 @@ export default function Card({ cardData }) {
           <DropdownMenu>
             <DropdownMenuItem>
               <button
+                className="h-full w-full p-4 text-left"
                 type="button"
                 onClick={(e) => handleOpenEditBookmarkNotesModal(e)}
               >
-                編輯名片
+                編輯名片註記
               </button>
             </DropdownMenuItem>
             <DropdownMenuItem warning>
               <button
                 type="button"
+                className="h-full w-full p-4 text-left"
                 onClick={(e) => handleOpenDeleteBookMarkModal(e)}
               >
                 刪除名片

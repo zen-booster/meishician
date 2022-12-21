@@ -148,6 +148,7 @@ export default function Card({ cardData }) {
             <DropdownMenu>
               <DropdownMenuItem>
                 <button
+                  className="h-full w-full p-4 text-left"
                   type="button"
                   onClick={(e) => handleOpenShowCardModal(e)}
                 >
@@ -155,10 +156,16 @@ export default function Card({ cardData }) {
                 </button>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Link href={`/canvas-editor/${cardId}`}>修改名片</Link>
+                <Link
+                  className="block h-full w-full p-4 text-left"
+                  href={`/canvas-editor/${cardId}`}
+                >
+                  修改名片
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuItem warning>
                 <button
+                  className="h-full w-full p-4 text-left"
                   type="button"
                   onClick={(e) => handleOpenDeletePortfolioModal(e)}
                 >
@@ -171,11 +178,17 @@ export default function Card({ cardData }) {
           <div className="absolute top-16 right-0 z-10">
             <DropdownMenu>
               <DropdownMenuItem>
-                <Link href={`/canvas-editor/${cardId}`}>修改或發佈存檔</Link>
+                <Link
+                  className="h-full w-full p-4 text-left"
+                  href={`/canvas-editor/${cardId}`}
+                >
+                  修改或發佈存檔
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuItem warning>
                 <button
                   type="button"
+                  className="h-full w-full p-4 text-left"
                   onClick={(e) => handleOpenDeleteScratchModal(e)}
                 >
                   刪除存檔

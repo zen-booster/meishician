@@ -93,11 +93,12 @@ export default function SectionListItem({ children, groupId, active }) {
       </button>
 
       {isCurrentDropdown && (
-        <div className="absolute top-14 right-3 z-10 text-base font-normal">
+        <div className="absolute top-10 right-3 z-10 text-base font-normal">
           <DropdownMenu>
             <DropdownMenuItem>
               <button
                 type="button"
+                className="h-full w-full p-4 text-left"
                 onClick={() => handleOpenRenameGroupModal()}
               >
                 群組更名
@@ -106,6 +107,7 @@ export default function SectionListItem({ children, groupId, active }) {
             <DropdownMenuItem warning>
               <button
                 type="button"
+                className="h-full w-full p-4 text-left"
                 onClick={() => handleOpenDeleteGroupModal()}
               >
                 刪除群組

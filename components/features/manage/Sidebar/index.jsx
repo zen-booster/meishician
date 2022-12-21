@@ -84,7 +84,7 @@ export default function Sidebar({ onChangeClose, isSidebarMobileMode }) {
         </ul>
         <button
           type="button"
-          className="  pl-4 pr-6 text-xl	 text-gray-400 hover:font-bold"
+          className="  w-full pl-5 pr-6 text-left text-lg	 text-gray-400 hover:font-bold"
           onClick={() => handleOpenAddNewGroupModal()}
         >
           + 新增群組
