@@ -15,6 +15,7 @@ import {
   SET_CARD_INFO,
 } from '../../constants/constants';
 import AuthService from '../../services/auth.service';
+import UploadService from '../../services/upload.service';
 import CanvasService from '../../services/canvas.service';
 import getBackground from '../../components/features/Canvas/service/getBackground';
 import resizeCanvas from '../../components/features/Canvas/service/resizeCanvas';
@@ -49,10 +50,7 @@ export const signUp = (signUpObj, router) => (dispatch) => {
       dispatch({ type: LOGIN });
       router.push('/');
     })
-    .catch((err) => {
-      console.log(err);
-      dispatch(sendToast('註冊失敗'));
-    })
+    .catch(() => dispatch(sendToast('註冊失敗')))
     .finally(() => {
       dispatch({ type: TOGGLE_LOADER });
     });
@@ -88,9 +86,7 @@ export const login = (email, password) => (dispatch) => {
       dispatch({ type: SET_TOKEN, payload: `Bearer ${token}` });
       if (avatar) dispatch({ type: SET_AVATAR, payload: avatar });
     })
-    .catch(() => {
-      dispatch({ type: LOGIN_FAILED });
-    })
+    .catch(() => dispatch({ type: LOGIN_FAILED }))
     .finally(() => dispatch({ type: TOGGLE_LOADER }));
 };
 
@@ -122,29 +118,45 @@ export const getAvatar = () => (dispatch) => {
     });
 };
 
-export const fetchCanvas = (cardId, canvasRef, outerRef) => (dispatch) => {
+export const uploadAvatar = (file, setShowEdit) => (dispatch) => {
   dispatch({ type: TOGGLE_LOADER });
-  CanvasService.getCanvasData(cardId)
-    .then(({ front, back, cardInfo }) => {
-      dispatch({ type: SET_CARD_INFO, payload: cardInfo });
-      const loadData = setLoadData(canvasRef.current, front);
-      return new Promise((resolve) => {
-        dispatch({ type: NO_UPDATE });
-        canvasRef.current.loadFromJSON(loadData, () => {
-          dispatch({ type: NEED_UPDATE });
-          dispatch({ type: INITIALIZE, payload: { front, back } });
-          const background = getBackground(canvasRef.current);
-          canvasRef.current.clipPath = background;
-          canvasRef.current.renderAll();
-          dispatch({ type: SET_ACTIVE, payload: background });
-          resizeCanvas(outerRef.current, canvasRef.current);
-          resolve();
-        });
-      });
+  UploadService.uploadImage(file)
+    .then((res) => {
+      dispatch({ type: SET_AVATAR, payload: res.data.imgUrl });
+      localStorage.setItem('avatar', res.data.imgUrl);
+      AuthService.saveAvatar(res.data.imgUrl);
     })
     .catch((err) => console.log(err))
-    .finally(() => dispatch({ type: TOGGLE_LOADER }));
+    .finally(() => {
+      dispatch({ type: TOGGLE_LOADER });
+      setShowEdit(false);
+    });
 };
+
+export const fetchCanvas =
+  (cardId, canvasRef, outerRef, setInitFailed) => (dispatch) => {
+    dispatch({ type: TOGGLE_LOADER });
+    CanvasService.getCanvasData(cardId)
+      .then(({ front, back, cardInfo }) => {
+        dispatch({ type: SET_CARD_INFO, payload: cardInfo });
+        const loadData = setLoadData(canvasRef.current, front);
+        return new Promise((resolve) => {
+          dispatch({ type: NO_UPDATE });
+          canvasRef.current.loadFromJSON(loadData, () => {
+            dispatch({ type: NEED_UPDATE });
+            dispatch({ type: INITIALIZE, payload: { front, back } });
+            const background = getBackground(canvasRef.current);
+            canvasRef.current.clipPath = background;
+            canvasRef.current.renderAll();
+            dispatch({ type: SET_ACTIVE, payload: background });
+            resizeCanvas(outerRef.current, canvasRef.current);
+            resolve();
+          });
+        });
+      })
+      .catch(() => setInitFailed(true))
+      .finally(() => dispatch({ type: TOGGLE_LOADER }));
+  };
 
 export const saveToStorage = (cardId, saveData) => (dispatch) => {
   CanvasService.saveCanvasData(cardId, saveData)
@@ -152,9 +164,12 @@ export const saveToStorage = (cardId, saveData) => (dispatch) => {
     .finally(() => dispatch({ type: TOGGLE_LOADER }));
 };
 
-export const publishCanvas = (cardId) => (dispatch) => {
-  CanvasService.publishCanvas(cardId)
-    .then(() => dispatch({ type: TOGGLE_LOADER }))
+export const publishCanvas = (cardId, saveData, router) => (dispatch) => {
+  const saveCanvasData = CanvasService.saveCanvasData(cardId, saveData);
+  const setPublished = CanvasService.publishCanvas(cardId);
+  axios
+    .all([saveCanvasData, setPublished])
+    .then(axios.spread(() => router.push('/manage')))
     .catch((err) => console.log(err))
     .finally(() => dispatch({ type: TOGGLE_LOADER }));
 };

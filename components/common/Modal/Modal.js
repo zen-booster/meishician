@@ -4,7 +4,7 @@ function Modal({ show, children }) {
       <div
         className="fixed inset-0 h-full w-full bg-black opacity-40"
         onClick={() => {
-          show(false);
+          if (show) show(false);
         }}
       />
       <div className="flex min-h-screen items-center">

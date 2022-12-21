@@ -9,6 +9,7 @@ import {
 import { MdOutlineFormatLineSpacing } from 'react-icons/md';
 import { useContext, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import Tippy from '@tippyjs/react';
 import fonts from '../../../../../data/fontData';
 import selectFont from '../../service/selectFont';
 import setFontSize from '../../service/setFontSize';
@@ -19,6 +20,7 @@ import toggleUnderline from '../../service/toggleUnderline';
 import { fabricContext } from '../../Canvas';
 import FontSpaceModal from '../Modal/FontSpaceModal';
 import useClickOutside from '../../../../../hooks/useClickOutside';
+import 'tippy.js/dist/tippy.css';
 
 function TextSetting() {
   const canvasRef = useContext(fabricContext);
@@ -67,48 +69,62 @@ function TextSetting() {
         onClick={setEditing}
       />
 
-      <button
-        type="button"
-        onClick={() => setTextAlign(canvasRef.current, activeObject, dispatch)}
-      >
-        {activeObject.textAlign === 'left' && (
-          <FaAlignLeft className="h-6 w-6 cursor-pointer" />
-        )}
-        {activeObject.textAlign === 'center' && (
-          <FaAlignCenter className="h-6 w-6 cursor-pointer" />
-        )}
-        {activeObject.textAlign === 'right' && (
-          <FaAlignRight className="h-6 w-6 cursor-pointer" />
-        )}
-      </button>
+      <Tippy content="對齊" placement="bottom">
+        <button
+          type="button"
+          onClick={() =>
+            setTextAlign(canvasRef.current, activeObject, dispatch)
+          }
+        >
+          {activeObject.textAlign === 'left' && (
+            <FaAlignLeft className="h-6 w-6 cursor-pointer" />
+          )}
+          {activeObject.textAlign === 'center' && (
+            <FaAlignCenter className="h-6 w-6 cursor-pointer" />
+          )}
+          {activeObject.textAlign === 'right' && (
+            <FaAlignRight className="h-6 w-6 cursor-pointer" />
+          )}
+        </button>
+      </Tippy>
 
-      <button
-        type="button"
-        onClick={() => toggleBold(canvasRef.current, activeObject, dispatch)}
-      >
-        <FaBold className="h-6 w-6 cursor-pointer" />
-      </button>
+      <Tippy content="粗體" placement="bottom">
+        <button
+          type="button"
+          onClick={() => toggleBold(canvasRef.current, activeObject, dispatch)}
+        >
+          <FaBold className="h-6 w-6 cursor-pointer" />
+        </button>
+      </Tippy>
 
-      <button
-        type="button"
-        onClick={() => toggleItalic(canvasRef.current, activeObject, dispatch)}
-      >
-        <FaItalic className="h-6 w-6 cursor-pointer" />
-      </button>
+      <Tippy content="斜體" placement="bottom">
+        <button
+          type="button"
+          onClick={() =>
+            toggleItalic(canvasRef.current, activeObject, dispatch)
+          }
+        >
+          <FaItalic className="h-6 w-6 cursor-pointer" />
+        </button>
+      </Tippy>
 
-      <button
-        type="button"
-        onClick={() =>
-          toggleUnderline(canvasRef.current, activeObject, dispatch)
-        }
-      >
-        <FaUnderline className="h-6 w-6 cursor-pointer" />
-      </button>
+      <Tippy content="底線" placement="bottom">
+        <button
+          type="button"
+          onClick={() =>
+            toggleUnderline(canvasRef.current, activeObject, dispatch)
+          }
+        >
+          <FaUnderline className="h-6 w-6 cursor-pointer" />
+        </button>
+      </Tippy>
 
       <div className="relative" ref={spaceRef}>
-        <button type="button" onClick={toggleModal} className="h-full w-full">
-          <MdOutlineFormatLineSpacing className="h-8 w-8 cursor-pointer" />
-        </button>
+        <Tippy content="間距" placement="bottom">
+          <button type="button" onClick={toggleModal} className="h-full w-full">
+            <MdOutlineFormatLineSpacing className="h-8 w-8 cursor-pointer" />
+          </button>
+        </Tippy>
         {showModal && <FontSpaceModal />}
       </div>
     </div>

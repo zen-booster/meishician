@@ -11,12 +11,14 @@ import { UPDATE } from '../../../constants/constants';
 import { fetchCanvas } from '../../../store/actions';
 import keyPress from './service/keyPress';
 import ChangeCardForm from '../change-card';
+import LoadFailedModal from './Modal/LoadFailedModal';
 
 export const fabricContext = createContext();
 
 function Canvas({ cardId }) {
   const canvasRef = useRef(null);
   const outerRef = useRef(null);
+  const [initFail, setInitFailed] = useState(false);
   const [pressKey, setPressKey] = useState({});
   const { activeObject } = useSelector((state) => state.canvasObject);
   const { history } = useSelector((state) => state);
@@ -54,7 +56,7 @@ function Canvas({ cardId }) {
       resizeCanvas(outerRef.current, canvasRef.current);
     });
 
-    dispatch(fetchCanvas(cardId, canvasRef, outerRef));
+    dispatch(fetchCanvas(cardId, canvasRef, outerRef, setInitFailed));
 
     canvasRef.current.on('object:modified', updateHistory);
     canvasRef.current.on('object:added', updateHistory);
@@ -87,6 +89,7 @@ function Canvas({ cardId }) {
         </div>
       </div>
 
+      {initFail && <LoadFailedModal setInitFailed={setInitFailed} />}
       {showInfoForm && <ChangeCardForm />}
     </fabricContext.Provider>
   );

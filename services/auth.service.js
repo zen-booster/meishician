@@ -23,6 +23,11 @@ const AuthService = {
       .get(`${DOMAIN_URL}/api/users`)
       .then((res) => res.data.data.user.avatar);
   },
+  saveAvatar(imgUrl) {
+    const auth = localStorage.getItem('auth');
+    axios.defaults.headers.common.Authorization = auth;
+    return axios.patch(`${DOMAIN_URL}/api/users/profile`, { avatar: imgUrl });
+  },
 };
 
 export default AuthService;
