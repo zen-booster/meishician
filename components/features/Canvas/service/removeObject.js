@@ -2,7 +2,16 @@ import updateHistory from './updateHistory';
 
 const removeObject = (canvas, dispatch) => {
   if (!canvas.getActiveObject()) return;
-  canvas.remove(canvas.getActiveObject());
+
+  const multipleSelect = canvas.getActiveObjects().length > 1;
+  if (multipleSelect) {
+    const activeObjects = canvas.getActiveObjects();
+    canvas.remove(...activeObjects);
+    canvas.discardActiveObject();
+  } else {
+    canvas.remove(canvas.getActiveObject());
+  }
+
   canvas.renderAll();
   updateHistory(canvas, dispatch);
 };
