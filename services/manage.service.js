@@ -186,10 +186,14 @@ const ManageService = {
     const config = {
       headers: { Authorization: token },
     };
-
+    queryString = queryString.replace(
+      // eslint-disable-next-line no-useless-escape
+      /[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi,
+      ''
+    );
     return axios
       .get(
-        `${DOMAIN_URL}/api/bookmark-list/search?q=${queryString}?&page=${page}`,
+        `${DOMAIN_URL}/api/bookmark-list/search?q=${queryString}&page=${page}`,
         config
       )
       .then((response) => response.data);
