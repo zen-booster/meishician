@@ -35,18 +35,29 @@ function TextTool() {
           </li>
         )}
 
-        <li className="flex h-12 w-full items-center justify-center border-b border-white text-center text-base text-white duration-200 ease-in hover:scale-110">
-          <Text content={jobTitle} size={24} />
-        </li>
-        <li className="flex h-12 w-full items-center justify-center border-b border-white text-center text-base text-white duration-200 ease-in hover:scale-110">
-          <Text content={phoneNumber} size={24} />
-        </li>
-        <li className="flex h-12 w-full items-center justify-center border-b border-white text-center text-base text-white duration-200 ease-in hover:scale-110">
-          <Text content={domain} size={24} />
-        </li>
-        <li className="flex h-12 w-full items-center justify-center border-b border-white text-center text-base text-white duration-200 ease-in hover:scale-110">
-          <Text content={city} size={24} />
-        </li>
+        {jobTitle && (
+          <li className="flex h-12 w-full items-center justify-center border-b border-white text-center text-base text-white duration-200 ease-in hover:scale-110">
+            <Text content={jobTitle} size={24} />
+          </li>
+        )}
+
+        {phoneNumber && (
+          <li className="flex h-12 w-full items-center justify-center border-b border-white text-center text-base text-white duration-200 ease-in hover:scale-110">
+            <Text content={phoneNumber} size={24} />
+          </li>
+        )}
+
+        {domain && (
+          <li className="flex h-12 w-full items-center justify-center border-b border-white text-center text-base text-white duration-200 ease-in hover:scale-110">
+            <Text content={domain} size={24} />
+          </li>
+        )}
+
+        {city && (
+          <li className="flex h-12 w-full items-center justify-center border-b border-white text-center text-base text-white duration-200 ease-in hover:scale-110">
+            <Text content={city} size={24} />
+          </li>
+        )}
       </ul>
     </>
   );
