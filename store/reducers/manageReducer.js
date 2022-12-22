@@ -11,6 +11,7 @@ import {
   SET_BASE_URL,
   UPDATE_MODAL_DATA,
   SET_MANAGE_PAGE,
+  CLOSE_DROPDOWN,
 } from '../../constants/constants';
 
 export const manageModalType = {
@@ -114,6 +115,15 @@ export default function (state = initState, action) {
           draftState.dropdown = action.payload;
           draftState.isDropdownOpen = true;
         }
+      });
+    case CLOSE_DROPDOWN:
+      return produce(state, (draftState) => {
+        draftState.dropdown = {
+          type: null,
+          activeGroupId: null,
+          activeCardId: null,
+        };
+        draftState.isDropdownOpen = false;
       });
     case CLOSE_ALL:
       return produce(state, (draftState) => {

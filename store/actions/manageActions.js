@@ -11,6 +11,7 @@ import {
   UPDATE_MODAL_DATA,
   SET_MANAGE_PAGE,
   RESET_MANAGE,
+  CLOSE_DROPDOWN,
 } from '../../constants/constants';
 
 import ManageService from '../../services/manage.service';
@@ -23,20 +24,20 @@ import { sendToast } from './errorActions';
 
 export const resetManage = () => ({ type: RESET_MANAGE });
 export const setInitData =
-  (token, groupId, page, sortBy) => async (dispatch) => {
+  (token, groupId, page, sortBy, type) => async (dispatch) => {
     dispatch({ type: TOGGLE_LOADER });
     // dispatch({ type: RESET_MANAGE });
     page = page ?? 1;
     sortBy = sortBy ?? 'isPinned';
+    type = type ?? 'bookmark';
 
     let initObj = {};
     try {
-      let apiRes;
-      apiRes = await ManageService.getGroupList(token);
-      const groupList = apiRes?.data?.records ?? [];
+      const groupListRes = await ManageService.getGroupList(token);
+      const groupList = groupListRes?.data?.records ?? [];
 
-      apiRes = await ManageService.getTagList(token);
-      const tags = apiRes?.data?.records ?? [];
+      const tagListRes = await ManageService.getTagList(token);
+      const tags = tagListRes?.data?.records ?? [];
 
       const defaultGroupId = groupList.filter(
         (el) => el.isDefaultGroup === true
@@ -47,30 +48,49 @@ export const setInitData =
         groupList.filter((group) => group._id === activeGroupId)[0].name ??
         '預設';
 
-      apiRes = await ManageService.getBookmarks(
-        token,
-        activeGroupId,
-        page,
-        sortBy
-      );
-
-      const { totalPage, currentPage, records: mainSectionData } = apiRes.data;
-
-      initObj = {
-        ...initObj,
-        groupList,
-        defaultGroupId,
-        tags,
-        activeSection: {
-          type: manageActiveSectionType.BOOKMARK,
+      if (type === 'bookmark') {
+        const BookmarkRes = await ManageService.getBookmarks(
+          token,
           activeGroupId,
-          activeGroupName,
-          mainSectionData,
+          page,
+          sortBy
+        );
+
+        const {
           totalPage,
           currentPage,
-          sortBy,
-        },
-      };
+          records: mainSectionData,
+        } = BookmarkRes.data;
+
+        initObj = {
+          ...initObj,
+          groupList,
+          defaultGroupId,
+          tags,
+          activeSection: {
+            type: manageActiveSectionType.BOOKMARK,
+            activeGroupId,
+            activeGroupName,
+            mainSectionData,
+            totalPage,
+            currentPage,
+            sortBy,
+          },
+        };
+      } else if (type === 'portfolio') {
+        const portfolioRes = await ManageService.getPortfolio(token);
+        const mainSectionData = portfolioRes?.data?.records ?? [];
+        initObj = {
+          ...initObj,
+          groupList,
+          defaultGroupId,
+          tags,
+          activeSection: {
+            type: manageActiveSectionType.PORTFOLIO,
+            mainSectionData,
+          },
+        };
+      }
       dispatch({ type: SET_INIT_DATA, payload: initObj });
     } catch (error) {
       console.log(error);
@@ -135,6 +155,10 @@ export const toggleDropdown = (payload) => {
     },
   };
 };
+
+export const closeDropdown = () => ({
+  type: CLOSE_DROPDOWN,
+});
 
 export const closeAll = () => ({
   type: CLOSE_ALL,

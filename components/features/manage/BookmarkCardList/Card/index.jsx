@@ -13,6 +13,7 @@ import CardJobInfo from './CardJobInfo';
 import DropdownMenu from '../../DropdownMenu';
 import DropdownMenuItem from '../../DropdownMenu/DropdownMenuItem';
 import ItemTypes from '../../ItemTypes';
+import { useClickOutside } from '../../../../../hooks/useClickOutsideV2';
 
 import { boxImage as cardDnDImage } from './dnd-preview-img';
 
@@ -21,6 +22,7 @@ import {
   openModal,
   toggleCardPin,
   setInitData,
+  closeDropdown,
 } from '../../../../../store/actions/manageActions';
 
 import {
@@ -60,7 +62,7 @@ export default function Card({ cardData }) {
   const { token } = useSelector((state) => state.loginStatus);
   const { isDropdownOpen, dropdown } = useSelector((state) => state.manage);
   const dispatch = useDispatch();
-
+  const dropdownRef = useRef();
   const {
     avatar = '/avatar.svg',
     cardId,
@@ -89,6 +91,16 @@ export default function Card({ cardData }) {
       })
     );
   }
+
+  function handleCloseDropdown(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!e.target.classList.contains('dropdown-toggle')) {
+      dispatch(closeDropdown());
+    }
+  }
+  useClickOutside(dropdownRef, handleCloseDropdown);
+
   const handleMenuRightClick = (e) => {
     if (e.type === 'contextmenu') {
       handleDropdown(e);
@@ -181,19 +193,21 @@ export default function Card({ cardData }) {
       </CardDnd>
 
       {isCurrentDropdown && (
-        <div className="absolute top-16 right-0 z-10">
+        <div className="absolute top-16 right-0 z-10 " ref={dropdownRef}>
           <DropdownMenu>
             <DropdownMenuItem>
               <button
+                className="h-full w-full p-4 text-left"
                 type="button"
                 onClick={(e) => handleOpenEditBookmarkNotesModal(e)}
               >
-                編輯名片
+                編輯名片註記
               </button>
             </DropdownMenuItem>
             <DropdownMenuItem warning>
               <button
                 type="button"
+                className="h-full w-full p-4 text-left"
                 onClick={(e) => handleOpenDeleteBookMarkModal(e)}
               >
                 刪除名片

@@ -27,26 +27,28 @@ function Drawer({ logout, setIsOpen, setShowEdit }) {
           {isLogin && (
             <>
               <li
-                className="mb-3 flex cursor-pointer flex-col items-center gap-2"
+                className="w-full px-12"
                 onClick={() => {
                   setShowEdit(true);
                 }}
               >
-                <Image
-                  src={avatar || '/avatar.svg'}
-                  className={`${avatar && 'rounded-full'} h-8 w-8`}
-                  width={32}
-                  height={32}
-                  alt="avatar"
-                />
-                <span type="button" className="text-body">
-                  上傳照片
-                </span>
+                <div className="mb-3 flex w-full cursor-pointer flex-col items-center gap-2 hover:bg-slate-100 active:bg-slate-100">
+                  <Image
+                    src={avatar || '/avatar.svg'}
+                    className={`${avatar && 'rounded-full'} h-8 w-8`}
+                    width={32}
+                    height={32}
+                    alt="avatar"
+                  />
+                  <span type="button" className="text-body">
+                    上傳照片
+                  </span>
+                </div>
               </li>
               <li className="w-full px-12">
                 <Link
                   href="/card-wall"
-                  className="block h-full w-full py-2 active:bg-slate-100"
+                  className="block h-full w-full py-2 hover:bg-slate-100 active:bg-slate-100"
                   onClick={closeNavbar}
                 >
                   名片牆
@@ -55,7 +57,7 @@ function Drawer({ logout, setIsOpen, setShowEdit }) {
               <li className="w-full px-12">
                 <Link
                   href="/add-card"
-                  className="block h-full w-full py-2 active:bg-slate-100"
+                  className="block h-full w-full py-2 hover:bg-slate-100 active:bg-slate-100"
                   onClick={closeNavbar}
                 >
                   打造名片
@@ -64,17 +66,17 @@ function Drawer({ logout, setIsOpen, setShowEdit }) {
               <li className="w-full px-12">
                 <Link
                   href="/manage"
-                  className="block h-full w-full py-2 active:bg-slate-100"
+                  className="block h-full w-full py-2 hover:bg-slate-100 active:bg-slate-100"
                   onClick={closeNavbar}
                 >
                   管理名片
                 </Link>
               </li>
-              <li className="w-full px-12 text-danger" onClick={logout}>
+              <li className="w-full px-12 text-danger">
                 <button
                   type="button"
-                  className="w-full py-2 active:bg-slate-100"
-                  onClick={closeNavbar}
+                  className="w-full py-2 hover:bg-slate-100 active:bg-slate-100"
+                  onClick={logout}
                 >
                   登出
                 </button>
@@ -87,7 +89,7 @@ function Drawer({ logout, setIsOpen, setShowEdit }) {
               <li className="w-full px-12">
                 <Link
                   href="card-wall"
-                  className="block h-full w-full py-2 hover:bg-slate-100"
+                  className="block h-full w-full py-2 hover:bg-slate-100 active:bg-slate-100"
                   onClick={closeNavbar}
                 >
                   名片牆
@@ -96,20 +98,20 @@ function Drawer({ logout, setIsOpen, setShowEdit }) {
               <li className="w-full px-12">
                 <Link
                   href="/login"
-                  className="block h-full w-full py-2 hover:bg-slate-100"
+                  className="block h-full w-full py-2 hover:bg-slate-100 active:bg-slate-100"
                   onClick={closeNavbar}
                 >
-                  Login
+                  登入
                 </Link>
               </li>
 
               <li className="w-full px-12">
                 <Link
                   href="/sign-up"
-                  className="block h-full w-full py-2 active:bg-slate-100"
+                  className="block h-full w-full py-2 hover:bg-slate-100 active:bg-slate-100"
                   onClick={closeNavbar}
                 >
-                  Sign Up
+                  註冊
                 </Link>
               </li>
             </>

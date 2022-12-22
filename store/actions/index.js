@@ -166,7 +166,7 @@ export const publishCanvas = (cardId, saveData, router) => (dispatch) => {
   const setPublished = CanvasService.publishCanvas(cardId);
   axios
     .all([saveCanvasData, setPublished])
-    .then(axios.spread(() => router.push('/manage')))
+    .then(axios.spread(() => router.push('/manage?type=portfolio')))
     .catch(() => dispatch(sendToast('發布名片失敗')))
     .finally(() => dispatch({ type: TOGGLE_LOADER }));
 };

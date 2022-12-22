@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import { motion, AnimatePresence } from 'framer-motion';
 import Drawer from './Drawer/Drawer';
-import { LOGOUT } from '../../../constants/constants';
+import { logout } from '../../../store/actions';
 import useClickOutside from '../../../hooks/useClickOutside';
 import UploadModal from './Modal/UploadModal';
 
@@ -25,10 +25,8 @@ function Navbar() {
 
   useClickOutside(avatarRef, toggleExtra);
 
-  const logout = () => {
-    localStorage.removeItem('auth');
-    localStorage.removeItem('avatar');
-    dispatch({ type: LOGOUT });
+  const handleLogout = () => {
+    dispatch(logout());
     setShowExtra(false);
     router.push('/');
   };
@@ -119,7 +117,7 @@ function Navbar() {
                     </li>
                     <li
                       className="cursor-pointer border-main-01 py-6 text-danger hover:bg-danger  hover:text-white"
-                      onClick={logout}
+                      onClick={handleLogout}
                     >
                       登出
                     </li>
@@ -170,7 +168,7 @@ function Navbar() {
       <AnimatePresence>
         {isOpen && (
           <Drawer
-            logout={logout}
+            logout={handleLogout}
             setIsOpen={setIsOpen}
             setShowEdit={setShowEdit}
           />
