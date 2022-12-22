@@ -189,7 +189,7 @@ export default function Card({ cardData }) {
             <DropdownMenu>
               <DropdownMenuItem>
                 <Link
-                  className="h-full w-full p-4 text-left"
+                  className="block h-full w-full p-4 text-left"
                   href={`/canvas-editor/${cardId}`}
                 >
                   修改或發佈存檔
