@@ -187,9 +187,7 @@ function Homepage() {
     <>
       <Head>
         <title>{homepageTitle || '名片資訊頁面'}</title>
-        <meta property="og:type" content="type" />
         <meta property="og:title" content={homepageTitle || '名片資訊頁面'} />
-        <meta property="og:image" content={frontCardImageData} />
       </Head>
       {isLoading && <Loader />}
       <div>

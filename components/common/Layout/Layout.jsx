@@ -19,12 +19,14 @@ function Layout({ children }) {
         <title>MESHIcian 電子名片商務方案</title>
         <meta
           name="description"
-          content="專為名片設計而生的編輯器 || QR Code 掃描快速交換個人名片頁面導流好方便 || 群組化管理名片，人脈掌握一指運籌帷幄"
+          content="MEISHIican 專為名片設計而生的編輯器"
         />
         <meta
           property="og:description"
-          content="專為名片設計而生的編輯器 || QR Code 掃描快速交換個人名片頁面導流好方便 || 群組化管理名片，人脈掌握一指運籌帷幄"
+          content="MEISHIican專為名片設計而生的編輯器"
         />
+
+        <meta property="og:image" content="/favicon/favicon-32x32.png" />
 
         <link
           rel="apple-touch-icon"
