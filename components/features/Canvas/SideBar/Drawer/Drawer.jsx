@@ -33,7 +33,7 @@ function Drawer({ buttonName, toggleDrawer }) {
 
   return (
     <motion.div
-      className="relative flex h-full w-52 flex-col items-center bg-gray-03 px-3 py-4"
+      className="relative flex h-full w-52 flex-col items-center bg-gray-03 px-4 py-6"
       variants={containerVariants}
       initial="init"
       animate="show"

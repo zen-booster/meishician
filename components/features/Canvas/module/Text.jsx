@@ -20,7 +20,7 @@ function Text({ content, size }) {
   }
 
   return (
-    <button onClick={addText} className="h-full w-full" type="button">
+    <button onClick={addText} className="h-full w-full text-left" type="button">
       {content}
     </button>
   );
