@@ -1,5 +1,4 @@
 import '../styles/globals.css';
-import Head from 'next/head';
 
 import '../styles/font.css';
 import { Provider } from 'react-redux';
@@ -11,11 +10,11 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function MyApp({ Component, ...rest }) {
   const { store, props } = wrapper.useWrappedStore(rest);
-
+  const { host } = rest.prop;
   return (
     <Provider store={store}>
       <AuthContext>
-        <Layout>
+        <Layout host={host}>
           <ToastContainer />
           <Component {...props.pageProps} />
         </Layout>
@@ -23,5 +22,10 @@ function MyApp({ Component, ...rest }) {
     </Provider>
   );
 }
+MyApp.getInitialProps = async (context) => {
+  const { ctx } = context;
+  const { host } = ctx.req.headers;
 
+  return { prop: { host } };
+};
 export default MyApp;
