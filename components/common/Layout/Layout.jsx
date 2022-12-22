@@ -5,7 +5,7 @@ import Navbar from '../Navbar/Navbar';
 import Loader from '../Loader/Loader';
 import Footer from '../Footer/Footer';
 
-function Layout({ children }) {
+function Layout({ children, host }) {
   const router = useRouter();
 
   function startsWithAny(currentPath, pathStringArr) {
@@ -26,7 +26,7 @@ function Layout({ children }) {
           content="MEISHIican專為名片設計而生的編輯器"
         />
 
-        <meta property="og:image" content="/favicon/favicon-32x32.png" />
+        <meta property="og:image" content={`https://${host}/og-image.png`} />
 
         <link
           rel="apple-touch-icon"
