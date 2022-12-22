@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react';
-import { fabric } from 'fabric';
+import { fabric } from 'fabric-pure-browser';
 import { TiDelete } from 'react-icons/ti';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';

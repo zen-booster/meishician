@@ -1,4 +1,4 @@
-import { fabric } from 'fabric';
+import { fabric } from 'fabric-pure-browser';
 import { CANVAS, BACKGROUND } from './config/objectConfig';
 import removeResize from './service/removeResize';
 import showCenterLine from './service/showCenterLine';
