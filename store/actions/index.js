@@ -112,10 +112,7 @@ export const verify = () => (dispatch, getState) => {
 export const getAvatar = () => (dispatch) => {
   AuthService.getAvatar()
     .then((avatar) => dispatch({ type: SET_AVATAR, payload: avatar }))
-    .catch((err) => {
-      alert(`拿取 Avatar失敗`);
-      console.log(err);
-    });
+    .catch(() => dispatch(sendToast('獲取頭貼失敗')));
 };
 
 export const uploadAvatar = (file, setShowEdit) => (dispatch) => {
@@ -126,7 +123,7 @@ export const uploadAvatar = (file, setShowEdit) => (dispatch) => {
       localStorage.setItem('avatar', res.data.imgUrl);
       AuthService.saveAvatar(res.data.imgUrl);
     })
-    .catch((err) => console.log(err))
+    .catch(() => dispatch(sendToast('上傳頭貼失敗')))
     .finally(() => {
       dispatch({ type: TOGGLE_LOADER });
       setShowEdit(false);
@@ -160,7 +157,7 @@ export const fetchCanvas =
 
 export const saveToStorage = (cardId, saveData) => (dispatch) => {
   CanvasService.saveCanvasData(cardId, saveData)
-    .catch((err) => console.log(err))
+    .catch(() => dispatch(sendToast('儲存名片失敗')))
     .finally(() => dispatch({ type: TOGGLE_LOADER }));
 };
 
@@ -170,7 +167,7 @@ export const publishCanvas = (cardId, saveData, router) => (dispatch) => {
   axios
     .all([saveCanvasData, setPublished])
     .then(axios.spread(() => router.push('/manage')))
-    .catch((err) => console.log(err))
+    .catch(() => dispatch(sendToast('發布名片失敗')))
     .finally(() => dispatch({ type: TOGGLE_LOADER }));
 };
 
@@ -182,7 +179,7 @@ export const updateCard =
     axios
       .all([changeInfo, sendMessage, saveCanvasData])
       .then(axios.spread(() => router.push('/card-wall')))
-      .catch((err) => console.log(err))
+      .catch(() => dispatch(sendToast('更新名片資訊失敗')))
       .finally(() => dispatch({ type: TOGGLE_LOADER }));
   };
 

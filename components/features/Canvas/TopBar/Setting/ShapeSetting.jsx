@@ -7,14 +7,9 @@ import useClickOutside from '../../../../../hooks/useClickOutside';
 import ShapeBorderModal from '../Modal/ShapeBorderModal';
 import updateHistory from '../../service/updateHistory';
 import 'tippy.js/dist/tippy.css';
-// import Tippy from '@tippyjs/react';
-const Tippy = dynamic(() => import('@tippyjs/react'), {
-  ssr: false,
-});
 
-const SketchPicker = dynamic(() => import('react-color'), {
-  ssr: false,
-});
+const Tippy = dynamic(() => import('@tippyjs/react'), { ssr: false });
+const SketchPicker = dynamic(() => import('react-color'), { ssr: false });
 
 function ShapeSetting() {
   const canvasRef = useContext(fabricContext);
@@ -33,9 +28,9 @@ function ShapeSetting() {
 
   const togglePalette = (e) => {
     if (!e) return setOpenPalette(false);
-    if (e.target.nodeName === 'DIV') return undefined;
-    if (e.target.nodeName === 'INPUT') return undefined;
-    return setOpenPalette(!openPalette);
+    const isStrokeColor = e.target.getAttribute('name') === 'strokeColor';
+    if (isStrokeColor) return setOpenPalette(!openPalette);
+    return undefined;
   };
 
   const setDefaultColor = () => {
@@ -68,6 +63,7 @@ function ShapeSetting() {
         <Tippy content="邊框色" placement="bottom">
           <button
             type="button"
+            name="strokeColor"
             className="relative flex h-full cursor-pointer flex-col items-center"
             ref={colorRef}
             onClick={(e) => {

@@ -21,14 +21,9 @@ import useClickOutside from '../../../../hooks/useClickOutside';
 import { SHOW_INFO_FROM } from '../../../../constants/constants';
 import updateHistory from '../service/updateHistory';
 import 'tippy.js/dist/tippy.css';
-// import Tippy from '@tippyjs/react';
-const Tippy = dynamic(() => import('@tippyjs/react'), {
-  ssr: false,
-});
 
-const SketchPicker = dynamic(() => import('react-color'), {
-  ssr: false,
-});
+const Tippy = dynamic(() => import('@tippyjs/react'), { ssr: false });
+const SketchPicker = dynamic(() => import('react-color'), { ssr: false });
 
 function TopBar() {
   const router = useRouter();
@@ -45,9 +40,9 @@ function TopBar() {
 
   const togglePalette = (e) => {
     if (!e) return setOpenPalette(false);
-    if (e.target.nodeName === 'DIV') return undefined;
-    if (e.target.nodeName === 'INPUT') return undefined;
-    return setOpenPalette(!openPalette);
+    const isMainColor = e.target.getAttribute('name') === 'mainColor';
+    if (isMainColor) return setOpenPalette(!openPalette);
+    return undefined;
   };
 
   const setDefaultColor = () => {
@@ -64,10 +59,11 @@ function TopBar() {
     <>
       <div className="z-10 flex w-full items-center gap-4 bg-gray-02 py-1.5 pl-7 pr-10 text-rwd-body text-main-01 shadow-01">
         <div className="flex h-full shrink-0 gap-6">
-          <Tippy content="顏色" placement="bottom">
+          <Tippy content="主色" placement="bottom">
             <button
               type="button"
               className="relative flex h-full cursor-pointer flex-col items-center"
+              name="mainColor"
               ref={colorRef}
               onClick={(e) => {
                 togglePalette(e);
