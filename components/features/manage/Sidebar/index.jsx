@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useRef } from 'react';
-import { useOnClickOutside } from '../../../../hooks/useClickOusideV2';
+import { useClickOutside } from '../../../../hooks/useClickOutsideV2';
 import SectionTag from '../SectionTag';
 import SidebarHeader from './SidebarHeader';
 import SearchBar from './SearchBar';
@@ -22,7 +22,7 @@ export default function Sidebar({ onChangeClose, isSidebarMobileMode }) {
   const { activeSection } = useSelector((state) => state.manage);
   const ref = useRef();
 
-  useOnClickOutside(ref, (e) => {
+  useClickOutside(ref, (e) => {
     const type = e?.target.attributes?.getNamedItem('data-content-type')?.value;
     if (type === 'OPEN_BUTTON') return;
     if (isSidebarMobileMode) {
@@ -79,9 +79,7 @@ export default function Sidebar({ onChangeClose, isSidebarMobileMode }) {
       <section className="mb-8">
         <SidebarHeader>收藏的名片</SidebarHeader>
 
-        <ul className=" max-h-[300px] overflow-auto  pl-4 pr-6 laptop:max-h-[500px]">
-          {renderGroupList()}
-        </ul>
+        <ul className="pl-4 pr-6 ">{renderGroupList()}</ul>
         <button
           type="button"
           className="  w-full pl-5 pr-6 text-left text-lg	 text-gray-400 hover:font-bold"

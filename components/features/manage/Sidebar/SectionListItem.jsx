@@ -1,16 +1,19 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { BiDotsHorizontalRounded } from 'react-icons/bi';
+import { useRef } from 'react';
 import DropdownMenu from '../DropdownMenu';
 import DropdownMenuItem from '../DropdownMenu/DropdownMenuItem';
 import {
   openModal,
   toggleDropdown,
   setGroupListActive,
+  closeDropdown,
 } from '../../../../store/actions/manageActions';
 import {
   manageDropdownType,
   manageModalType,
 } from '../../../../store/reducers/manageReducer';
+import { useClickOutside } from '../../../../hooks/useClickOutsideV2';
 
 export default function SectionListItem({ children, groupId, active }) {
   const dispatch = useDispatch();
@@ -18,6 +21,8 @@ export default function SectionListItem({ children, groupId, active }) {
   const { isDropdownOpen, dropdown, defaultGroupId } = useSelector(
     (state) => state.manage
   );
+
+  const dropdownRef = useRef();
   const isCurrentDropdown =
     isDropdownOpen &&
     dropdown.activeGroupId === groupId &&
@@ -28,7 +33,7 @@ export default function SectionListItem({ children, groupId, active }) {
   }
 
   const baseStyle =
-    'flex justify-between py-1 text-lg font-bold px-4 rounded-2xl relative ';
+    'viewport flex justify-between py-1 text-lg font-bold px-4 rounded-2xl relative ';
   const statusStyle = active
     ? 'bg-main-01 text-white'
     : 'bg-white text-main-01';
@@ -44,6 +49,15 @@ export default function SectionListItem({ children, groupId, active }) {
         })
       );
   }
+  function handleCloseDropdown(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!e.target.classList.contains('dropdown-toggle')) {
+      dispatch(closeDropdown());
+    }
+  }
+
+  useClickOutside(dropdownRef, handleCloseDropdown);
 
   function handleOpenDeleteGroupModal() {
     dispatch(
@@ -88,12 +102,15 @@ export default function SectionListItem({ children, groupId, active }) {
         onClick={() => handleGroupDropdown()}
       >
         {groupId !== defaultGroupId && (
-          <BiDotsHorizontalRounded className="h-[30px] w-[30px]" />
+          <BiDotsHorizontalRounded className="dropdown-toggle h-[30px] w-[30px]" />
         )}
       </button>
 
       {isCurrentDropdown && (
-        <div className="absolute top-10 right-3 z-10 text-base font-normal">
+        <div
+          className="absolute top-10 right-3 z-10 text-base font-normal"
+          ref={dropdownRef}
+        >
           <DropdownMenu>
             <DropdownMenuItem>
               <button

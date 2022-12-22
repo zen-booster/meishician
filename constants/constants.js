@@ -46,3 +46,4 @@ export const SET_MANAGE_PAGE = 'SET_MANAGE_PAGE';
 
 export const TOGGLE_ERROR = 'TOGGLE_ERROR';
 export const RESET_MANAGE = 'RESET_MANAGE';
+export const CLOSE_DROPDOWN = 'CLOSE_DROPDOWN';

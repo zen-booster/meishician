@@ -26,9 +26,13 @@ import {
   manageModalType,
 } from '../../store/reducers/manageReducer';
 
-import { setInitData, setBaseUrl } from '../../store/actions/manageActions';
+import {
+  setInitData,
+  setBaseUrl,
+  resetManage,
+} from '../../store/actions/manageActions';
 
-export default function Manage() {
+export default function Manage({ queryType }) {
   const router = useRouter();
   const wide = useWindowWide();
   const baseUrl =
@@ -100,9 +104,15 @@ export default function Manage() {
   }
 
   useEffect(() => {
+    dispatch(resetManage());
     if (getCookie('auth')) {
       const token = getCookie('auth');
-      dispatch(setInitData(token));
+
+      if (queryType === 'portfolio') {
+        dispatch(setInitData(token, null, 1, null, 'portfolio'));
+      } else {
+        dispatch(setInitData(token));
+      }
       dispatch(setBaseUrl(baseUrl));
     } else {
       router.push('/login');
@@ -124,7 +134,6 @@ export default function Manage() {
     }
   }, [wide, isSidebarActive, isSidebarMobileMode]);
 
-  console.log(isSidebarMobileMode);
   return (
     <>
       <Space />
@@ -170,7 +179,8 @@ export default function Manage() {
   );
 }
 
-// export const getServerSideProps = async (context) => {
-//   const queryType = context.query.type;
-//   return { props: { queryType } };
-// };
+export const getServerSideProps = async (context) => {
+  let queryType = context.query.type;
+  queryType = queryType ?? 'bookmark';
+  return { props: { queryType } };
+};

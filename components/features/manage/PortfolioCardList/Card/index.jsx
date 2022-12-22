@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Link from 'next/link';
 import { format, parseISO } from 'date-fns';
@@ -6,11 +7,13 @@ import CardHeader from './CardHeader';
 import CardJobInfo from './CardJobInfo';
 import DropdownMenu from '../../DropdownMenu';
 import DropdownMenuItem from '../../DropdownMenu/DropdownMenuItem';
+import { useClickOutside } from '../../../../../hooks/useClickOutsideV2';
 // import ItemTypes from '../../ItemTypes';
 import {
   toggleDropdown,
   openModal,
   openShowCardModal,
+  closeDropdown,
 } from '../../../../../store/actions/manageActions';
 
 import {
@@ -20,11 +23,18 @@ import {
 
 export default function Card({ cardData }) {
   // const { token } = useSelector((state) => state.loginStatus);
-
+  const dropdownRef = useRef();
   const { token } = useSelector((state) => state.loginStatus);
   const { isDropdownOpen, dropdown } = useSelector((state) => state.manage);
   const dispatch = useDispatch();
-
+  function handleCloseDropdown(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!e.target.classList.contains('dropdown-toggle')) {
+      dispatch(closeDropdown());
+    }
+  }
+  useClickOutside(dropdownRef, handleCloseDropdown);
   const {
     cardId,
     companyName,
@@ -144,7 +154,7 @@ export default function Card({ cardData }) {
 
       {isCurrentDropdown &&
         (isPublished ? (
-          <div className="absolute top-16 right-0 z-10">
+          <div className="absolute top-16 right-0 z-10" ref={dropdownRef}>
             <DropdownMenu>
               <DropdownMenuItem>
                 <button

@@ -9,12 +9,12 @@ function CardHeader(props) {
     <div className="mb-5 flex items-center">
       <h2 className="mr-auto text-xl font-bold">{name}</h2>
       <button
-        className="text-2xl hover:text-slate-500"
+        className="dropdown-toggle  text-2xl hover:text-slate-500"
         type="button"
         ref={closeRef}
         onClick={(e) => onMenuActiveClick(e)}
       >
-        <BiDotsHorizontalRounded />
+        <BiDotsHorizontalRounded class="pointer-events-none" />
       </button>
     </div>
   );
