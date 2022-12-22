@@ -1,7 +1,13 @@
 // .eslintrc.json
 {
   "root": true,
-  "settings": {},
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  },
   "env": {
     "browser": true,
     "node": true,

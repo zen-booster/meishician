@@ -24,7 +24,8 @@ function MyApp({ Component, ...rest }) {
 }
 MyApp.getInitialProps = async (context) => {
   const { ctx } = context;
-  const { host } = ctx.req.headers;
+
+  const host = ctx?.req?.headers.host;
 
   return { prop: { host } };
 };

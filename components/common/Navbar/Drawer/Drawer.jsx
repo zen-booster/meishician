@@ -21,7 +21,7 @@ function Drawer({ logout, setIsOpen, setShowEdit }) {
         initial={{ x: '100%' }}
         animate={{ x: '0%' }}
         exit={{ x: '100%' }}
-        transition={{ type: 'Inertia' }}
+        // transition={{ type: 'Inertia' }}
       >
         <ul className="flex flex-col items-center gap-3 py-8 text-center">
           {isLogin && (

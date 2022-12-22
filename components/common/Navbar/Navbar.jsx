@@ -107,7 +107,7 @@ function Navbar() {
                     initial={{ x: '100%' }}
                     animate={{ x: '0%' }}
                     exit={{ x: '100%' }}
-                    transition={{ type: 'Inertia' }}
+                    // transition={{ type: 'Inertia' }}
                   >
                     <li
                       className="cursor-pointer border-main-01 py-6 text-main-01 hover:bg-main-03  hover:text-white"

@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { fabric } from 'fabric';
+import { fabric } from 'fabric-pure-browser';
 import { useDispatch } from 'react-redux';
 import Image from 'next/image';
 import { fabricContext } from '../Canvas';

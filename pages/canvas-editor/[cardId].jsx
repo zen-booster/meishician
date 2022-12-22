@@ -1,3 +1,4 @@
+import dynamic from 'next/dynamic';
 import Canvas from '../../components/features/Canvas/Canvas';
 
 export async function getServerSideProps(context) {
@@ -6,4 +7,6 @@ export async function getServerSideProps(context) {
   return { props: { cardId } };
 }
 
-export default Canvas;
+export default dynamic(() => Promise.resolve(Canvas), {
+  ssr: false,
+});
