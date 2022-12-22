@@ -27,9 +27,10 @@ const CanvasService = {
   saveCanvasData(cardId, saveData) {
     const auth = localStorage.getItem('auth');
     axios.defaults.headers.common.Authorization = auth;
-    return axios
-      .patch(`${DOMAIN_URL}/api/portfolio/${cardId}/canvas`, saveData)
-      .catch(() => alert('存檔出錯'));
+    return axios.patch(
+      `${DOMAIN_URL}/api/portfolio/${cardId}/canvas`,
+      saveData
+    );
   },
   publishCanvas(cardId) {
     const auth = localStorage.getItem('auth');
@@ -41,19 +42,17 @@ const CanvasService = {
   changeCardInfo(cardId, jobInfo) {
     const auth = localStorage.getItem('auth');
     axios.defaults.headers.common.Authorization = auth;
-    return axios
-      .put(`${DOMAIN_URL}/api/portfolio/${cardId}/job-info`, { jobInfo })
-      .catch(() => alert('更改資訊出錯'));
+    return axios.put(`${DOMAIN_URL}/api/portfolio/${cardId}/job-info`, {
+      jobInfo,
+    });
   },
   sendUpdateMessage(cardId, messageBody) {
     const auth = localStorage.getItem('auth');
     axios.defaults.headers.common.Authorization = auth;
-    return axios
-      .post(`${DOMAIN_URL}/api/messages/${cardId}`, {
-        messageBody,
-        category: 'CHANGE',
-      })
-      .catch(() => alert('傳送訊息出錯'));
+    return axios.post(`${DOMAIN_URL}/api/messages/${cardId}`, {
+      messageBody,
+      category: 'CHANGE',
+    });
   },
   addCardInfo(jobInfo) {
     const auth = localStorage.getItem('auth');
