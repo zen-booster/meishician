@@ -39,10 +39,16 @@ function TopBar() {
   const { cardId } = router.query;
 
   const togglePalette = (e) => {
-    if (!e) return setOpenPalette(false);
+    if (!e) {
+      setOpenPalette(false);
+      activeObject.set('settingColor', false);
+      return;
+    }
+    activeObject.set('settingColor', true);
     const isMainColor = e.target.getAttribute('name') === 'mainColor';
-    if (isMainColor) return setOpenPalette(!openPalette);
-    return undefined;
+    if (isMainColor) {
+      setOpenPalette(!openPalette);
+    }
   };
 
   const setDefaultColor = () => {
