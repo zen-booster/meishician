@@ -5,6 +5,12 @@ function serialize(canvas) {
     'evented',
     'lockMovementX',
     'lockMovementY',
+    'cornerStyle',
+    'transparentCorners',
+    'borderColor',
+    'cornerColor',
+    'cornerSize',
+    'cornerStrokeColor',
   ]);
 
   const background = objects.shift();

@@ -209,7 +209,9 @@ function TopBar() {
             <button
               type="button"
               className="flex h-full flex-col items-center"
-              onClick={() => removeObject(canvasRef.current, dispatch)}
+              onClick={() =>
+                removeObject(canvasRef.current, activeObject, dispatch)
+              }
             >
               <Image
                 src="/trash-bin.svg"

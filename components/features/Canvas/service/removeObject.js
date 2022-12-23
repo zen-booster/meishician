@@ -1,7 +1,8 @@
 import updateHistory from './updateHistory';
 
-const removeObject = (canvas, dispatch) => {
+const removeObject = (canvas, activeObject, dispatch) => {
   if (!canvas.getActiveObject()) return;
+  if (activeObject.id === 'background') return;
 
   const multipleSelect = canvas.getActiveObjects().length > 1;
   if (multipleSelect) {

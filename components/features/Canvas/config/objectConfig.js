@@ -1,3 +1,12 @@
+const CORNER = {
+  cornerStyle: 'circle',
+  transparentCorners: false,
+  borderColor: '#2B5F75',
+  cornerColor: '#2B5F75',
+  cornerSize: 10,
+  cornerStrokeColor: '#2B5F75',
+};
+
 export const HORIZON = {
   width: 648,
   height: 360,
@@ -18,9 +27,13 @@ export const BACKGROUND = {
   ...HORIZON,
   fill: '#ffffff',
   strokeWidth: 0,
-  selectable: false,
-  evented: false,
   id: 'background',
+  selectable: true,
+  evented: true,
+  lockMovementX: true,
+  lockMovementY: true,
+
+  ...CORNER,
 };
 
 export const CIRCLE = {
@@ -31,6 +44,8 @@ export const CIRCLE = {
   strokeWidth: 0,
   stroke: '#000000',
   strokeUniform: true,
+
+  ...CORNER,
 };
 
 export const RECTANGLE = {
@@ -43,6 +58,8 @@ export const RECTANGLE = {
   strokeWidth: 0,
   stroke: '#000000',
   strokeUniform: true,
+
+  ...CORNER,
 };
 
 export const TRIANGLE = {
@@ -55,6 +72,8 @@ export const TRIANGLE = {
   strokeWidth: 0,
   stroke: '#000000',
   strokeUniform: true,
+
+  ...CORNER,
 };
 
 export const LINE = {
@@ -65,6 +84,8 @@ export const LINE = {
     strokeWidth: 3,
     originX: 'center',
     originY: 'center',
+
+    ...CORNER,
   },
 };
 
@@ -75,4 +96,6 @@ export const TEXTBOX = {
   textAlign: 'left',
   originX: 'center',
   originY: 'center',
+
+  ...CORNER,
 };

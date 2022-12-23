@@ -102,17 +102,15 @@ const initCanvas = (dispatch) => {
 
   fabricCanvas.on('selection:updated', (e) => {
     const object = e.selected[0];
-    if (object.get('type') === 'textbox' || object.get('type') === 'line') {
-      removeResize(object);
-    }
+    const type = object.get('type');
+    if (type === 'textbox' || type === 'line') removeResize(object);
     dispatch({ type: SET_ACTIVE, payload: object });
   });
 
   fabricCanvas.on('selection:created', (e) => {
     const object = e.selected[0];
-    if (object.get('type') === 'textbox' || object.get('type') === 'line') {
-      removeResize(object);
-    }
+    const type = object.get('type');
+    if (type === 'textbox' || type === 'line') removeResize(object);
     dispatch({ type: SET_ACTIVE, payload: object });
   });
 

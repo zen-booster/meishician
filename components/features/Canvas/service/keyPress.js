@@ -11,8 +11,6 @@ function keyPress(e, cardId, canvasRef, history, dispatch, pressKey) {
   const canvas = canvasRef.current;
   const key = e.key.toLowerCase();
 
-  console.log(key);
-
   const activeObject = canvas.getActiveObject();
   if (activeObject?.get('type') === 'textbox' && activeObject.isEditing) return;
 
@@ -20,11 +18,11 @@ function keyPress(e, cardId, canvasRef, history, dispatch, pressKey) {
   switch (key) {
     case 'backspace':
       if (activeObject?.isSetting) return;
-      removeObject(canvas, dispatch);
+      removeObject(canvas, activeObject, dispatch);
       break;
     case 'delete':
       if (activeObject?.isSetting) return;
-      removeObject(canvas, dispatch);
+      removeObject(canvas, activeObject, dispatch);
       break;
     case 's':
       e.preventDefault();
