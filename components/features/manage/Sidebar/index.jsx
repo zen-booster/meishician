@@ -63,7 +63,7 @@ export default function Sidebar({ onChangeClose, isSidebarMobileMode }) {
 
   return (
     <div
-      className="absolute z-30  w-9/12 rounded-xl rounded-tl-none bg-white p-5 laptop:static laptop:h-full laptop:max-h-full laptop:w-full"
+      className="absolute z-30 h-[80vh] w-9/12 rounded-xl rounded-tl-none bg-white p-5 laptop:static laptop:h-full laptop:max-h-full laptop:w-full"
       ref={ref}
     >
       <SearchBar />

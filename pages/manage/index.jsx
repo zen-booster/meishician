@@ -142,7 +142,8 @@ export default function Manage({ queryType }) {
           {renderModal()}
           <aside
             className={`${isSidebarActive ? 'block' : 'hidden'} 
-        absolute z-20 
+        fixed
+        z-20
         w-full
         drop-shadow-xl
         laptop:static
@@ -151,7 +152,7 @@ export default function Manage({ queryType }) {
             <Sidebar onChangeClose={handleSideClose} isSidebarMobileMode />
 
             {isSidebarMobileMode && (
-              <div className="absolute top-0  h-screen w-full bg-black opacity-50" />
+              <div className="pointer-events-none  top-0  z-10 h-screen w-full bg-black opacity-50" />
             )}
           </aside>
 
