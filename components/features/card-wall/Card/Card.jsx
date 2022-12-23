@@ -77,8 +77,8 @@ function Card({ data, index }) {
           </div>
           <div className="ml-4 w-full">
             <div className="flex items-center">
-              <h4 className="text-h5 font-bold">{name}</h4>
-              <p className="mx-auto text-center">{jobTitle}</p>
+              <h4 className="mr-1 shrink-0 text-fs-6 font-bold">{name}</h4>
+              <p className="mx-auto text-right">{jobTitle}</p>
             </div>
             <p className="mb-1 text-rwd-body">{companyName}</p>
             <div className="flex text-main-02">

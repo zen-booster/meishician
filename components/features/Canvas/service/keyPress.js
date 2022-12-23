@@ -11,12 +11,18 @@ function keyPress(e, cardId, canvasRef, history, dispatch, pressKey) {
   const canvas = canvasRef.current;
   const key = e.key.toLowerCase();
 
+  console.log(key);
+
   const activeObject = canvas.getActiveObject();
   if (activeObject?.get('type') === 'textbox' && activeObject.isEditing) return;
 
   // 大小寫問題待解決
   switch (key) {
     case 'backspace':
+      if (activeObject?.isSetting) return;
+      removeObject(canvas, dispatch);
+      break;
+    case 'delete':
       if (activeObject?.isSetting) return;
       removeObject(canvas, dispatch);
       break;
