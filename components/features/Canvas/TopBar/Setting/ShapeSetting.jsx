@@ -27,10 +27,16 @@ function ShapeSetting() {
   };
 
   const togglePalette = (e) => {
-    if (!e) return setOpenPalette(false);
+    if (!e) {
+      setOpenPalette(false);
+      activeObject.set('settingWidthColor', false);
+      return;
+    }
+    activeObject.set('settingWidthColor', true);
     const isStrokeColor = e.target.getAttribute('name') === 'strokeColor';
-    if (isStrokeColor) return setOpenPalette(!openPalette);
-    return undefined;
+    if (isStrokeColor) {
+      setOpenPalette(!openPalette);
+    }
   };
 
   const setDefaultColor = () => {

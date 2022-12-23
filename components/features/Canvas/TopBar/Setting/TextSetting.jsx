@@ -40,8 +40,8 @@ function TextSetting() {
   };
 
   const setEditing = (e) => {
-    if (!e) return activeObject.set('isSetting', false);
-    return activeObject.set('isSetting', true);
+    if (!e) return activeObject.set('settingText', false);
+    return activeObject.set('settingText', true);
   };
 
   useClickOutside(spaceRef, toggleModal);
