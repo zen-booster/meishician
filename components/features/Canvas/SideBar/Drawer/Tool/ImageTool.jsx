@@ -59,8 +59,15 @@ function ImageTool() {
     fabric.Image.fromURL(src, (img) => {
       img.set('originX', 'center');
       img.set('originY', 'center');
+      img.set('cornerStyle', 'circle');
+      img.set('transparentCorners', false);
+      img.set('borderColor', '#2B5F75');
+      img.set('cornerColor', '#2B5F75');
+      img.set('cornerSize', 10);
+      img.set('cornerStrokeColor', '#2B5F75');
       canvasRef.current.centerObject(img);
       canvasRef.current.setActiveObject(img);
+
       canvasRef.current.add(img);
       canvasRef.current.renderAll();
       dispatch({ type: SET_ACTIVE, payload: img });

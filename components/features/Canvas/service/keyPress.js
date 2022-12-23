@@ -18,7 +18,11 @@ function keyPress(e, cardId, canvasRef, history, dispatch, pressKey) {
   switch (key) {
     case 'backspace':
       if (activeObject?.isSetting) return;
-      removeObject(canvas, dispatch);
+      removeObject(canvas, activeObject, dispatch);
+      break;
+    case 'delete':
+      if (activeObject?.isSetting) return;
+      removeObject(canvas, activeObject, dispatch);
       break;
     case 's':
       e.preventDefault();
