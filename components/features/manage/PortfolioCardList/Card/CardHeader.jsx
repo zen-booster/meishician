@@ -14,7 +14,7 @@ function CardHeader(props) {
         ref={closeRef}
         onClick={(e) => onMenuActiveClick(e)}
       >
-        <BiDotsHorizontalRounded class="pointer-events-none" />
+        <BiDotsHorizontalRounded className="pointer-events-none" />
       </button>
     </div>
   );

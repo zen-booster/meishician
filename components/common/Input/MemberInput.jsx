@@ -6,7 +6,7 @@ function MemberInput({ onChange, value, placeholder, type, title }) {
       </div>
       <input
         type={type}
-        className="h-12 w-full flex-1 rounded-r-xl border-y border-r border-dark-light px-3 outline-0"
+        className="round-l-none h-12 w-full flex-1  rounded-r-xl border-y border-r border-dark-light px-3 outline-0"
         onChange={onChange}
         value={value}
         placeholder={placeholder}

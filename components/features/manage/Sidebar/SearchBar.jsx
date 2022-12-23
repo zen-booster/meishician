@@ -40,7 +40,7 @@ export default function SearchBar() {
         </svg>
       </div>
       <input
-        className="block w-full rounded-l-lg border border-gray-300 bg-gray-50 p-2 pl-10 text-sm text-gray-900 "
+        className="block w-full rounded-l-lg rounded-r-none border border-gray-300 bg-gray-50 p-2 pl-10 text-sm text-gray-900 "
         placeholder="搜尋收藏名片"
         {...register('searchQuery', { required: true })}
         required
