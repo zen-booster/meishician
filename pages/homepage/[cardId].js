@@ -9,8 +9,8 @@ import { saveAs } from 'file-saver';
 import { motion } from 'framer-motion';
 import { wrapper } from '../../store/store';
 import {
-  SET_HOMEPAGE_INFO,
   TOGGLE_HOMEPAGE_EDITOR,
+  INIT_HOMEPAGE_INFO,
 } from '../../constants/constants';
 import HomepageService from '../../services/homepage.service';
 import { saveBookmark } from '../../store/actions/homepageActions';
@@ -290,7 +290,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
     try {
       const apiResponse = await HomepageService.getHomepageInfo(cardId, token);
-      store.dispatch({ type: SET_HOMEPAGE_INFO, payload: apiResponse.data });
+      store.dispatch({ type: INIT_HOMEPAGE_INFO, payload: apiResponse.data });
       return { props: {} };
     } catch {
       return {

@@ -66,6 +66,10 @@ export const logout = () => (dispatch) => {
 
 export const login = (email, password) => (dispatch) => {
   dispatch({ type: TOGGLE_LOADER });
+  localStorage.removeItem('auth');
+  localStorage.removeItem('avatar');
+  deleteCookie('auth');
+  deleteCookie('avatar');
   AuthService.login(email, password)
     .then((data) => {
       const { token } = data;
