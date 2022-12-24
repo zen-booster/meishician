@@ -6,6 +6,8 @@ import flip from './flip';
 import toggleBold from './toggleBold';
 import toggleItalic from './toggleItalic';
 import toggleUnderline from './toggleUnderline';
+import copy from './copy';
+import paste from './paste';
 
 function keyPress(e, cardId, canvasRef, history, dispatch, pressKey) {
   const canvas = canvasRef.current;
@@ -16,7 +18,6 @@ function keyPress(e, cardId, canvasRef, history, dispatch, pressKey) {
   if (activeObject?.get('type') === 'textbox' && activeObject.settingText)
     return;
 
-  // 大小寫問題待解決
   switch (key) {
     case 'backspace':
       if (activeObject?.isEditing) return;
@@ -37,6 +38,12 @@ function keyPress(e, cardId, canvasRef, history, dispatch, pressKey) {
       break;
     case 'y':
       if (pressKey.Control) redo(canvas, history, dispatch);
+      break;
+    case 'c':
+      if (pressKey.Control) copy(canvas);
+      break;
+    case 'v':
+      if (pressKey.Control) paste(canvas, dispatch);
       break;
     case 'b':
       if (pressKey.Control && activeObject?.get('type') === 'textbox')
