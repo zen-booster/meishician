@@ -27,8 +27,10 @@ function keyPress(e, cardId, canvasRef, history, dispatch, pressKey) {
       removeObject(canvas, activeObject, dispatch);
       break;
     case 's':
-      e.preventDefault();
-      if (pressKey.Control) saveCanvas(cardId, canvasRef, history, dispatch);
+      if (pressKey.Control) {
+        e.preventDefault();
+        saveCanvas(cardId, canvasRef, history, dispatch);
+      }
       break;
     case 'z':
       if (pressKey.Control) undo(canvas, history, dispatch);
@@ -41,14 +43,16 @@ function keyPress(e, cardId, canvasRef, history, dispatch, pressKey) {
         toggleBold(canvas, activeObject, dispatch);
       break;
     case 'i':
-      e.preventDefault();
-      if (pressKey.Control && activeObject?.get('type') === 'textbox')
+      if (pressKey.Control && activeObject?.get('type') === 'textbox') {
+        e.preventDefault();
         toggleItalic(canvas, activeObject, dispatch);
+      }
       break;
     case 'u':
-      e.preventDefault();
-      if (pressKey.Control && activeObject?.get('type') === 'textbox')
+      if (pressKey.Control && activeObject?.get('type') === 'textbox') {
+        e.preventDefault();
         toggleUnderline(canvas, activeObject, dispatch);
+      }
       break;
     case ' ':
       if (pressKey.Control) flip(canvas, history, dispatch);
