@@ -29,6 +29,7 @@ const reducer = (state, action) => {
       ...action.payload, // apply delta from hydration
     };
     if (state.loginStatus) nextState.loginStatus = state.loginStatus;
+    // if (state.homepage) nextState.homepage = state.homepage;
     return nextState;
   }
   return combinedReducer(state, action);

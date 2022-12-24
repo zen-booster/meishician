@@ -5,6 +5,7 @@ import {
   SET_LINK_EDITOR_DATA,
   SET_LINK_ORDER,
   SAVE_BOOKMARK,
+  INIT_HOMEPAGE_INFO,
 } from '../../constants/constants';
 
 const initState = {
@@ -29,6 +30,11 @@ export default function (state = initState, action) {
         } else {
           Object.assign(draftState.homepageData, action.payload);
         }
+      });
+
+    case INIT_HOMEPAGE_INFO:
+      return produce(state, (draftState) => {
+        draftState.homepageData = action.payload;
       });
     case SAVE_BOOKMARK:
       return produce(state, (draftState) => {
