@@ -66,35 +66,41 @@ function TextSetting() {
           </option>
         ))}
       </select>
-      <input
-        type="number"
-        ref={fontSizeRef}
-        className="w-16 rounded-md text-center"
-        value={activeObject.fontSize}
-        onChange={(e) =>
-          setFontSize(e, canvasRef.current, activeObject, dispatch)
-        }
-        onClick={setEditing}
-      />
 
-      <Tippy content="對齊" placement="bottom">
-        <button
-          type="button"
-          onClick={() =>
-            setTextAlign(canvasRef.current, activeObject, dispatch)
+      {activeObject.get('type') !== 'activeSelection' && (
+        <input
+          type="number"
+          ref={fontSizeRef}
+          className="w-16 rounded-md text-center"
+          min={1}
+          value={activeObject.fontSize}
+          onChange={(e) =>
+            setFontSize(e, canvasRef.current, activeObject, dispatch)
           }
-        >
-          {activeObject.textAlign === 'left' && (
-            <FaAlignLeft className="h-6 w-6 cursor-pointer" />
-          )}
-          {activeObject.textAlign === 'center' && (
-            <FaAlignCenter className="h-6 w-6 cursor-pointer" />
-          )}
-          {activeObject.textAlign === 'right' && (
-            <FaAlignRight className="h-6 w-6 cursor-pointer" />
-          )}
-        </button>
-      </Tippy>
+          onClick={setEditing}
+        />
+      )}
+
+      {activeObject.get('type') !== 'activeSelection' && (
+        <Tippy content="對齊" placement="bottom">
+          <button
+            type="button"
+            onClick={() =>
+              setTextAlign(canvasRef.current, activeObject, dispatch)
+            }
+          >
+            {activeObject.textAlign === 'left' && (
+              <FaAlignLeft className="h-6 w-6 cursor-pointer" />
+            )}
+            {activeObject.textAlign === 'center' && (
+              <FaAlignCenter className="h-6 w-6 cursor-pointer" />
+            )}
+            {activeObject.textAlign === 'right' && (
+              <FaAlignRight className="h-6 w-6 cursor-pointer" />
+            )}
+          </button>
+        </Tippy>
+      )}
 
       <Tippy content="粗體" placement="bottom">
         <button
@@ -127,14 +133,20 @@ function TextSetting() {
         </button>
       </Tippy>
 
-      <div className="relative" ref={spaceRef}>
-        <Tippy content="間距" placement="bottom">
-          <button type="button" onClick={toggleModal} className="h-full w-full">
-            <MdOutlineFormatLineSpacing className="h-8 w-8 cursor-pointer" />
-          </button>
-        </Tippy>
-        {showModal && <FontSpaceModal />}
-      </div>
+      {activeObject.get('type') !== 'activeSelection' && (
+        <div className="relative" ref={spaceRef}>
+          <Tippy content="間距" placement="bottom">
+            <button
+              type="button"
+              onClick={toggleModal}
+              className="h-full w-full"
+            >
+              <MdOutlineFormatLineSpacing className="h-8 w-8 cursor-pointer" />
+            </button>
+          </Tippy>
+          {showModal && <FontSpaceModal />}
+        </div>
+      )}
     </div>
   );
 }

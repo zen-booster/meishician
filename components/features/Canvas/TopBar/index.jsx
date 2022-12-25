@@ -13,13 +13,16 @@ import setForward from '../service/setForward';
 import lockObject from '../service/lockObject';
 import undo from '../service/undo';
 import redo from '../service/redo';
+import isShape from '../service/isShape';
+import isAllText from '../service/isAllText';
+import saveCanvas from '../service/saveCanvas';
+import updateHistory from '../service/updateHistory';
+
 import WarnModal from './Modal/WarnModal';
 import TextSetting from './Setting/TextSetting';
 import ShapeSetting from './Setting/ShapeSetting';
-import saveCanvas from '../service/saveCanvas';
 import useClickOutside from '../../../../hooks/useClickOutside';
 import { SHOW_INFO_FROM } from '../../../../constants/constants';
-import updateHistory from '../service/updateHistory';
 import 'tippy.js/dist/tippy.css';
 
 const Tippy = dynamic(() => import('@tippyjs/react'), { ssr: false });
@@ -37,6 +40,8 @@ function TopBar() {
   const [showWarn, setShowWarn] = useState(false);
   const dispatch = useDispatch();
   const { cardId } = router.query;
+
+  const type = activeObject.get('type');
 
   const togglePalette = (e) => {
     if (!e) {
@@ -231,11 +236,9 @@ function TopBar() {
           <div className="my-auto h-12 w-0.5 bg-gray-01" />
         </div>
 
-        {activeObject.get('type') === 'textbox' && <TextSetting />}
-        {activeObject.get('type') === 'circle' && <ShapeSetting />}
-        {activeObject.get('type') === 'rect' &&
-          activeObject.id !== 'background' && <ShapeSetting />}
-        {activeObject.get('type') === 'triangle' && <ShapeSetting />}
+        {type === 'textbox' && <TextSetting />}
+        {isAllText(activeObject) && <TextSetting />}
+        {isShape(activeObject) && <ShapeSetting />}
 
         <div className="ml-auto flex gap-7">
           <button
