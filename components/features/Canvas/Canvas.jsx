@@ -12,10 +12,13 @@ import { fetchCanvas } from '../../../store/actions';
 import keyPress from './service/keyPress';
 import ChangeCardForm from '../change-card';
 import LoadFailedModal from './Modal/LoadFailedModal';
+import NoSupportModal from '../../common/Modal/NoSupportModal';
+import { useWindowWide } from '../../../hooks/useWindowWide';
 
 export const fabricContext = createContext();
 
 function Canvas({ cardId }) {
+  const width = useWindowWide();
   const canvasRef = useRef(null);
   const outerRef = useRef(null);
   const [initFail, setInitFailed] = useState(false);
@@ -90,6 +93,7 @@ function Canvas({ cardId }) {
       </div>
 
       {initFail && <LoadFailedModal setInitFailed={setInitFailed} />}
+      {width < 915 && <NoSupportModal />}
       {showInfoForm && <ChangeCardForm />}
     </fabricContext.Provider>
   );
