@@ -14,9 +14,9 @@ function keyPress(e, cardId, canvasRef, history, dispatch, pressKey) {
   const key = e.key.toLowerCase();
 
   const activeObject = canvas.getActiveObject();
+  const type = activeObject?.get('type');
   if (activeObject?.settingColor || activeObject?.settingWidthColor) return;
-  if (activeObject?.get('type') === 'textbox' && activeObject.settingText)
-    return;
+  if (type === 'textbox' && activeObject.settingText) return;
 
   switch (key) {
     case 'backspace':
@@ -46,17 +46,26 @@ function keyPress(e, cardId, canvasRef, history, dispatch, pressKey) {
       if (pressKey.Control) paste(canvas, dispatch);
       break;
     case 'b':
-      if (pressKey.Control && activeObject?.get('type') === 'textbox')
+      if (
+        pressKey.Control &&
+        (type === 'textbox' || type === 'activeSelection')
+      )
         toggleBold(canvas, activeObject, dispatch);
       break;
     case 'i':
-      if (pressKey.Control && activeObject?.get('type') === 'textbox') {
+      if (
+        pressKey.Control &&
+        (type === 'textbox' || type === 'activeSelection')
+      ) {
         e.preventDefault();
         toggleItalic(canvas, activeObject, dispatch);
       }
       break;
     case 'u':
-      if (pressKey.Control && activeObject?.get('type') === 'textbox') {
+      if (
+        pressKey.Control &&
+        (type === 'textbox' || type === 'activeSelection')
+      ) {
         e.preventDefault();
         toggleUnderline(canvas, activeObject, dispatch);
       }
