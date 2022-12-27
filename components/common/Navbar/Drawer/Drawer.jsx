@@ -87,7 +87,7 @@ function Drawer({ logout, setIsOpen, setShowEdit }) {
             <>
               <li className="w-full px-12">
                 <Link
-                  href="card-wall"
+                  href="/card-wall"
                   className="block h-full w-full py-2 hover:bg-slate-100 active:bg-slate-100"
                   onClick={closeNavbar}
                 >
